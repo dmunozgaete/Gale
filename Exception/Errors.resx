@@ -1,0 +1,224 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ACCESS_UNAUTHORIZED" xml:space="preserve">
+    <value>Acceso no autorizado</value>
+    <comment>API Security Error</comment>
+  </data>
+  <data name="API001" xml:space="preserve">
+    <value>No se encuentra la relación para el tipo "{0}"</value>
+    <comment>API</comment>
+  </data>
+  <data name="API002" xml:space="preserve">
+    <value>Para implementar el operador es necesario que tenga el attributo "Karma.API.Common.Operator" en su declaración y que contenga un alias de identificación</value>
+    <comment>API</comment>
+  </data>
+  <data name="API003" xml:space="preserve">
+    <value>La tabla de resumen devuelta por la base de datos no contiene el campo "total" , para poder mostrar la información de paginacion</value>
+    <comment>API</comment>
+  </data>
+  <data name="API004" xml:space="preserve">
+    <value>El operator "{0}" no existe o no ha sido registrado por el alias </value>
+    <comment>API</comment>
+  </data>
+  <data name="API005" xml:space="preserve">
+    <value>El campo "{0}" filtrado por la clausula "{0}" no existe en el modelo consultado</value>
+    <comment>API</comment>
+  </data>
+  <data name="API006" xml:space="preserve">
+    <value>Formato Incorrecto para la clausula de filtro "{0}"</value>
+    <comment>API</comment>
+  </data>
+  <data name="API007" xml:space="preserve">
+    <value>No se encuentra mapeado el modelo "{0}" para crear una tabla </value>
+    <comment>API</comment>
+  </data>
+  <data name="API008" xml:space="preserve">
+    <value>Los sinonimos de los campos mapeados ("{0}") , deben ser distintos a los nombres originales de la fuente.</value>
+    <comment>API</comment>
+  </data>
+  <data name="API009" xml:space="preserve">
+    <value>La columna foranea "{0}" para la clausula de filtado no se encuentra en el modelo</value>
+    <comment>API</comment>
+  </data>
+  <data name="API010" xml:space="preserve">
+    <value>Formato incorrecto para el filtro foraneo "{0}"</value>
+    <comment>API</comment>
+  </data>
+  <data name="API011" xml:space="preserve">
+    <value>Formato incorrecto la seleccion de campos, los campos deben ir separados por el caracter ","</value>
+    <comment>API</comment>
+  </data>
+  <data name="API012" xml:space="preserve">
+    <value>Formato incorrecto para la selección de los campos de tablas foraneas "{0}".</value>
+    <comment>API</comment>
+  </data>
+  <data name="API013" xml:space="preserve">
+    <value>no se encuentra la columna para el filtro de selección "{0}"</value>
+    <comment>API</comment>
+  </data>
+  <data name="API014" xml:space="preserve">
+    <value>El campo de llave primaria  no puede ser objeto de filtro.</value>
+    <comment>API</comment>
+  </data>
+  <data name="API015" xml:space="preserve">
+    <value>No se encuentra el campo "{0}"</value>
+    <comment>API</comment>
+  </data>
+  <data name="API016" xml:space="preserve">
+    <value>El orden de una columna solo puede ser asc (ascendente) o desc (descendiente)</value>
+    <comment>API</comment>
+  </data>
+  <data name="API017" xml:space="preserve">
+    <value>Formato incorrecto para la clausula orderby</value>
+    <comment>API</comment>
+  </data>
+  <data name="API018" xml:space="preserve">
+    <value>El uso de el operador like solo esta disponible para campos de tipo texto</value>
+    <comment>API</comment>
+  </data>
+  <data name="API019" xml:space="preserve">
+    <value>Debe existir una llave primaria para la tabla "{0}"</value>
+    <comment>API</comment>
+  </data>
+  <data name="API_DB_ERROR" xml:space="preserve">
+    <value>Ha ocurrido un error con la conexión a la base de datos ("{0}")</value>
+    <comment>API</comment>
+  </data>
+  <data name="API_EMPTY_BODY" xml:space="preserve">
+    <value>No se ha enviado algun dato en el cuerpo del mensaje</value>
+    <comment>API</comment>
+  </data>
+  <data name="BEARER_TOKEN_NOT_FOUND" xml:space="preserve">
+    <value>No se ha encontrado la cabecera de autenticación requerida</value>
+    <comment>API Security Error</comment>
+  </data>
+  <data name="DB001" xml:space="preserve">
+    <value>Ha ocurrido un error en la conexión de la fuente de datos</value>
+    <comment>DB Connection</comment>
+  </data>
+  <data name="DB002" xml:space="preserve">
+    <value>La cadena de conexion "Application:default" en el web.config no ha sido inicializada</value>
+    <comment>DB Connection</comment>
+  </data>
+  <data name="TOKEN_EXPIRED" xml:space="preserve">
+    <value>El Token de autenticación ha expirado</value>
+    <comment>API Security Error</comment>
+  </data>
+</root>

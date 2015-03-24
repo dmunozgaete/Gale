@@ -1,0 +1,130 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace Karma.REST.Queryable.OData.SQLServer.Parsers
+{
+    internal class Select : Karma.REST.Queryable.Primitive.Parser
+    {
+        public override string Parse(string query, Karma.REST.Queryable.Primitive.Reflected.Model model)
+        {
+            //SELECT PARSER QUERY
+            List<String> builder = new List<string>();
+
+            if (query.Trim().Length == 0)
+            {
+                query = "*";
+            }
+
+            String[] selectedFields = query.ToLower().Split(',');
+
+            if (selectedFields.Length == 0)
+            {
+                throw new Exception.KarmaException("API011");
+            }
+
+            //---- SELECT FIELD
+            Action<Karma.REST.Queryable.Primitive.Reflected.Field> SelectField = new Action<Karma.REST.Queryable.Primitive.Reflected.Field>((field) =>
+            {
+                //The Main Primary Key , dont'need to add to the selection
+                if (field.Specification == Karma.REST.Queryable.Primitive.Reflected.Field.SpecificationEnum.Pk)
+                {
+                    return;
+                }
+
+                //Only if, his, from the primary Table, add to selection, 
+                //because all Foreign key Table, are Getting from the source (ForeignTable.*)
+                if (field.Table.IsForeign == false)
+                {
+                    builder.Add(field.Key);
+                }
+
+                field.Select();
+
+            });
+            //---------------------------------
+
+            //--- FIRST ADD THE PK
+            builder.Insert(0, model.Tables.First().PrimaryKey.Key);
+
+            //--- 
+            foreach (var fieldName in selectedFields)
+            {
+                string _fieldName = fieldName.Trim();
+
+                //---[ Get all field from all tables :P
+                if (_fieldName == "*.*")
+                {
+                    model.Fields.ForEach((f) =>
+                    {
+                        SelectField(f);
+                    });
+                    break;
+                }
+
+                //If query is * , bring all field's
+                if (_fieldName.Contains("*"))
+                {
+                    Type searchedTable = null;
+
+                    //Get all field from the Primary Table
+                    if (_fieldName == "*")
+                    {
+                        searchedTable = model.Tables.First().Type; //Main Table
+                    }
+                    else
+                    {
+                        //try to get all field from a foreign table
+                        if (!_fieldName.Contains(":("))
+                        {
+                            throw new Exception.KarmaException("API012", _fieldName);
+                        }
+                        _fieldName = _fieldName.Substring(0, _fieldName.IndexOf(":("));
+                        var fk = model.Constraints.FirstOrDefault(constraint => constraint.ThisField.Name == _fieldName);
+                        if (fk == null)
+                        {
+                            throw new Exception.KarmaException("API013", _fieldName);
+                        }
+
+                        searchedTable = fk.Table.Type;
+                    }
+
+
+                    model.Fields.ForEach((f) =>
+                    {
+                        if (f.Table.Type == searchedTable)
+                        {
+                            SelectField(f);
+                        }
+                    });
+
+                    continue;
+                }
+
+                //Check if field exist's
+                Karma.REST.Queryable.Primitive.Reflected.Field field = model.Fields.FirstOrDefault((f) =>
+                {
+                    return f.Name == _fieldName;
+                });
+
+                //If field is not exists, throw exception
+                if (field == null)
+                {
+                    throw new Exception.KarmaException("API013", _fieldName);
+                }
+
+                //
+                if (field.Specification == Karma.REST.Queryable.Primitive.Reflected.Field.SpecificationEnum.Pk)
+                {
+                    throw new Exception.KarmaException("API014", _fieldName);
+                }
+
+                //Select Field
+                SelectField(field);
+            }
+
+            return String.Join(",", builder);
+        }
+    }
+}
