@@ -11,15 +11,17 @@ namespace Karma.REST.Queryable.OData.SQLServer.Operators
         public override string Parse(Karma.REST.Queryable.Primitive.Reflected.Field field, string value)
         {
             String format = "{0} > {1}";
+
             if (field.Type == typeof(String))
             {
                 format = "LEN({0}) > {1}";
             }
 
-            if (field.Type == typeof(DateTime))
+            if (field.Type == typeof(DateTime) || field.Type == typeof(DateTime?))
             {
                 format = "{0} > '{1}'";
             }
+
             return String.Format(format, field.Key, value);
         }
     }

@@ -16,7 +16,7 @@ namespace Karma.REST.Queryable.OData.SQLServer.Operators
                 format = "LEN({0}) <= {1}";
             }
 
-            if (field.Type == typeof(DateTime))
+            if (field.Type == typeof(DateTime) || field.Type == typeof(DateTime?))
             {
                 format = "{0} <= '{1}'";
             }

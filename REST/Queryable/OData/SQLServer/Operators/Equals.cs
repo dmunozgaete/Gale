@@ -11,7 +11,7 @@ namespace Karma.REST.Queryable.OData.SQLServer.Operators
         public override string Parse(Karma.REST.Queryable.Primitive.Reflected.Field field, string value)
         {
             String format = "{0} = {1}";
-            if (field.Type == typeof(String) || field.Type == typeof(System.Guid) || field.Type == typeof(System.DateTime))
+            if (field.Type == typeof(String) || field.Type == typeof(System.Guid) || field.Type == typeof(System.DateTime) || field.Type == typeof(System.DateTime?))
             {
                 format = "{0} = '{1}'";
             }

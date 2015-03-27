@@ -404,6 +404,7 @@ namespace Karma
 
         public class JsonColumn
         {
+
             public string datattype { get; set; }
             public string name { get; set; }
         }
