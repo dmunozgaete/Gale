@@ -28,7 +28,7 @@ namespace Karma.REST.Queryable.Primitive.Reflected
                 throw new Karma.Exception.KarmaException("API008",property.Name);
             }
 
-            this._name = property.Name.ToLower();
+            this._name = char.ToLower(property.Name[0]) + property.Name.Substring(1);
             this._type = property.PropertyType;
             this._table = table;
             this._specification = specification;

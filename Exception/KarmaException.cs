@@ -24,26 +24,29 @@ namespace Karma.Exception
         public KarmaException(string resourceString, params string[] parameters)
             : base()
         {
-
             Build(System.Net.HttpStatusCode.InternalServerError, resourceString, parameters);
         }
 
 
 
-        private static void Build(System.Net.HttpStatusCode statusCode, String resourceString, params String[] parameters)
+        private static void Build(System.Net.HttpStatusCode statusCode, String code, params String[] parameters)
         {
-            String resource = Karma.Exception.Errors.ResourceManager.GetString(resourceString);
+            String resource = Karma.Exception.Errors.ResourceManager.GetString(code);
 
-            string message = resource != null ? String.Format(resource, parameters) : resourceString;
-            string message_code = resource != null ? resourceString : "RAW";
+            string message = resource != null ? String.Format(resource, parameters) : code;
+            string message_code = resource != null ? code : "RAW";
 
             throw new System.Web.Http.HttpResponseException(new System.Net.Http.HttpResponseMessage()
             {
+                ReasonPhrase = code,
                 StatusCode = statusCode,
-                Content = new System.Net.Http.StringContent(String.Format("{0}: {1}", message_code, message)),
-                ReasonPhrase = message_code
+                Content = new System.Net.Http.ObjectContent<Karma.Exception.RestException.ErrorContent>(new Karma.Exception.RestException.ErrorContent()
+                {
+                    error = code,
+                    error_description = message,
+                },
+                new System.Net.Http.Formatting.JsonMediaTypeFormatter())
             });
-
         }
 
         /// <summary>

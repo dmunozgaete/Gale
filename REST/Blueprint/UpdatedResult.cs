@@ -8,22 +8,18 @@ using System.Web.Http;
 
 namespace Karma.REST.Blueprint
 {
-    internal class UpdatedResult<TModel> : IHttpActionResult where TModel : class
+    internal class UpdatedResult<TModel> : Karma.REST.Http.HttpActionResult where TModel : class
     {
-        HttpRequestMessage _request;
-        Karma.Db.IDataActions _iDataActions;
         Newtonsoft.Json.Linq.JToken _payload;
         string _id;
 
-        public UpdatedResult(HttpRequestMessage request, Karma.Db.IDataActions connection, string id, Newtonsoft.Json.Linq.JToken payload)
+        public UpdatedResult(string id, Newtonsoft.Json.Linq.JToken payload)
         {
-            _request = request;
-            _iDataActions = connection;
             _id = id;
             _payload = payload;
         }
 
-        public Task<HttpResponseMessage> ExecuteAsync(System.Threading.CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> ExecuteAsync(System.Threading.CancellationToken cancellationToken)
         {
             Karma.Exception.KarmaException.Guard(() => _payload == null, "API_EMPTY_BODY");
 
@@ -61,9 +57,16 @@ namespace Karma.REST.Blueprint
                     continue;
                 }
 
-                value = _payload.GetType().GetMethod("Value").MakeGenericMethod(property.PropertyType).Invoke(_payload, new Object[]{
+                try
+                {
+                    value = _payload.GetType().GetMethod("Value").MakeGenericMethod(property.PropertyType).Invoke(_payload, new Object[]{
                     property.Name
                 });
+                }
+                catch (System.Reflection.TargetInvocationException ex)
+                {
+                    throw new Karma.Exception.KarmaException("API_CANT_SETVALUE", property.Name, table_name);
+                }
 
                 //Add as Data Value
                 values.Add(db_name, value);
@@ -106,9 +109,14 @@ namespace Karma.REST.Blueprint
                 try
                 {
                     //Create the repository
-                    _iDataActions.ExecuteSql(svc);
+                    this.ExecuteSql(svc);
 
-                    return Task.FromResult(_request.CreateResponse(System.Net.HttpStatusCode.PartialContent, "Updated"));
+                    HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.PartialContent)
+                    {
+                        Content = new StringContent("Updated")
+                    };
+
+                    return Task.FromResult(response);
 
                 }
                 catch (System.Exception ex)

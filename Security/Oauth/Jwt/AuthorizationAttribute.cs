@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using System.Net.Http;
 
 namespace Karma.Security.Oauth.Jwt
 {
@@ -66,25 +67,54 @@ namespace Karma.Security.Oauth.Jwt
 
         }
 
+        private string GetAccessTokenOnQuery(System.Web.Http.Controllers.HttpActionContext actionContext)
+        {
+            var queryStrings = actionContext.Request.GetQueryNameValuePairs();
+            if (queryStrings == null)
+            {
+                return null;
+            }
+
+            var match = queryStrings.FirstOrDefault(kv => string.Compare(kv.Key, "access_token", true) == 0);
+            if (string.IsNullOrEmpty(match.Value))
+            {
+                return null;
+            }
+
+            return match.Value;
+        }
+
         private bool Authorize(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
             try
             {
+                string JwtToken = null;
+
+                //CHECK HEADER AUTHENTICATION
                 System.Net.Http.Headers.AuthenticationHeaderValue header = actionContext.Request.Headers.Authorization;
                 if (header == null)
+                {
+                    //CHECK ACCESS_TOKEN in QUERY
+                    JwtToken = GetAccessTokenOnQuery(actionContext);
+                }
+                else
+                {
+                    JwtToken = header.Parameter;
+                }
+
+                if (JwtToken == null)
                 {
                     //--------------------------------------------------------------------------------
                     _errorCode = "BEARER_TOKEN_NOT_FOUND";
                     return false;
                     //--------------------------------------------------------------------------------
                 }
-                else
-                {
-                    //--------------------------------------------------------------------------------
-                    var JwtVerifier = Karma.Security.Oauth.Jwt.Manager.ValidateToken(header.Parameter);
-                    return true;
-                    //--------------------------------------------------------------------------------
-                }
+
+                //--------------------------------------------------------------------------------
+                var JwtVerifier = Karma.Security.Oauth.Jwt.Manager.ValidateToken(JwtToken);
+                System.Web.HttpContext.Current.User = JwtVerifier;
+                return true;
+                //--------------------------------------------------------------------------------
             }
             catch (System.IdentityModel.Tokens.SecurityTokenExpiredException ex)
             {

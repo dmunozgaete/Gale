@@ -70,6 +70,15 @@ namespace Karma.Exception {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No se pudo establecer el valor enviado en la propiedad &quot;{0}&quot; para la tabla &quot;{1}&quot;.
+        /// </summary>
+        internal static string API_CANT_SETVALUE {
+            get {
+                return ResourceManager.GetString("API_CANT_SETVALUE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ha ocurrido un error con la conexión a la base de datos (&quot;{0}&quot;).
         /// </summary>
         internal static string API_DB_ERROR {
@@ -84,6 +93,24 @@ namespace Karma.Exception {
         internal static string API_EMPTY_BODY {
             get {
                 return ResourceManager.GetString("API_EMPTY_BODY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El valor del operator &quot;Equals&quot; debe estar entre comillas simples.
+        /// </summary>
+        internal static string API_OP_CONTAINS_WITHOUT_QUOTE {
+            get {
+                return ResourceManager.GetString("API_OP_CONTAINS_WITHOUT_QUOTE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to El valor del operator &quot;Equals&quot; debe estar entre comillas simples.
+        /// </summary>
+        internal static string API_OP_EQUAL_WITHOUT_QUOTE {
+            get {
+                return ResourceManager.GetString("API_OP_EQUAL_WITHOUT_QUOTE", resourceCulture);
             }
         }
         
@@ -282,6 +309,24 @@ namespace Karma.Exception {
         internal static string DB002 {
             get {
                 return ResourceManager.GetString("DB002", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No se encuentra el valor del &quot;claim&quot; buscado.
+        /// </summary>
+        internal static string SECURITY_CLAIMS_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("SECURITY_CLAIMS_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No se encuentra una autenticación basada en &quot;claims&quot;..
+        /// </summary>
+        internal static string SECURITY_CLAIMS_NOT_IMPLEMENTED {
+            get {
+                return ResourceManager.GetString("SECURITY_CLAIMS_NOT_IMPLEMENTED", resourceCulture);
             }
         }
         

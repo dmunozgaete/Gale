@@ -8,20 +8,16 @@ using System.Web.Http;
 
 namespace Karma.REST.Blueprint
 {
-    internal class DeleteResult<TModel> : IHttpActionResult where TModel : class
+    internal class DeleteResult<TModel> : Karma.REST.Http.HttpActionResult where TModel : class
     {
-        HttpRequestMessage _request;
-        Karma.Db.IDataActions _iDataActions;
         string _id;
 
-        public DeleteResult(HttpRequestMessage request, Karma.Db.IDataActions connection, string id)
+        public DeleteResult(string id)
         {
-            _request = request;
-            _iDataActions = connection;
             _id = id;
         }
 
-        public Task<HttpResponseMessage> ExecuteAsync(System.Threading.CancellationToken cancellationToken)
+        public override Task<HttpResponseMessage> ExecuteAsync(System.Threading.CancellationToken cancellationToken)
         {
             var table_type = typeof(TModel);
             string table_name = table_type.Name;
@@ -73,15 +69,20 @@ namespace Karma.REST.Blueprint
                 try
                 {
                     //Create the repository
-                    _iDataActions.ExecuteSql(svc);
+                    this.ExecuteSql(svc);
 
-                    return Task.FromResult(_request.CreateResponse(System.Net.HttpStatusCode.OK, "Deleted"));
+                    HttpResponseMessage response = new HttpResponseMessage(System.Net.HttpStatusCode.OK)
+                    {
+                        Content = new StringContent("Deleted")
+                    };
+
+                    return Task.FromResult(response);
 
                 }
                 catch (System.Exception ex)
                 {
                     string message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-                    throw new Karma.Exception.KarmaException("API_DB_ERROR", message);
+                    throw new Karma.Exception.KarmaException("API_DB_ERROR", message);                    
                 }
             }
             //-------------------------------------------------------------------------------------

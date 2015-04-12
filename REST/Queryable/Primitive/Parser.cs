@@ -47,22 +47,44 @@ namespace Karma.REST.Queryable.Primitive
 
         internal String CallOperator(string filter, Model model)
         {
-            String[] values = filter.Trim().Split(' ');
+            string _property = null;
+            string _operator = null;
+            string _value = null;
 
-            if (values.Length == 3)
+            string trimmed = filter.Trim();
+            char charKey = ' ';
+
+            //Property
+            int charKeyPosition = trimmed.IndexOf(charKey);
+            if (charKeyPosition >= 0)
             {
-                string column_name = values[0].Trim().ToLower();
-                string operatorAlias = values[1].Trim().ToLower();
-                string value = values[2].Trim();
+                _property = trimmed.Substring(0, charKeyPosition).ToLower();
+                trimmed = trimmed.Substring(charKeyPosition).Trim();
+            }
 
-                Field field = (from t in model.Fields where t.Name == column_name select t).FirstOrDefault();
+            //Operator
+            charKeyPosition = trimmed.IndexOf(charKey);
+            if (charKeyPosition >= 0)
+            {
+                _operator = trimmed.Substring(0, charKeyPosition).ToLower();
+                trimmed = trimmed.Substring(charKeyPosition).Trim();
+            }
+
+            //Value Sanitization
+            _value = trimmed.Replace("%", "").Replace("'", "");
+
+         
+            if (!String.IsNullOrEmpty(_property) && !String.IsNullOrEmpty(_operator) && !String.IsNullOrEmpty(_value) )
+            {
+               
+                Field field = (from t in model.Fields where t.Name == _property select t).FirstOrDefault();
 
                 if (field == null)
                 {
-                    throw new Karma.Exception.KarmaException("API005", column_name, filter);
+                    throw new Karma.Exception.KarmaException("API005", _property, filter);
                 }
 
-                return _callOperator(operatorAlias, field, value);
+                return _callOperator(_operator, field, _value);
             }
             else
             {

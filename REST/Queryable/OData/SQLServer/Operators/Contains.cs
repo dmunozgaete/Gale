@@ -10,15 +10,21 @@ namespace Karma.REST.Queryable.OData.SQLServer.Operators
     {
         public override string Parse(Karma.REST.Queryable.Primitive.Reflected.Field field, string value)
         {
+
             if (field.Type == typeof(String) || field.Type == typeof(System.Guid))
             {
                 return String.Format("{0} like '%{1}%'", field.Key, value);
+            }
+            else if (field.Type == typeof(Int32))
+            {
+                //convert(varchar(10),StandardCost)
+                return String.Format("CONVERT(VARCHAR(8000), {0}) like '%{1}%'", field.Key, value);
             }
             else
             {
                 throw new Exception.KarmaException("API018");
             }
-            
+
         }
     }
 }

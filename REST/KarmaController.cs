@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Karma.REST.Http.Filters;
 
 namespace Karma.REST
 {
@@ -11,7 +12,8 @@ namespace Karma.REST
     /// Create a fully Operational Controller for a Model
     /// </summary>
     /// <typeparam name="TModel">Model Class</typeparam>
-    public class KarmaController<TModel> : RestController where TModel : class
+    [ExceptionFilter]
+    public class KarmaController<TModel> : System.Web.Http.ApiController where TModel : class
     {
 
         /// <summary>
@@ -22,18 +24,16 @@ namespace Karma.REST
         [System.Runtime.CompilerServices.MethodImpl(System.Runtime.CompilerServices.MethodImplOptions.NoInlining)]  //Avoid inling for reflection
         public virtual IHttpActionResult Get()
         {
-            //Claims to inject in the JWT payload
-            List<System.Security.Claims.Claim> claims = new List<System.Security.Claims.Claim>();
-
-
-            claims.Add(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Sid, "dmunoz"));
-            claims.Add(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Name, "David"));
-            claims.Add(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, "Rol1"));
-            claims.Add(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, "Rol2"));
-            claims.Add(new System.Security.Claims.Claim(System.Security.Claims.ClaimTypes.Role, "Rol3"));
-
+            //string currentMethodName = System.Reflection.MethodBase.GetCurrentMethod().Name;
+            //---------------------------------------------------------------------------
+            // Get Methods from Caller Request
+            System.Diagnostics.StackTrace st = new System.Diagnostics.StackTrace();
+            System.Diagnostics.StackFrame sf = st.GetFrame(1);
+            string inheritedMethodName = sf.GetMethod().Name;
+            //---------------------------------------------------------------------------
+            
             Type ModelType = typeof(TModel);
-            var attribute = this.GetType().GetMethod("Get").GetCustomAttributes(typeof(Karma.REST.Queryable.Primitive.Mapping.ModelAttribute), true).FirstOrDefault();
+            var attribute = this.GetType().GetMethod(inheritedMethodName).GetCustomAttributes(typeof(Karma.REST.Queryable.Primitive.Mapping.ModelAttribute), true).FirstOrDefault();
 
             //OVERRIDE THE CURRENT MODEL??
             if (attribute != null)
@@ -43,7 +43,7 @@ namespace Karma.REST
 
             Type queryable_result = typeof(Karma.REST.Queryable.Blueprint.QueryableResult<>).MakeGenericType(ModelType);
 
-            return (IHttpActionResult)Activator.CreateInstance(queryable_result, new object[] { Request, this.Connection });
+            return (IHttpActionResult)Activator.CreateInstance(queryable_result, new object[] { Request});
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Karma.REST
         /// <response code="500">Internal Server Error</response>
         public virtual IHttpActionResult Post([FromBody]Newtonsoft.Json.Linq.JToken payload)
         {
-            return new Karma.REST.Blueprint.CreateResult<TModel>(Request, this.Connection, payload);
+            return new Karma.REST.Blueprint.CreateResult<TModel>(payload);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Karma.REST
         /// <response code="500">Internal Server Error</response>
         public virtual IHttpActionResult Put([FromUri]string id, [FromBody]Newtonsoft.Json.Linq.JToken payload)
         {
-            return new Karma.REST.Blueprint.UpdatedResult<TModel>(Request, this.Connection, id, payload);
+            return new Karma.REST.Blueprint.UpdatedResult<TModel>(id, payload);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Karma.REST
         /// <response code="500">Internal Server Error</response>
         public virtual IHttpActionResult Delete(string id)
         {
-            return new Karma.REST.Blueprint.DeleteResult<TModel>(Request, this.Connection, id);
+            return new Karma.REST.Blueprint.DeleteResult<TModel>(id);
         }
 
     }
