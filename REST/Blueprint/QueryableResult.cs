@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace Karma.REST.Queryable.Blueprint
 {
-    internal class QueryableResult<TModel> : Karma.REST.Http.HttpActionResult where TModel : class
+    public class QueryableResult<TModel> : Karma.REST.Http.HttpActionResult where TModel : class
     {
         HttpRequestMessage _request;
 
