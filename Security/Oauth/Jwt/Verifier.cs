@@ -16,7 +16,7 @@ namespace Karma.Security.Oauth.Jwt
 
             // Parse JWT from the Base64UrlEncoded wire form 
             //(<Base64UrlEncoded header>.<Base64UrlEncoded body>.<signature>)
-            JwtSecurityToken parsedJwt = tokenHandler.ReadToken(token) as JwtSecurityToken;
+            //JwtSecurityToken parsedJwt = tokenHandler.ReadToken(token) as JwtSecurityToken;
 
             TokenValidationParameters validationParams =
                 new TokenValidationParameters()

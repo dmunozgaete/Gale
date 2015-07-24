@@ -34,7 +34,7 @@ namespace Karma.Exception
             String resource = Karma.Exception.Errors.ResourceManager.GetString(code);
 
             string message = resource != null ? String.Format(resource, parameters) : code;
-            string message_code = resource != null ? code : "RAW";
+            //string message_code = resource != null ? code : "RAW";
 
             throw new System.Web.Http.HttpResponseException(new System.Net.Http.HttpResponseMessage()
             {

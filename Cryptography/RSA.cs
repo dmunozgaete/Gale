@@ -31,7 +31,7 @@ namespace Karma.Security.Cryptography
         /// <returns>Información Desencriptada</returns>
         public static string Decrypt(string data, string xmlCypher)
         {
-            string ciphertext = data;
+            //string ciphertext = data;
             try
             {
                 RSACryptoServiceProvider rsa = new RSACryptoServiceProvider();

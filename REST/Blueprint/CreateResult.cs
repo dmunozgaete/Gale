@@ -58,7 +58,7 @@ namespace Karma.REST.Blueprint
                         property.Name
                     });
                 }
-                catch (System.Reflection.TargetInvocationException ex)
+                catch /*(System.Reflection.TargetInvocationException ex)*/
                 {
                     throw new Karma.Exception.KarmaException("API_CANT_SETVALUE", property.Name, table_name);
                 }
