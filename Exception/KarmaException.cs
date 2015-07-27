@@ -3,25 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.Exception
+namespace Gale.Exception
 {
     /// <summary>
     /// Clase de excepción para el FrameWork
     /// </summary>
-    internal sealed class KarmaException : System.Exception
+    internal sealed class GaleException : System.Exception
     {
         /// <summary>
         /// Constructor de la clase
         /// </summary>
         /// <param name="ResourceString">Llave del recurso a emplear</param>
         /// <param name="Parameters">Arreglo de parámetros de tipo string</param>
-        public KarmaException(System.Net.HttpStatusCode statusCode, string resourceString, params string[] parameters)
+        public GaleException(System.Net.HttpStatusCode statusCode, string resourceString, params string[] parameters)
             : base()
         {
             Build(statusCode, resourceString, parameters);
         }
 
-        public KarmaException(string resourceString, params string[] parameters)
+        public GaleException(string resourceString, params string[] parameters)
             : base()
         {
             Build(System.Net.HttpStatusCode.InternalServerError, resourceString, parameters);
@@ -31,7 +31,7 @@ namespace Karma.Exception
 
         private static void Build(System.Net.HttpStatusCode statusCode, String code, params String[] parameters)
         {
-            String resource = Karma.Exception.Errors.ResourceManager.GetString(code);
+            String resource = Gale.Exception.Errors.ResourceManager.GetString(code);
 
             string message = resource != null ? String.Format(resource, parameters) : code;
             //string message_code = resource != null ? code : "RAW";
@@ -40,7 +40,7 @@ namespace Karma.Exception
             {
                 ReasonPhrase = code,
                 StatusCode = statusCode,
-                Content = new System.Net.Http.ObjectContent<Karma.Exception.RestException.ErrorContent>(new Karma.Exception.RestException.ErrorContent()
+                Content = new System.Net.Http.ObjectContent<Gale.Exception.RestException.ErrorContent>(new Gale.Exception.RestException.ErrorContent()
                 {
                     error = code,
                     error_description = message,

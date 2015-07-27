@@ -5,9 +5,9 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Karma.REST.Http
+namespace Gale.REST.Http
 {
-        public abstract class HttpActionFileResult : Karma.REST.Http.HttpActionResult
+        public abstract class HttpActionFileResult : Gale.REST.Http.HttpActionResult
         {
             HttpRequestMessage _request;    //Only for Content Negotiation
 
@@ -35,7 +35,7 @@ namespace Karma.REST.Http
             {
                 //------------------------------------------------------------------------------------------------------------------------
                 //GUARD EXCEPTION   
-                Karma.Exception.RestException.Guard(() => !_request.Content.IsMimeMultipartContent(), System.Net.HttpStatusCode.UnsupportedMediaType, "ONLY_MULTIPART_SUPPORTED", "");
+                Gale.Exception.RestException.Guard(() => !_request.Content.IsMimeMultipartContent(), System.Net.HttpStatusCode.UnsupportedMediaType, "ONLY_MULTIPART_SUPPORTED", "");
                 //------------------------------------------------------------------------------------------------------------------------
 
                 var provider = new MultipartMemoryStreamProvider();
@@ -45,7 +45,7 @@ namespace Karma.REST.Http
                     {
                         //------------------------------------------------------------------------------------------------------------------------
                         //GUARD EXCEPTION
-                        Karma.Exception.RestException.Guard(() => o.IsFaulted, "FILE_MAXLENGTH_ERROR","");
+                        Gale.Exception.RestException.Guard(() => o.IsFaulted, "FILE_MAXLENGTH_ERROR","");
                         //------------------------------------------------------------------------------------------------------------------------
 
                         return SaveFiles(provider.Contents.ToList());

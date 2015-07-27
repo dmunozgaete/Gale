@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.REST.Queryable.Primitive.Reflected
+namespace Gale.REST.Queryable.Primitive.Reflected
 {
     public class Model
     {

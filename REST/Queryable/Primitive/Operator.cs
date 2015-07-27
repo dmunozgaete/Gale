@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Karma.REST.Queryable.Primitive.Reflected;
+using Gale.REST.Queryable.Primitive.Reflected;
 
-namespace Karma.REST.Queryable.Primitive
+namespace Gale.REST.Queryable.Primitive
 {
     public interface Operator
     {

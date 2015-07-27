@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Karma.Security.Oauth.Jwt
+namespace Gale.Security.Oauth.Jwt
 {
     public class Wrapper
     {

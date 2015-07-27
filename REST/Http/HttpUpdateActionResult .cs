@@ -7,13 +7,13 @@ using System.Web.Http;
 
 //CONTENT NEGOTATION: http://www.strathweb.com/2012/07/everything-you-want-to-know-about-asp-net-web-api-content-negotation/
 
-namespace Karma.REST.Http
+namespace Gale.REST.Http
 {
     /// <summary>
     ///  Defines a Update command that asynchronously creates an System.Net.Http.HttpResponseMessage.    
     /// </summary>
     /// <typeparam name="T">TModel</typeparam>
-    public abstract class HttpUpdateActionResult<T> : Karma.REST.Http.Generic.HttpActionResult<T> where T : class
+    public abstract class HttpUpdateActionResult<T> : Gale.REST.Http.Generic.HttpActionResult<T> where T : class
     {
         private string _token = null;
 

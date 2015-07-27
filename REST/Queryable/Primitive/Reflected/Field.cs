@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.REST.Queryable.Primitive.Reflected
+namespace Gale.REST.Queryable.Primitive.Reflected
 {
     public class Field
     {
@@ -25,7 +25,7 @@ namespace Karma.REST.Queryable.Primitive.Reflected
 
             if (this._key == property.Name)
             {
-                throw new Karma.Exception.KarmaException("API008",property.Name);
+                throw new Gale.Exception.GaleException("API008",property.Name);
             }
 
             this._name = char.ToLower(property.Name[0]) + property.Name.Substring(1);

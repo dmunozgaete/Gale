@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.REST.Queryable.Primitive.Reflected
+namespace Gale.REST.Queryable.Primitive.Reflected
 {
     public class Table
     {
@@ -30,7 +30,7 @@ namespace Karma.REST.Queryable.Primitive.Reflected
             var attr = tableType.TryGetAttribute<System.Data.Linq.Mapping.TableAttribute>();
             if (attr == null)
             {
-                throw new Karma.Exception.KarmaException("API007", tableType.Name);
+                throw new Gale.Exception.GaleException("API007", tableType.Name);
             }
 
             //Set Table metadata

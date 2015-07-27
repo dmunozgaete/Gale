@@ -7,13 +7,13 @@ using System.Web.Http;
 
 //CONTENT NEGOTATION: http://www.strathweb.com/2012/07/everything-you-want-to-know-about-asp-net-web-api-content-negotation/
 
-namespace Karma.REST.Http
+namespace Gale.REST.Http
 {
     /// <summary>
     ///  Defines a delete command that asynchronously creates an System.Net.Http.HttpResponseMessage.    
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class HttpDeleteActionResult : Karma.REST.Http.HttpActionResult
+    public abstract class HttpDeleteActionResult : Gale.REST.Http.HttpActionResult
     {
         private string _token = null;
 
@@ -35,7 +35,7 @@ namespace Karma.REST.Http
         {
             //------------------------------------------------------------------------------------------------------
             // GUARD EXCEPTIONS
-            Karma.Exception.KarmaException.Guard(() => String.IsNullOrEmpty(_token), "TOKEN_REQUIRED");
+            Gale.Exception.GaleException.Guard(() => String.IsNullOrEmpty(_token), "TOKEN_REQUIRED");
             //------------------------------------------------------------------------------------------------------
 
             return ExecuteAsync(_token, cancellationToken);

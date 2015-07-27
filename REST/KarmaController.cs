@@ -4,16 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
-using Karma.REST.Http.Filters;
+using Gale.REST.Http.Filters;
 
-namespace Karma.REST
+namespace Gale.REST
 {
     /// <summary>
     /// Create a fully Operational Controller for a Model
     /// </summary>
     /// <typeparam name="TModel">Model Class</typeparam>
     [ExceptionFilter]
-    public class KarmaController<TModel> : System.Web.Http.ApiController where TModel : class
+    public class GaleController<TModel> : System.Web.Http.ApiController where TModel : class
     {
 
         /// <summary>
@@ -33,15 +33,15 @@ namespace Karma.REST
             //---------------------------------------------------------------------------
             
             Type ModelType = typeof(TModel);
-            var attribute = this.GetType().GetMethod(inheritedMethodName).GetCustomAttributes(typeof(Karma.REST.Queryable.Primitive.Mapping.ModelAttribute), true).FirstOrDefault();
+            var attribute = this.GetType().GetMethod(inheritedMethodName).GetCustomAttributes(typeof(Gale.REST.Queryable.Primitive.Mapping.ModelAttribute), true).FirstOrDefault();
 
             //OVERRIDE THE CURRENT MODEL??
             if (attribute != null)
             {
-                ModelType = (attribute as Karma.REST.Queryable.Primitive.Mapping.ModelAttribute).ModelType;
+                ModelType = (attribute as Gale.REST.Queryable.Primitive.Mapping.ModelAttribute).ModelType;
             }
 
-            Type queryable_result = typeof(Karma.REST.Queryable.Blueprint.QueryableResult<>).MakeGenericType(ModelType);
+            Type queryable_result = typeof(Gale.REST.Queryable.Blueprint.QueryableResult<>).MakeGenericType(ModelType);
 
             return (IHttpActionResult)Activator.CreateInstance(queryable_result, new object[] { Request});
         }
@@ -54,7 +54,7 @@ namespace Karma.REST
         /// <response code="500">Internal Server Error</response>
         public virtual IHttpActionResult Post([FromBody]Newtonsoft.Json.Linq.JToken payload)
         {
-            return new Karma.REST.Blueprint.CreateResult<TModel>(payload);
+            return new Gale.REST.Blueprint.CreateResult<TModel>(payload);
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace Karma.REST
         /// <response code="500">Internal Server Error</response>
         public virtual IHttpActionResult Put([FromUri]string id, [FromBody]Newtonsoft.Json.Linq.JToken payload)
         {
-            return new Karma.REST.Blueprint.UpdatedResult<TModel>(id, payload);
+            return new Gale.REST.Blueprint.UpdatedResult<TModel>(id, payload);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Karma.REST
         /// <response code="500">Internal Server Error</response>
         public virtual IHttpActionResult Delete(string id)
         {
-            return new Karma.REST.Blueprint.DeleteResult<TModel>(id);
+            return new Gale.REST.Blueprint.DeleteResult<TModel>(id);
         }
 
     }

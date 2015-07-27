@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Karma.REST.Queryable.Primitive.Reflected;
+using Gale.REST.Queryable.Primitive.Reflected;
 
-namespace Karma.REST.Queryable.Primitive
+namespace Gale.REST.Queryable.Primitive
 {
 
     public abstract class Parser
     {
-        private Karma.REST.Queryable.Primitive.IQueryBuilder _builder = null;
+        private Gale.REST.Queryable.Primitive.IQueryBuilder _builder = null;
 
-        private Karma.REST.Queryable.Primitive.IQueryBuilder QueryBuilder
+        private Gale.REST.Queryable.Primitive.IQueryBuilder QueryBuilder
         {
             get
             {
@@ -26,7 +26,7 @@ namespace Karma.REST.Queryable.Primitive
 
         [System.ComponentModel.Browsable(false)]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public void _SetBuilder(Karma.REST.Queryable.Primitive.IQueryBuilder builder)
+        public void _SetBuilder(Gale.REST.Queryable.Primitive.IQueryBuilder builder)
         {
             this._builder = builder;
         }
@@ -38,10 +38,10 @@ namespace Karma.REST.Queryable.Primitive
             Type op = (from t in QueryBuilder.RegisteredOperators() where t.Key.ToLower() == operatorAlias.ToLower() select t.Value).FirstOrDefault();
             if (op == null)
             {
-                throw new Karma.Exception.KarmaException("API004", operatorAlias);
+                throw new Gale.Exception.GaleException("API004", operatorAlias);
             }
 
-            Karma.REST.Queryable.Primitive.Operator _op = (Karma.REST.Queryable.Primitive.Operator)Activator.CreateInstance(op);
+            Gale.REST.Queryable.Primitive.Operator _op = (Gale.REST.Queryable.Primitive.Operator)Activator.CreateInstance(op);
             return _op.Parse(field, value);
         }
 
@@ -81,14 +81,14 @@ namespace Karma.REST.Queryable.Primitive
 
                 if (field == null)
                 {
-                    throw new Karma.Exception.KarmaException("API005", _property, filter);
+                    throw new Gale.Exception.GaleException("API005", _property, filter);
                 }
 
                 return _callOperator(_operator, field, _value);
             }
             else
             {
-                throw new Karma.Exception.KarmaException("API006", filter);
+                throw new Gale.Exception.GaleException("API006", filter);
             }
         }
         internal String CallOperator(string filter)

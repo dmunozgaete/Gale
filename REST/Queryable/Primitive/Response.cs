@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Karma.REST.Queryable.Primitive.Reflected;
+using Gale.REST.Queryable.Primitive.Reflected;
 using Newtonsoft.Json;
 
-namespace Karma.REST.Queryable.Primitive
+namespace Gale.REST.Queryable.Primitive
 {
     public class Response : IResponse
     {
@@ -15,7 +15,7 @@ namespace Karma.REST.Queryable.Primitive
         private int _total;
         private TimeSpan _elapsedTime;
 
-        private List<Karma.REST.Queryable.Primitive.Reflected.Field> _fields;
+        private List<Gale.REST.Queryable.Primitive.Reflected.Field> _fields;
         private List<List<String>> _data = new List<List<string>>();
 
 
@@ -64,7 +64,7 @@ namespace Karma.REST.Queryable.Primitive
         /// <summary>
         /// Return the fields returned from the query
         /// </summary>
-        internal List<Karma.REST.Queryable.Primitive.Reflected.Field> fields
+        internal List<Gale.REST.Queryable.Primitive.Reflected.Field> fields
         {
             get
             {

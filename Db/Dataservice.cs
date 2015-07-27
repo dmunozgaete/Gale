@@ -3,21 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Karma.Db
+namespace Gale.Db
 {
     /// <summary>
     /// Servicio de Datos
     /// </summary>
     public class DataService: System.IDisposable
     {
-        private Karma.Db.Collections.DataParameterCollection _parameters;
+        private Gale.Db.Collections.DataParameterCollection _parameters;
         private string _command = null;
 
         public DataService(string command)
         {
             _command = command;
         }
-        public DataService(string command, Karma.Db.Collections.DataParameterCollection parameters)
+        public DataService(string command, Gale.Db.Collections.DataParameterCollection parameters)
         {
             _command = command;
             _parameters = parameters;
@@ -39,7 +39,7 @@ namespace Karma.Db
         /// <summary>
         /// Obtiene el listado de parametros a enviar en la solicitud
         /// </summary>
-        public Karma.Db.Collections.DataParameterCollection Parameters
+        public Gale.Db.Collections.DataParameterCollection Parameters
         {
             get
             {

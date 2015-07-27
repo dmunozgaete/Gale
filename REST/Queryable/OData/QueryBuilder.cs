@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.REST.Queryable.OData
+namespace Gale.REST.Queryable.OData
 {
-    internal class QueryBuilder<TModel> : Karma.REST.Queryable.Primitive.QueryBuilder<TModel>
+    internal class QueryBuilder<TModel> : Gale.REST.Queryable.Primitive.QueryBuilder<TModel>
         where TModel : class
     {
 
@@ -13,7 +13,7 @@ namespace Karma.REST.Queryable.OData
         private int _limit = 10;
         private Format _format = Format.Primitive;
 
-        public QueryBuilder(Karma.Db.IDataActions databaseFactoryType, string query)
+        public QueryBuilder(Gale.Db.IDataActions databaseFactoryType, string query)
             : base(databaseFactoryType)
         {
             System.Collections.Specialized.NameValueCollection fragments = System.Web.HttpUtility.ParseQueryString(query);
@@ -149,7 +149,7 @@ namespace Karma.REST.Queryable.OData
             return base.PrepareCall(statements, offset, limit);
         }
 
-        public Karma.REST.Queryable.Primitive.IResponse Execute()
+        public Gale.REST.Queryable.Primitive.IResponse Execute()
         {
             return base.Execute(_offset, _limit, _format);
         }

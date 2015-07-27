@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.REST.Queryable.OData.SQLServer.Operators
+namespace Gale.REST.Queryable.OData.SQLServer.Operators
 {
-    [Karma.REST.Queryable.Primitive.Operator(Alias = "notIn")]
+    [Gale.REST.Queryable.Primitive.Operator(Alias = "notIn")]
     internal class NotIn : OData.SQLServer.Operators.Operator
     {
-        public override string Parse(Karma.REST.Queryable.Primitive.Reflected.Field field, string value)
+        public override string Parse(Gale.REST.Queryable.Primitive.Reflected.Field field, string value)
         {
             if (field.Type == typeof(String) || field.Type == typeof(Int32) || field.Type == typeof(System.Guid))
             {
@@ -19,7 +19,7 @@ namespace Karma.REST.Queryable.OData.SQLServer.Operators
             }
             else
             {
-                throw new Exception.KarmaException("API018");
+                throw new Exception.GaleException("API018");
             }
             
         }

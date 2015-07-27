@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.REST.Queryable.Primitive
+namespace Gale.REST.Queryable.Primitive
 {
     public class OperatorAttribute : System.Attribute
     {

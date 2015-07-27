@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Karma.REST.Blueprint
+namespace Gale.REST.Blueprint
 {
-    internal class DeleteResult<TModel> : Karma.REST.Http.HttpActionResult where TModel : class
+    internal class DeleteResult<TModel> : Gale.REST.Http.HttpActionResult where TModel : class
     {
         string _id;
 
@@ -64,7 +64,7 @@ namespace Karma.REST.Blueprint
 
             //-------------------------------------------------------------------------------------
             //---[ DATABASE CALL
-            using (Karma.Db.DataService svc = new Karma.Db.DataService(query))
+            using (Gale.Db.DataService svc = new Gale.Db.DataService(query))
             {
                 try
                 {
@@ -82,7 +82,7 @@ namespace Karma.REST.Blueprint
                 catch (System.Exception ex)
                 {
                     string message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-                    throw new Karma.Exception.KarmaException("API_DB_ERROR", message);                    
+                    throw new Gale.Exception.GaleException("API_DB_ERROR", message);                    
                 }
             }
             //-------------------------------------------------------------------------------------

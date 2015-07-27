@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Karma.Exception
+namespace Gale.Exception
 {
     /// <summary>
     /// Rest Exception for a REST protocol

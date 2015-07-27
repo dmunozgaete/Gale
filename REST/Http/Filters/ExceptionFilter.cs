@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http.Filters;
 
-namespace Karma.REST.Http.Filters
+namespace Gale.REST.Http.Filters
 {
 
     /// <summary>
@@ -21,11 +21,11 @@ namespace Karma.REST.Http.Filters
         /// <param name="context"></param>
         public override void OnException(HttpActionExecutedContext context)
         {
-            if (context.Exception is Karma.Exception.KarmaException)
+            if (context.Exception is Gale.Exception.GaleException)
             {
                 //DO NOTHING
             }
-            else if (context.Exception is Karma.Exception.RestException)
+            else if (context.Exception is Gale.Exception.RestException)
             {
                 //DO NOTHING
             }
@@ -37,7 +37,7 @@ namespace Karma.REST.Http.Filters
             {
                 //FORMAT THE UNHANDLEDEXCEPTION TO REST EXCEPTION FORMAT
                 string type = context.Exception.GetType().Name;
-                context.Exception = new Karma.Exception.RestException(type, context.Exception.Message);
+                context.Exception = new Gale.Exception.RestException(type, context.Exception.Message);
             }
         }
     }

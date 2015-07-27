@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.REST.Queryable.OData.SQLServer.Parsers
+namespace Gale.REST.Queryable.OData.SQLServer.Parsers
 {
-    internal class From : Karma.REST.Queryable.Primitive.Parser
+    internal class From : Gale.REST.Queryable.Primitive.Parser
     {
-        public override string Parse(string query, Karma.REST.Queryable.Primitive.Reflected.Model model)
+        public override string Parse(string query, Gale.REST.Queryable.Primitive.Reflected.Model model)
         {
             //FROM PARSER QUERY
             System.Text.StringBuilder builder = new StringBuilder();

@@ -17,13 +17,13 @@ namespace System
                 if(_claim != null) {
                     return _claim.Value;
                 }else{
-                    throw new Karma.Exception.KarmaException("SECURITY_CLAIMS_NOT_FOUND");
+                    throw new Gale.Exception.GaleException("SECURITY_CLAIMS_NOT_FOUND");
                 }
 
             }
             else
             {
-                throw new Karma.Exception.KarmaException("SECURITY_CLAIMS_NOT_IMPLEMENTED");
+                throw new Gale.Exception.GaleException("SECURITY_CLAIMS_NOT_IMPLEMENTED");
             }
         }
 

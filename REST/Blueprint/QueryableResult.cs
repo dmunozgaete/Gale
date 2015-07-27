@@ -7,9 +7,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Karma.REST.Queryable.Blueprint
+namespace Gale.REST.Queryable.Blueprint
 {
-    public class QueryableResult<TModel> : Karma.REST.Http.HttpActionResult where TModel : class
+    public class QueryableResult<TModel> : Gale.REST.Http.HttpActionResult where TModel : class
     {
         HttpRequestMessage _request;
 
@@ -23,7 +23,7 @@ namespace Karma.REST.Queryable.Blueprint
         public override Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
             string query = _request.RequestUri.Query;
-            Karma.REST.Queryable.OData.QueryBuilder<TModel> builder = new Karma.REST.Queryable.OData.QueryBuilder<TModel>(this.Connection, query);
+            Gale.REST.Queryable.OData.QueryBuilder<TModel> builder = new Gale.REST.Queryable.OData.QueryBuilder<TModel>(this.Connection, query);
             System.Reflection.MethodInfo methodbase = builder.GetType().GetMethod("RegisterForeignField");
 
             foreach (Type tableType in this._descriptors.Keys)
@@ -32,7 +32,7 @@ namespace Karma.REST.Queryable.Blueprint
                 method.Invoke(builder, new object[] { this._descriptors[tableType] });
             }
 
-            Karma.REST.Queryable.Primitive.IResponse odata_response = builder.Execute();
+            Gale.REST.Queryable.Primitive.IResponse odata_response = builder.Execute();
 
             return Task.FromResult(
                     _request.CreateResponse<Object>(odata_response.toPlainObject())

@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 using System.Xml;
 using System.Reflection;
 
-namespace Karma
+namespace Gale
 {
     public class Serialization
     {
@@ -151,7 +151,7 @@ namespace Karma
             DummyDoc.InnerXml = Regex.Replace(Xml, "");
 
             //---[ Guard Exception ]-------------------------------------------------------------------------------------------------------
-            Karma.Exception.KarmaException.Guard(() => DummyDoc.ChildNodes.Count == 0, "InvalidInputXMLStringInXMLDeserialization", typeof(T).Name);
+            Gale.Exception.GaleException.Guard(() => DummyDoc.ChildNodes.Count == 0, "InvalidInputXMLStringInXMLDeserialization", typeof(T).Name);
             //-----------------------------------------------------------------------------------------------------------------------------
 
             foreach (XmlNode node in DummyDoc.ChildNodes)
@@ -161,7 +161,7 @@ namespace Karma
                     return FromXML<T>(node, Provider);
                 }
             }
-            throw new Karma.Exception.KarmaException("InvalidInputXMLStringInXMLDeserialization", typeof(T).Name);
+            throw new Gale.Exception.GaleException("InvalidInputXMLStringInXMLDeserialization", typeof(T).Name);
         }
         public static T FromXML<T>(XmlNode Xml, IFormatProvider Provider) where T : new()
         {
@@ -187,7 +187,7 @@ namespace Karma
                         if (BasicTypes.SingleOrDefault((t) => { return t == UnderlyingType; }) == null)
                         {
                             //Otherwise of arrays convert to XML to send
-                            var fromXMLMethods = typeof(Karma.Serialization).GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                            var fromXMLMethods = typeof(Gale.Serialization).GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
                             System.Reflection.MethodInfo fromXMLMethodInfo = fromXMLMethods.FirstOrDefault(mi => mi.Name == "FromXML" && mi.GetGenericArguments().Count() == 1 && mi.GetParameters()[0].ParameterType == typeof(XmlNode));
 
                             System.Reflection.MethodInfo method = fromXMLMethodInfo.MakeGenericMethod(new Type[] { UnderlyingType });
@@ -211,7 +211,7 @@ namespace Karma
                 }
                 catch
                 {
-                    throw new Karma.Exception.KarmaException("InvalidSetValueInXMLDeserialization", Value.ToString(), Property.Name, Property.PropertyType.ToString());
+                    throw new Gale.Exception.GaleException("InvalidSetValueInXMLDeserialization", Value.ToString(), Property.Name, Property.PropertyType.ToString());
                 }
             };
 
@@ -298,7 +298,7 @@ namespace Karma
                                         if (BasicTypes.SingleOrDefault((t) => { return t == UnderlyingType; }) == null)
                                         {
                                             //Otherwise of arrays convert to XML to send
-                                            var fromXMLMethods = typeof(Karma.Serialization).GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                                            var fromXMLMethods = typeof(Gale.Serialization).GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
                                             System.Reflection.MethodInfo fromXMLMethodInfo = fromXMLMethods.FirstOrDefault(mi => mi.Name == "FromXML" && mi.GetGenericArguments().Count() == 1 && mi.GetParameters()[0].ParameterType == typeof(XmlNode));
 
                                             System.Reflection.MethodInfo method = fromXMLMethodInfo.MakeGenericMethod(new Type[] { UnderlyingType });
@@ -334,7 +334,7 @@ namespace Karma
                                     //So call the fromXML itself, again and again
 
                                     //Otherwise of arrays convert to XML to send
-                                    var fromXMLMethods = typeof(Karma.Serialization).GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                                    var fromXMLMethods = typeof(Gale.Serialization).GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
                                     System.Reflection.MethodInfo fromXMLMethodInfo = fromXMLMethods.FirstOrDefault(mi => mi.Name == "FromXML" && mi.GetGenericArguments().Count() == 1 && mi.GetParameters()[0].ParameterType == typeof(XmlNode));
 
                                     System.Reflection.MethodInfo method = fromXMLMethodInfo.MakeGenericMethod(new Type[] { GenericType });
@@ -353,7 +353,7 @@ namespace Karma
                                 if (noderef.ChildNodes.Count > 0)
                                 {
                                     //Otherwise of arrays convert to XML to send
-                                    var fromXMLMethods = typeof(Karma.Serialization).GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
+                                    var fromXMLMethods = typeof(Gale.Serialization).GetMethods(System.Reflection.BindingFlags.Public | System.Reflection.BindingFlags.Static);
                                     System.Reflection.MethodInfo fromXMLMethodInfo = fromXMLMethods.FirstOrDefault(mi => mi.Name == "FromXML" && mi.GetGenericArguments().Count() == 1 && mi.GetParameters()[0].ParameterType == typeof(XmlNode));
 
                                     System.Reflection.MethodInfo method = fromXMLMethodInfo.MakeGenericMethod(new Type[] { propertyType });
@@ -371,7 +371,7 @@ namespace Karma
                             catch
                             {
                                 //TODO: Perform this Section, To Support Non Primitive Object Type
-                                throw new Karma.Exception.KarmaException("InvalidCastInXMLDeserialization", prop.Name);
+                                throw new Gale.Exception.GaleException("InvalidCastInXMLDeserialization", prop.Name);
                             }
                         }
                     }

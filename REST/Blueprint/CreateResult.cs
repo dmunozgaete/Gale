@@ -6,10 +6,10 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace Karma.REST.Blueprint
+namespace Gale.REST.Blueprint
 {
 
-    internal class CreateResult<TModel> : Karma.REST.Http.HttpActionResult where TModel : class
+    internal class CreateResult<TModel> : Gale.REST.Http.HttpActionResult where TModel : class
     {
         Newtonsoft.Json.Linq.JToken _payload;
 
@@ -20,7 +20,7 @@ namespace Karma.REST.Blueprint
 
         public override Task<HttpResponseMessage> ExecuteAsync(System.Threading.CancellationToken cancellationToken)
         {
-            Karma.Exception.KarmaException.Guard(() => _payload == null, "API_EMPTY_BODY");
+            Gale.Exception.GaleException.Guard(() => _payload == null, "API_EMPTY_BODY");
 
 
             var table_type = typeof(TModel);
@@ -60,7 +60,7 @@ namespace Karma.REST.Blueprint
                 }
                 catch /*(System.Reflection.TargetInvocationException ex)*/
                 {
-                    throw new Karma.Exception.KarmaException("API_CANT_SETVALUE", property.Name, table_name);
+                    throw new Gale.Exception.GaleException("API_CANT_SETVALUE", property.Name, table_name);
                 }
 
                 //Add as Data Value
@@ -107,7 +107,7 @@ namespace Karma.REST.Blueprint
 
             //-------------------------------------------------------------------------------------
             //---[ DATABASE CALL
-            using (Karma.Db.DataService svc = new Karma.Db.DataService(query))
+            using (Gale.Db.DataService svc = new Gale.Db.DataService(query))
             {
                 try
                 {
@@ -125,7 +125,7 @@ namespace Karma.REST.Blueprint
                 catch (System.Exception ex)
                 {
                     string message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-                    throw new Karma.Exception.KarmaException("API_DB_ERROR", message);
+                    throw new Gale.Exception.GaleException("API_DB_ERROR", message);
                 }
             }
             //-------------------------------------------------------------------------------------

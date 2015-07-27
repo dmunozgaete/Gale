@@ -7,13 +7,13 @@ using System.Web.Http;
 
 //CONTENT NEGOTATION: http://www.strathweb.com/2012/07/everything-you-want-to-know-about-asp-net-web-api-content-negotation/
 
-namespace Karma.REST.Http.Generic
+namespace Gale.REST.Http.Generic
 {
     /// <summary>
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class HttpActionResult<T> : Karma.REST.Http.HttpActionResult where T : class
+    public abstract class HttpActionResult<T> : Gale.REST.Http.HttpActionResult where T : class
     {
         private T _model = null;
 

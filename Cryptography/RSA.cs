@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace Karma.Security.Cryptography
+namespace Gale.Security.Cryptography
 {
     public class RSA
     {

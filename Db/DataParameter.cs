@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace Karma.Db
+namespace Gale.Db
 {
     public class DataParameter
     {

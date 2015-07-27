@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Karma.REST.Queryable.Primitive.Mapping
+namespace Gale.REST.Queryable.Primitive.Mapping
 {
     public class ModelAttribute : Attribute
     {

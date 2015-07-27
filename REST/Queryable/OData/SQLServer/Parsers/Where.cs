@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.REST.Queryable.OData.SQLServer.Parsers
+namespace Gale.REST.Queryable.OData.SQLServer.Parsers
 {
-    internal class Where : Karma.REST.Queryable.Primitive.Parser
+    internal class Where : Gale.REST.Queryable.Primitive.Parser
     {
-        public override string Parse(string query, Karma.REST.Queryable.Primitive.Reflected.Model model)
+        public override string Parse(string query, Gale.REST.Queryable.Primitive.Reflected.Model model)
         {
             if (String.IsNullOrWhiteSpace(query) || String.IsNullOrEmpty(query))
             {
@@ -28,7 +28,7 @@ namespace Karma.REST.Queryable.OData.SQLServer.Parsers
                         var filteredField = (from field in model.Fields where field.Name == foreignFieldMatch select field).FirstOrDefault();
                         if (filteredField == null)
                         {
-                            throw new Exception.KarmaException("API009", foreignFieldMatch);
+                            throw new Exception.GaleException("API009", foreignFieldMatch);
                         }
 
                         //replace the first space with ")", so the format be "foreign:(foreignField) operator value"
@@ -37,7 +37,7 @@ namespace Karma.REST.Queryable.OData.SQLServer.Parsers
                         String[] values = innerFilter.Trim().Split(' ');
                         if (values.Length != 3)
                         {
-                            throw new Exception.KarmaException("API010", filter);
+                            throw new Exception.GaleException("API010", filter);
                         }
 
 

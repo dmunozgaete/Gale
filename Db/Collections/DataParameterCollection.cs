@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.Db.Collections
+namespace Gale.Db.Collections
 {
-    public class DataParameterCollection : System.Collections.Generic.List<Karma.Db.DataParameter>, IDisposable
+    public class DataParameterCollection : System.Collections.Generic.List<Gale.Db.DataParameter>, IDisposable
     {
         /// <summary>
         /// Insert the parameter to the service
@@ -15,7 +15,7 @@ namespace Karma.Db.Collections
         /// <param name="Value">Parameter Value</param>
         public void Add<T>(string ParameterName, T Value)
         {
-            Karma.Db.DataParameter item = new Karma.Db.DataParameter(ParameterName, Value, typeof(T));
+            Gale.Db.DataParameter item = new Gale.Db.DataParameter(ParameterName, Value, typeof(T));
             base.Add(item);
         }
 
@@ -38,7 +38,7 @@ namespace Karma.Db.Collections
         /// <param name="Value">Parameter Value</param>
         public void AddOut<T>(string ParameterName, T Value)
         {
-            Karma.Db.DataParameter item = new Karma.Db.DataParameter(ParameterName, Value, typeof(T), System.Data.ParameterDirection.Output);
+            Gale.Db.DataParameter item = new Gale.Db.DataParameter(ParameterName, Value, typeof(T), System.Data.ParameterDirection.Output);
             base.Add(item);
         }
 
@@ -60,7 +60,7 @@ namespace Karma.Db.Collections
         /// <param name="Value">Parameter Value</param>
         public void AddInOut<T>(string ParameterName, T Value)
         {
-            Karma.Db.DataParameter item = new Karma.Db.DataParameter(ParameterName, Value, typeof(T), System.Data.ParameterDirection.InputOutput);
+            Gale.Db.DataParameter item = new Gale.Db.DataParameter(ParameterName, Value, typeof(T), System.Data.ParameterDirection.InputOutput);
             base.Add(item);
         }
 
@@ -83,7 +83,7 @@ namespace Karma.Db.Collections
         /// <param name="Value">Parameter Value</param>
         public void AddReturnValue<T>(string ParameterName, T Value)
         {
-            Karma.Db.DataParameter item = new Karma.Db.DataParameter(ParameterName, Value, typeof(T), System.Data.ParameterDirection.ReturnValue);
+            Gale.Db.DataParameter item = new Gale.Db.DataParameter(ParameterName, Value, typeof(T), System.Data.ParameterDirection.ReturnValue);
             base.Add(item);
         }
 

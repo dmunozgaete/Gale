@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.REST.Queryable.Primitive
+namespace Gale.REST.Queryable.Primitive
 {
     public class ExecutedParserEventArgs
     {
-        private Karma.REST.Queryable.Primitive.Parser _parser;
+        private Gale.REST.Queryable.Primitive.Parser _parser;
         private String _resultQueryFragment;
         private Boolean _changed;
 
@@ -23,7 +23,7 @@ namespace Karma.REST.Queryable.Primitive
             }
         }
 
-        public Karma.REST.Queryable.Primitive.Parser Parser
+        public Gale.REST.Queryable.Primitive.Parser Parser
         {
             get {
                 return _parser;
@@ -38,7 +38,7 @@ namespace Karma.REST.Queryable.Primitive
             }
         }
 
-        public ExecutedParserEventArgs(Karma.REST.Queryable.Primitive.Parser parser, String queryFragment)
+        public ExecutedParserEventArgs(Gale.REST.Queryable.Primitive.Parser parser, String queryFragment)
         {
             this._parser = parser;
             this._resultQueryFragment = queryFragment;

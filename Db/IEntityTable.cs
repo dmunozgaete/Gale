@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.Db
+namespace Gale.Db
 {
     public interface IEntityTable
     {

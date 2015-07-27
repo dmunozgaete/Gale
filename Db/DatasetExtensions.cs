@@ -13,14 +13,14 @@ namespace System
         /// <typeparam name="T">Tipo de Entidad a Convertir</typeparam>
         /// <param name="TableSource">Extension de Datatable</param>
         /// <returns></returns>
-        public static Karma.Db.EntityTable<T> ConvertToEntityTable<T>(this System.Data.DataTable TableSource) where T : class, new()
+        public static Gale.Db.EntityTable<T> ConvertToEntityTable<T>(this System.Data.DataTable TableSource) where T : class, new()
         {
             Type objectToConvertType = typeof(T);
 
             //Perform Pattern For Huge Data =)
             List<MemoryFieldCaching> MemoryOptimizer = null;
 
-            Karma.Db.EntityTable<T> entityTable = new Karma.Db.EntityTable<T>();
+            Gale.Db.EntityTable<T> entityTable = new Gale.Db.EntityTable<T>();
 
             MemoryOptimizer = (from t in objectToConvertType.GetProperties()
                                where t.CanRead && t.GetIndexParameters().Count() == 0 && (t.PropertyType.IsGenericType == false || (t.PropertyType.IsGenericType == true && t.PropertyType.GetGenericTypeDefinition() != typeof(System.Data.Linq.EntitySet<>)))

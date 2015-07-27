@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace Karma.Security.Cryptography
+namespace Gale.Security.Cryptography
 {
     public class Rijndael
     {
@@ -61,7 +61,7 @@ namespace Karma.Security.Cryptography
             data = Convert.ToBase64String(cipherBytes);
             if (webSafe)
             {
-                data = Karma.Serialization.ToBase64(data);
+                data = Gale.Serialization.ToBase64(data);
             }
             return data;
         }
@@ -91,7 +91,7 @@ namespace Karma.Security.Cryptography
         {
             if (webSafe)
             {
-                data = Karma.Serialization.FromBase64(data);
+                data = Gale.Serialization.FromBase64(data);
             }
 
             string ciphertext = data;

@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Karma.REST.Queryable.Primitive.Reflected;
+using Gale.REST.Queryable.Primitive.Reflected;
 
-namespace Karma.REST.Queryable.Primitive
+namespace Gale.REST.Queryable.Primitive
 {
-    public abstract class QueryBuilder<TModel> : Karma.REST.Queryable.Primitive.IQueryBuilder
+    public abstract class QueryBuilder<TModel> : Gale.REST.Queryable.Primitive.IQueryBuilder
         where TModel : class
     {
         //------[ VARIABLES
         private Model _reflectedModel = null;
         private List<TypedItem> _parsers = new List<TypedItem>();
         private SortedList<String, Type> _operators = new SortedList<String, Type>();
-        private Karma.Db.IDataActions _databaseFactory;
+        private Gale.Db.IDataActions _databaseFactory;
         private Format format = Format.Primitive;
 
         public enum Format
@@ -23,7 +23,7 @@ namespace Karma.REST.Queryable.Primitive
         }
 
         //------[ EVENT
-        public delegate void ExecutedParserEventHandler(Karma.REST.Queryable.Primitive.ExecutedParserEventArgs e);
+        public delegate void ExecutedParserEventHandler(Gale.REST.Queryable.Primitive.ExecutedParserEventArgs e);
         public event ExecutedParserEventHandler OnExecutedParser;
         //---------------------------------------------------------
 
@@ -86,7 +86,7 @@ namespace Karma.REST.Queryable.Primitive
 
                 if (table.PrimaryKey == null)
                 {
-                    throw new Karma.Exception.KarmaException("API019", table.Name);
+                    throw new Gale.Exception.GaleException("API019", table.Name);
                 }
             });
 
@@ -110,7 +110,7 @@ namespace Karma.REST.Queryable.Primitive
         /// Main Constructor
         /// </summary>
         /// <param name="databaseFactory"></param>
-        public QueryBuilder(Karma.Db.IDataActions databaseFactory)
+        public QueryBuilder(Gale.Db.IDataActions databaseFactory)
         {
             //Setting the Database Factory Type
             this._databaseFactory = databaseFactory;
@@ -130,7 +130,7 @@ namespace Karma.REST.Queryable.Primitive
             return _reflectedModel;
         }
 
-        private Karma.Db.IDataActions DatabaseFactory
+        private Gale.Db.IDataActions DatabaseFactory
         {
             get
             {
@@ -167,25 +167,25 @@ namespace Karma.REST.Queryable.Primitive
             });
             if (constraint == null)
             {
-                throw new Karma.Exception.KarmaException("API001", typeof(T).Name);
+                throw new Gale.Exception.GaleException("API001", typeof(T).Name);
             }
 
             constraint.Table.SetDescriptor(expresion);
         }
 
-        internal void RegisterParser<T>(string parsingQuery) where T : Karma.REST.Queryable.Primitive.Parser
+        internal void RegisterParser<T>(string parsingQuery) where T : Gale.REST.Queryable.Primitive.Parser
         {
             this._parsers.Add(new TypedItem(typeof(T), parsingQuery));
         }
 
-        public void RegisterOperator<T>() where T : Karma.REST.Queryable.Primitive.Operator
+        public void RegisterOperator<T>() where T : Gale.REST.Queryable.Primitive.Operator
         {
             Type _operator = typeof(T);
-            var attr = (Karma.REST.Queryable.Primitive.OperatorAttribute)(_operator.GetCustomAttributes(typeof(Karma.REST.Queryable.Primitive.OperatorAttribute), true).FirstOrDefault());
+            var attr = (Gale.REST.Queryable.Primitive.OperatorAttribute)(_operator.GetCustomAttributes(typeof(Gale.REST.Queryable.Primitive.OperatorAttribute), true).FirstOrDefault());
 
             if (attr == null || attr.Alias.Trim().Length == 0)
             {
-                throw new Karma.Exception.KarmaException("API002", typeof(T).Name);
+                throw new Gale.Exception.GaleException("API002", typeof(T).Name);
             }
 
             this._operators.Add(attr.Alias, _operator);
@@ -201,7 +201,7 @@ namespace Karma.REST.Queryable.Primitive
             _parsers.ForEach((parser) =>
             {
                 //Bring up the Parser
-                Karma.REST.Queryable.Primitive.Parser _parser = (Karma.REST.Queryable.Primitive.Parser)(Activator.CreateInstance(parser.Type));
+                Gale.REST.Queryable.Primitive.Parser _parser = (Gale.REST.Queryable.Primitive.Parser)(Activator.CreateInstance(parser.Type));
                 _parser._SetBuilder(this);
 
                 //Executing Parsing
@@ -211,7 +211,7 @@ namespace Karma.REST.Queryable.Primitive
                 ExecutedParserEventHandler handler = OnExecutedParser;
                 if (handler != null)
                 {
-                    var e = new Karma.REST.Queryable.Primitive.ExecutedParserEventArgs(_parser, parserFragment);
+                    var e = new Gale.REST.Queryable.Primitive.ExecutedParserEventArgs(_parser, parserFragment);
                     handler(e);
                     if (e.Changed)
                     {
@@ -231,18 +231,18 @@ namespace Karma.REST.Queryable.Primitive
             return String.Join("", statements);
         }
 
-        private Karma.REST.Queryable.Primitive.IResponse _Execute(String query, int offset, int limit, Format format, Karma.Db.IDataActions databaseFactory)
+        private Gale.REST.Queryable.Primitive.IResponse _Execute(String query, int offset, int limit, Format format, Gale.Db.IDataActions databaseFactory)
         {
             System.Diagnostics.Stopwatch timer = new System.Diagnostics.Stopwatch();
             timer.Start();
 
             //-------------------------------------------------------------------------------------
             //---[ DATABASE CALL
-            using (Karma.Db.DataService svc = new Karma.Db.DataService(query))
+            using (Gale.Db.DataService svc = new Gale.Db.DataService(query))
             {
                 System.Data.DataTable db_data = null;
                 System.Data.DataTable db_pagination = null;
-                Karma.Db.EntityRepository rep = null;
+                Gale.Db.EntityRepository rep = null;
 
                 try
                 {
@@ -256,7 +256,7 @@ namespace Karma.REST.Queryable.Primitive
                 catch (System.Exception ex)
                 {
                     string message = ex.InnerException != null ? ex.InnerException.Message : ex.Message;
-                    throw new Karma.Exception.KarmaException("API_DB_ERROR", message);
+                    throw new Gale.Exception.GaleException("API_DB_ERROR", message);
                 }
 
                 //--------[ GET ALL DATA IN AN ARRAY
@@ -283,14 +283,14 @@ namespace Karma.REST.Queryable.Primitive
 
                 if (db_pagination.Rows.Count != 1)
                 {
-                    throw new Karma.Exception.KarmaException("API003");
+                    throw new Gale.Exception.GaleException("API003");
                 }
                 int total = Convert.ToInt32(db_pagination.Rows[0]["total"]);
 
                 #region TABLE FORMAT
 
                 //Save all data from the foreign table for the descriptor's
-                SortedList<Type, Karma.Db.IEntityTable> _foreignTableDatas = new SortedList<Type, Karma.Db.IEntityTable>();
+                SortedList<Type, Gale.Db.IEntityTable> _foreignTableDatas = new SortedList<Type, Gale.Db.IEntityTable>();
 
                 //Starting Fetching Data
                 for (var row_index = 0; row_index < db_data.Rows.Count; row_index++)
@@ -325,7 +325,7 @@ namespace Karma.REST.Queryable.Primitive
 
                             if (table.Descriptor != null)
                             {
-                                Karma.Db.IEntityTable tableData;
+                                Gale.Db.IEntityTable tableData;
                                 _foreignTableDatas.TryGetValue(table.Type, out tableData);
 
                                 #region CREATE DATA TABLE FROM THE CURRENT SOURCE IF NOT EXIST YET
@@ -340,7 +340,7 @@ namespace Karma.REST.Queryable.Primitive
 
                                     System.Reflection.MethodInfo GetModelMethod = baseMethod.MakeGenericMethod(table.Type);
 
-                                    tableData = (Karma.Db.IEntityTable)GetModelMethod.Invoke(rep, null);
+                                    tableData = (Gale.Db.IEntityTable)GetModelMethod.Invoke(rep, null);
                                     _foreignTableDatas.Add(table.Type, tableData);
                                 }
                                 #endregion
@@ -363,7 +363,7 @@ namespace Karma.REST.Queryable.Primitive
                 }
                 #endregion
 
-                var table_response  = new Karma.REST.Queryable.Primitive.Response(offset, limit, total, timer.Elapsed, _reflectedModel.SelectedFields, data);
+                var table_response  = new Gale.REST.Queryable.Primitive.Response(offset, limit, total, timer.Elapsed, _reflectedModel.SelectedFields, data);
                 timer.Stop();
 
                 if (format == Format.Primitive)
@@ -384,22 +384,22 @@ namespace Karma.REST.Queryable.Primitive
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public virtual String EncryptValue(String value)
         {
-            return Karma.Security.Cryptography.Rijndael.Encrypt(value, true);
+            return Gale.Security.Cryptography.Rijndael.Encrypt(value, true);
         }
 
         [System.ComponentModel.Browsable(false)]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
         public virtual String DecryptValue(String value)
         {
-            return Karma.Security.Cryptography.Rijndael.Decrypt(value, true);
+            return Gale.Security.Cryptography.Rijndael.Decrypt(value, true);
         }
         */
-        public Karma.REST.Queryable.Primitive.IResponse Execute(int offset, int limit)
+        public Gale.REST.Queryable.Primitive.IResponse Execute(int offset, int limit)
         {
             return Execute(offset, limit, format);
         }
 
-        public Karma.REST.Queryable.Primitive.IResponse Execute(int offset, int limit, Format format)
+        public Gale.REST.Queryable.Primitive.IResponse Execute(int offset, int limit, Format format)
         {
             List<String> Statements = this.BuildQuery();
             String query = PrepareCall(Statements, offset, limit);

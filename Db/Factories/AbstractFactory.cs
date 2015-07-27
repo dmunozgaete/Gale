@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Runtime.InteropServices;
-using Karma.Db;
+using Gale.Db;
 
-namespace Karma.Db.Factories
+namespace Gale.Db.Factories
 {
     public abstract class AbstractFactory<Tconnection, TAdapter> : IDataActions where Tconnection : System.Data.IDbConnection, new()
     {
@@ -145,7 +145,7 @@ namespace Karma.Db.Factories
                 _tran.Rollback();
                 DbConnection.Close();
                 
-                throw new Karma.Exception.KarmaException("ServiceTransactionError", _currentService, ex.Message);
+                throw new Gale.Exception.GaleException("ServiceTransactionError", _currentService, ex.Message);
             }
             finally
             {
@@ -282,7 +282,7 @@ namespace Karma.Db.Factories
 
         #endregion
 
-        protected virtual void internalParse(ref System.Data.IDbDataParameter dbParameter, Karma.Db.DataParameter serviceparameter)
+        protected virtual void internalParse(ref System.Data.IDbDataParameter dbParameter, Gale.Db.DataParameter serviceparameter)
         {
             Type valueType = serviceparameter.Value.GetType();
 

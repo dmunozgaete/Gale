@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.REST.Queryable.OData.SQLServer.Operators
+namespace Gale.REST.Queryable.OData.SQLServer.Operators
 {
-    internal abstract class Operator : Karma.REST.Queryable.Primitive.Operator
+    internal abstract class Operator : Gale.REST.Queryable.Primitive.Operator
     {
-        public abstract string Parse(Karma.REST.Queryable.Primitive.Reflected.Field field, string value);
+        public abstract string Parse(Gale.REST.Queryable.Primitive.Reflected.Field field, string value);
 
     }
 }

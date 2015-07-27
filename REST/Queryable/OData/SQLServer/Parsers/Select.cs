@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.REST.Queryable.OData.SQLServer.Parsers
+namespace Gale.REST.Queryable.OData.SQLServer.Parsers
 {
-    internal class Select : Karma.REST.Queryable.Primitive.Parser
+    internal class Select : Gale.REST.Queryable.Primitive.Parser
     {
-        public override string Parse(string query, Karma.REST.Queryable.Primitive.Reflected.Model model)
+        public override string Parse(string query, Gale.REST.Queryable.Primitive.Reflected.Model model)
         {
             //SELECT PARSER QUERY
             List<String> builder = new List<string>();
@@ -21,14 +21,14 @@ namespace Karma.REST.Queryable.OData.SQLServer.Parsers
 
             if (selectedFields.Length == 0)
             {
-                throw new Exception.KarmaException("API011");
+                throw new Exception.GaleException("API011");
             }
 
             //---- SELECT FIELD
-            Action<Karma.REST.Queryable.Primitive.Reflected.Field> SelectField = new Action<Karma.REST.Queryable.Primitive.Reflected.Field>((field) =>
+            Action<Gale.REST.Queryable.Primitive.Reflected.Field> SelectField = new Action<Gale.REST.Queryable.Primitive.Reflected.Field>((field) =>
             {
                 //The Main Primary Key , dont'need to add to the selection
-                if (field.Specification == Karma.REST.Queryable.Primitive.Reflected.Field.SpecificationEnum.Pk)
+                if (field.Specification == Gale.REST.Queryable.Primitive.Reflected.Field.SpecificationEnum.Pk)
                 {
                     return;
                 }
@@ -78,13 +78,13 @@ namespace Karma.REST.Queryable.OData.SQLServer.Parsers
                         //try to get all field from a foreign table
                         if (!_fieldName.Contains(":("))
                         {
-                            throw new Exception.KarmaException("API012", _fieldName);
+                            throw new Exception.GaleException("API012", _fieldName);
                         }
                         _fieldName = _fieldName.Substring(0, _fieldName.IndexOf(":("));
                         var fk = model.Constraints.FirstOrDefault(constraint => constraint.ThisField.Name == _fieldName);
                         if (fk == null)
                         {
-                            throw new Exception.KarmaException("API013", _fieldName);
+                            throw new Exception.GaleException("API013", _fieldName);
                         }
 
                         searchedTable = fk.Table.Type;
@@ -103,7 +103,7 @@ namespace Karma.REST.Queryable.OData.SQLServer.Parsers
                 }
 
                 //Check if field exist's
-                Karma.REST.Queryable.Primitive.Reflected.Field field = model.Fields.FirstOrDefault((f) =>
+                Gale.REST.Queryable.Primitive.Reflected.Field field = model.Fields.FirstOrDefault((f) =>
                 {
                     return f.Name == _fieldName;
                 });
@@ -111,13 +111,13 @@ namespace Karma.REST.Queryable.OData.SQLServer.Parsers
                 //If field is not exists, throw exception
                 if (field == null)
                 {
-                    throw new Exception.KarmaException("API013", _fieldName);
+                    throw new Exception.GaleException("API013", _fieldName);
                 }
 
                 //
-                if (field.Specification == Karma.REST.Queryable.Primitive.Reflected.Field.SpecificationEnum.Pk)
+                if (field.Specification == Gale.REST.Queryable.Primitive.Reflected.Field.SpecificationEnum.Pk)
                 {
-                    throw new Exception.KarmaException("API014", _fieldName);
+                    throw new Exception.GaleException("API014", _fieldName);
                 }
 
                 //Select Field

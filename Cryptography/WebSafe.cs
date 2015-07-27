@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Security.Cryptography;
 
-namespace Karma.Security.Cryptography
+namespace Gale.Security.Cryptography
 {
     /// <summary>
     /// Encripta y optimiza el resultado para el envio de variable en QueryString
@@ -18,7 +18,7 @@ namespace Karma.Security.Cryptography
         /// <returns>Información Encriptada</returns>
         public static string Encrypt(string data)
         {
-            return Karma.Security.Cryptography.Rijndael.Encrypt(data, true);
+            return Gale.Security.Cryptography.Rijndael.Encrypt(data, true);
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Karma.Security.Cryptography
         /// <returns>Información Desencriptada</returns>
         public static string Decrypt(string data)
         {
-            return Karma.Security.Cryptography.Rijndael.Decrypt(data, true);
+            return Gale.Security.Cryptography.Rijndael.Decrypt(data, true);
         }
        
     }

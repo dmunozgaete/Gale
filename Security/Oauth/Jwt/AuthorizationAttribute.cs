@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using System.Net.Http;
 
-namespace Karma.Security.Oauth.Jwt
+namespace Gale.Security.Oauth.Jwt
 {
     public class AuthorizeAttribute : System.Web.Http.AuthorizeAttribute
     {
@@ -31,7 +31,7 @@ namespace Karma.Security.Oauth.Jwt
             //401  Unauthorized
             var statusCode = System.Net.HttpStatusCode.Unauthorized;
             var error = "";
-            var error_description = Karma.Exception.Errors.ResourceManager.GetString(_errorCode);
+            var error_description = Gale.Exception.Errors.ResourceManager.GetString(_errorCode);
 
             switch (_errorCode)
             {
@@ -111,7 +111,7 @@ namespace Karma.Security.Oauth.Jwt
                 }
 
                 //--------------------------------------------------------------------------------
-                var JwtVerifier = Karma.Security.Oauth.Jwt.Manager.ValidateToken(JwtToken);
+                var JwtVerifier = Gale.Security.Oauth.Jwt.Manager.ValidateToken(JwtToken);
                 System.Web.HttpContext.Current.User = JwtVerifier;
                 return true;
                 //--------------------------------------------------------------------------------

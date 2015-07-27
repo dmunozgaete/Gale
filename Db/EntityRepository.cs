@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Karma.Db
+namespace Gale.Db
 {
     /// <summary>
     /// Repositorio de Entidades fuertemente tipeada
@@ -60,20 +60,20 @@ namespace Karma.Db
         /// <typeparam name="T">Objeto (Modelo) a Extraer</typeparam>
         /// <param name="index">Indice de tabla donde extraer los registros</param>
         /// <returns></returns>
-        public Karma.Db.EntityTable<T> GetModel<T>(int index) where T : class
+        public Gale.Db.EntityTable<T> GetModel<T>(int index) where T : class
         {
-            Type EntityType = typeof(Karma.Db.EntityTable<T>);
+            Type EntityType = typeof(Gale.Db.EntityTable<T>);
 
             //Responsive Cache Pattern
             if (_caching != null && _caching.SingleOrDefault((obj) => { return obj.GetType() == typeof(T); }) != null)
             {
-                return (Karma.Db.EntityTable<T>)(from t in Caching
+                return (Gale.Db.EntityTable<T>)(from t in Caching
                                                                where t.GetType().GetGenericTypeDefinition() == EntityType
                                                                select t).FirstOrDefault();
             }
 
             //Create the instance wich set the data
-            Karma.Db.EntityTable<T> Model = (Karma.Db.EntityTable<T>)Activator.CreateInstance(EntityType);
+            Gale.Db.EntityTable<T> Model = (Gale.Db.EntityTable<T>)Activator.CreateInstance(EntityType);
             if (_rawData.Tables.Count > 0)
             {
                 FillEntity<T>(ref Model, _rawData.Tables[index]);
@@ -90,12 +90,12 @@ namespace Karma.Db
         /// </summary>
         /// <typeparam name="T">Objeto (Modelo) a Extraer</typeparam>
         /// <returns></returns>
-        public Karma.Db.EntityTable<T> GetModel<T>() where T : class
+        public Gale.Db.EntityTable<T> GetModel<T>() where T : class
         {
             return GetModel<T>(0);
         }
 
-        private void FillEntity<T>(ref Karma.Db.EntityTable<T> Model, System.Data.DataTable table)
+        private void FillEntity<T>(ref Gale.Db.EntityTable<T> Model, System.Data.DataTable table)
         {
             Type EntityType = typeof(T);
 
@@ -172,7 +172,7 @@ namespace Karma.Db
                                         }
                                         catch (System.Exception ex)
                                         {
-                                            //throw new Karma.Karma.Exception.KarmaException("ColumnNameNotFoundInDataServiceAndIsNotNullable", Caching.columnName, Name, EntityType.Name);
+                                            //throw new Gale.Gale.Exception.GaleException("ColumnNameNotFoundInDataServiceAndIsNotNullable", Caching.columnName, Name, EntityType.Name);
                                             throw ex;
                                         }
 
@@ -189,7 +189,7 @@ namespace Karma.Db
                         catch (System.Exception ex)
                         {
                             //---[ Guard Exception ]-------------------------------------------------------------------------------------------------------
-                            Karma.Exception.KarmaException.Guard(() => ex is IndexOutOfRangeException, "ColumnNameNotFoundInDataService", Caching.columnName, Name, EntityType.Name);
+                            Gale.Exception.GaleException.Guard(() => ex is IndexOutOfRangeException, "ColumnNameNotFoundInDataService", Caching.columnName, Name, EntityType.Name);
                             //-----------------------------------------------------------------------------------------------------------------------------
                             throw ex;
                         }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Karma.Exception {
+namespace Gale.Exception {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Karma.Exception {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Karma.Exception.Errors", typeof(Errors).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Gale.Exception.Errors", typeof(Errors).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -124,7 +124,7 @@ namespace Karma.Exception {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Para implementar el operador es necesario que tenga el attributo &quot;Karma.API.Common.Operator&quot; en su declaración y que contenga un alias de identificación.
+        ///   Looks up a localized string similar to Para implementar el operador es necesario que tenga el attributo &quot;Gale.API.Common.Operator&quot; en su declaración y que contenga un alias de identificación.
         /// </summary>
         internal static string API002 {
             get {

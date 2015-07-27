@@ -126,7 +126,7 @@
     <comment>Queryable API</comment>
   </data>
   <data name="API002" xml:space="preserve">
-    <value>Para implementar el operador es necesario que tenga el attributo "Karma.API.Common.Operator" en su declaración y que contenga un alias de identificación</value>
+    <value>Para implementar el operador es necesario que tenga el attributo "Gale.API.Common.Operator" en su declaración y que contenga un alias de identificación</value>
     <comment>Queryable API</comment>
   </data>
   <data name="API003" xml:space="preserve">
