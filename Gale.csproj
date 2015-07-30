@@ -93,8 +93,10 @@
     <Compile Include="REST\Http\HttpDeleteActionResult .cs" />
     <Compile Include="REST\Http\Generic\HttpActionResult.cs" />
     <Compile Include="REST\Http\HttpActionResult.cs" />
+    <Compile Include="REST\Http\Formatter\JsonFormatter.cs" />
     <Compile Include="REST\Http\Routing\GaleApiControllerActionSelector.cs" />
     <Compile Include="REST\Http\Routing\HttpConfigurationExtensions.cs" />
+    <Compile Include="REST\Http\Routing\RouteAttribute.cs" />
     <Compile Include="Security\Oauth\Jwt\AuthorizationAttribute.cs" />
     <Compile Include="REST\GaleController.cs" />
     <Compile Include="REST\Blueprint\QueryableResult.cs" />

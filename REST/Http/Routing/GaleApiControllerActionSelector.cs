@@ -11,30 +11,26 @@ namespace Gale.REST.Http.Routing
 {
     public class GaleApiControllerActionSelector : ApiControllerActionSelector
     {
-        public GaleApiControllerActionSelector(HttpConfiguration config)
+        private static string _apiVersion = "v1";
+
+        public static String apiVersion
         {
-           Initialize(config, null);
+            get
+            {
+                return _apiVersion;
+            }
         }
+
 
         public GaleApiControllerActionSelector(HttpConfiguration config, string apiVersion)
         {
-            Initialize(config, apiVersion);
-        }
+            string version = apiVersion == null ? _apiVersion : apiVersion;
+            _apiVersion = version;
 
-        private void Initialize(HttpConfiguration config, string apiVersion){
-             string version = apiVersion == null ? "" : apiVersion + "/";
-
-
-            config.Routes.MapHttpRoute("GaleAPIRoute", version + "{controller}/{action}/{id}", new
+            config.Routes.MapHttpRoute("GaleAPIRoute", version + "/{controller}/{action}/{id}", new
             {
                 action = RouteParameter.Optional,
                 id = RouteParameter.Optional
-            });
-
-            config.Routes.MapHttpRoute("ddGaleAPIRoute2", version + "{controller}/{action}", new
-            {
-                action = RouteParameter.Optional,
-                id = "DEFAULT"
             });
         }
 
@@ -49,21 +45,13 @@ namespace Gale.REST.Http.Routing
                 //---------------------------------------------------------------------------------
                 //PUT OR DELETE HTTPVERB , TRY FIRST TO ENGAGE API DEFAULT MODEL (DELETE AND PUT, ALWAYS SEND AND ID)
                 if (
-                    (controllerContext.Request.Method.Method == "PUT" ||
-                    controllerContext.Request.Method.Method == "DELETE") &&
-                    (routeData.Values["id"] == null)
-                    )
-                {
-                    routeData.Values["id"] = routeData.Values["action"];
-                    routeData.Values["action"] = controllerContext.Request.Method.Method;
-                }
-                //---------------------------------------------------------------------------------
-
-                //---------------------------------------------------------------------------------
-                //OPTIONAL GET Format
-                if (
-                    controllerContext.Request.Method.Method == "GET" &&
-                    routeData.Values["id"] == null
+                        (
+                            controllerContext.Request.Method.Method == "PUT" ||
+                            controllerContext.Request.Method.Method == "DELETE" ||
+                            controllerContext.Request.Method.Method == "GET"
+                        )
+                        &&
+                        routeData.Values["id"] == null
                     )
                 {
                     routeData.Values["id"] = routeData.Values["action"];
