@@ -13,7 +13,7 @@ namespace Gale.REST
     /// </summary>
     /// <typeparam name="TModel">Model Class</typeparam>
     [ExceptionFilter]
-    public class GaleController<TModel> : System.Web.Http.ApiController where TModel : class
+    public class QueryableController<TModel> : System.Web.Http.ApiController where TModel : class
     {
 
         /// <summary>

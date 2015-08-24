@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Gale.REST.Queryable.Primitive
+namespace Gale.REST.Queryable.Primitive.Formatters
 {
-    public class PrimitiveResponse : IResponse
+    public class JsonResponse : IResponse
     {
-        private Response _response = null;
+        private TableResponse _response = null;
         private List<object> _items = new List<object>();
 
-        public PrimitiveResponse(Response response)
+        public JsonResponse(TableResponse response)
         {
             _response = response;
 

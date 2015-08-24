@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using Gale.REST.Queryable.Primitive.Reflected;
 using Newtonsoft.Json;
 
-namespace Gale.REST.Queryable.Primitive
+namespace Gale.REST.Queryable.Primitive.Formatters
 {
-    public class Response : IResponse
+    public class TableResponse : IResponse
     {
         private int _offset;
         private int _limit;
@@ -16,10 +16,10 @@ namespace Gale.REST.Queryable.Primitive
         private TimeSpan _elapsedTime;
 
         private List<Gale.REST.Queryable.Primitive.Reflected.Field> _fields;
-        private List<List<String>> _data = new List<List<string>>();
+        private List<List<Object>> _data = new List<List<Object>>();
 
 
-        public Response(int offset, int limit, int total, TimeSpan elapsedTime, List<Field> fields, List<List<String>> data)
+        public TableResponse(int offset, int limit, int total, TimeSpan elapsedTime, List<Field> fields, List<List<Object>> data)
         {
             _offset = offset;
             _limit = limit;
@@ -75,7 +75,7 @@ namespace Gale.REST.Queryable.Primitive
         /// <summary>
         /// Return data values
         /// </summary>
-        internal List<List<String>> data
+        internal List<List<Object>> data
         {
             get
             {

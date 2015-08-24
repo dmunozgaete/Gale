@@ -9,7 +9,7 @@ using System.Web.Http;
 namespace Gale.REST.Blueprint
 {
 
-    internal class CreateResult<TModel> : Gale.REST.Http.HttpActionResult where TModel : class
+    internal class CreateResult<TModel> : Gale.REST.Http.HttpBaseActionResult where TModel : class
     {
         Newtonsoft.Json.Linq.JToken _payload;
 

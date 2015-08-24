@@ -10,7 +10,7 @@ namespace Gale.REST.Http
     /// <summary>
     /// Defines a command that asynchronously creates an System.Net.Http.HttpResponseMessage.
     /// </summary>
-    public abstract class HttpActionResult : System.Web.Http.IHttpActionResult, Gale.Db.IDataActions
+    public abstract class HttpBaseActionResult : System.Web.Http.IHttpActionResult, Gale.Db.IDataActions
     {
         private static Gale.Db.IDataActions _connection = null;
 

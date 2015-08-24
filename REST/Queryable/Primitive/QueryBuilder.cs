@@ -260,7 +260,7 @@ namespace Gale.REST.Queryable.Primitive
                 }
 
                 //--------[ GET ALL DATA IN AN ARRAY
-                var data = new List<List<String>>();
+                var data = new List<List<Object>>();
                 SortedList<int, Field> ordinalsFields = new SortedList<int, Field>();
 
                 var columns_count = db_data.Columns.Count;
@@ -295,20 +295,15 @@ namespace Gale.REST.Queryable.Primitive
                 //Starting Fetching Data
                 for (var row_index = 0; row_index < db_data.Rows.Count; row_index++)
                 {
-                    List<String> item = new List<String>();
+                    List<Object> item = new List<Object>();
 
                     foreach (int ordinal in ordinalsFields.Keys)
                     {
                         Field field = ordinalsFields[ordinal];
 
                         Object db_value = db_data.Rows[row_index][ordinal];
-                        String value = db_value.ToString();
-
-                        if (db_value is DateTime)
-                        {
-                            value = Convert.ToDateTime(db_value).ToString("s"); //ISO 8601
-                        }
-
+                       
+                     
                         /*
                         //If is PK, Encrypt Value
                         if (field.Specification == Field.SpecificationEnum.Pk)
@@ -348,7 +343,7 @@ namespace Gale.REST.Queryable.Primitive
 
                                 //GET Constraint Function Expression to Get the FK Descriptor
                                 Object _item = tableData.GetType().GetMethod("get_Item").Invoke(tableData, new object[] { row_index });
-                                value = table.Descriptor.DynamicInvoke(_item).ToString();
+                                db_value = table.Descriptor.DynamicInvoke(_item).ToString();
                             }/*
                             else
                             {
@@ -357,18 +352,18 @@ namespace Gale.REST.Queryable.Primitive
                               * */
                         }
 
-                        item.Add(value);    //Column Value
+                        item.Add(db_value);    //Column Value
                     }
                     data.Add(item);
                 }
                 #endregion
 
-                var table_response  = new Gale.REST.Queryable.Primitive.Response(offset, limit, total, timer.Elapsed, _reflectedModel.SelectedFields, data);
+                var table_response  = new Gale.REST.Queryable.Primitive.Formatters.TableResponse(offset, limit, total, timer.Elapsed, _reflectedModel.SelectedFields, data);
                 timer.Stop();
 
                 if (format == Format.Primitive)
                 {
-                    return new PrimitiveResponse(table_response);
+                    return new Formatters.JsonResponse(table_response);
                 }
 
                 return table_response;

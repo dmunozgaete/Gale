@@ -13,7 +13,7 @@ namespace Gale.REST.Http
     ///  Defines a delete command that asynchronously creates an System.Net.Http.HttpResponseMessage.    
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class HttpDeleteActionResult : Gale.REST.Http.HttpActionResult
+    public abstract class HttpDeleteActionResult : Gale.REST.Http.HttpBaseActionResult
     {
         private string _token = null;
 

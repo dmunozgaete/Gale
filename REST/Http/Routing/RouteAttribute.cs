@@ -9,11 +9,11 @@ using System.Web.Routing;
 namespace Gale.REST.Http.Routing
 {
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class RouteAttribute : Attribute, IDirectRouteFactory
+    public class Route : Attribute, IDirectRouteFactory
     {
         private string _hierarchicalTemplate = null;
 
-        public RouteAttribute(string template)
+        public Route(string template)
         {
             //FORMAT: {version}/{template}
             string hierarchicalTemplate = String.Format("{0}" + (template.StartsWith("/") ? "" : "/") + "{1}",

@@ -8,7 +8,7 @@ using System.Web.Http;
 
 namespace Gale.REST.Blueprint
 {
-    internal class DeleteResult<TModel> : Gale.REST.Http.HttpActionResult where TModel : class
+    internal class DeleteResult<TModel> : Gale.REST.Http.HttpBaseActionResult where TModel : class
     {
         string _id;
 

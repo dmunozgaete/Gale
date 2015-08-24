@@ -9,7 +9,7 @@ using System.Web.Http;
 
 namespace Gale.REST.Queryable.Blueprint
 {
-    public class QueryableResult<TModel> : Gale.REST.Http.HttpActionResult where TModel : class
+    public abstract class QueryableResult<TModel> : Gale.REST.Http.HttpBaseActionResult where TModel : class
     {
         HttpRequestMessage _request;
 

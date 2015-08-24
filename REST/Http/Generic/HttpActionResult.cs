@@ -13,7 +13,7 @@ namespace Gale.REST.Http.Generic
     /// 
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public abstract class HttpActionResult<T> : Gale.REST.Http.HttpActionResult where T : class
+    public abstract class HttpActionResult<T> : Gale.REST.Http.HttpBaseActionResult where T : class
     {
         private T _model = null;
 

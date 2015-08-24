@@ -74,6 +74,8 @@ namespace Gale.Db.Factories
             }
             catch (System.Exception ex)
             {
+                this.OnException(ex);   //Overridable method!
+
                 //Throw Exception Between The Top Layers
                 throw new System.Exception(String.Format("[{0}] Ex: {1}", Service.Command, ex.Message), ex);
             }
@@ -144,7 +146,7 @@ namespace Gale.Db.Factories
                 //Throw Exception Between The Top Layers
                 _tran.Rollback();
                 DbConnection.Close();
-                
+
                 throw new Gale.Exception.GaleException("ServiceTransactionError", _currentService, ex.Message);
             }
             finally
@@ -154,6 +156,12 @@ namespace Gale.Db.Factories
             }
 
         }
+
+        public virtual void OnException(System.Exception ex)
+        {
+
+        }
+
         private void Execute(DataService[] Services, Action<System.Data.IDbCommand> Delegate)
         {
             Execute(Services, Delegate, _defaultConnectionTimeout);

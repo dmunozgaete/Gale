@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gale.REST.Http
 {
-        public abstract class HttpActionFileResult : Gale.REST.Http.HttpActionResult
+    public abstract class HttpActionFileResult : Gale.REST.Http.HttpBaseActionResult
         {
             HttpRequestMessage _request;    //Only for Content Negotiation
 
