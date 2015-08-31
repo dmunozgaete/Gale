@@ -31,19 +31,22 @@ namespace Gale.REST
             System.Diagnostics.StackFrame sf = st.GetFrame(1);
             string inheritedMethodName = sf.GetMethod().Name;
             //---------------------------------------------------------------------------
-            
-            Type ModelType = typeof(TModel);
-            var attribute = this.GetType().GetMethod(inheritedMethodName).GetCustomAttributes(typeof(Gale.REST.Queryable.Primitive.Mapping.ModelAttribute), true).FirstOrDefault();
 
-            //OVERRIDE THE CURRENT MODEL??
-            if (attribute != null)
+            Type ModelType = typeof(TModel);
+            if (this.GetType().GetMethod(inheritedMethodName) != null)
             {
-                ModelType = (attribute as Gale.REST.Queryable.Primitive.Mapping.ModelAttribute).ModelType;
+                var attribute = this.GetType().GetMethod(inheritedMethodName).GetCustomAttributes(typeof(Gale.REST.Queryable.Primitive.Mapping.ModelAttribute), true).FirstOrDefault();
+
+                //OVERRIDE THE CURRENT MODEL??
+                if (attribute != null)
+                {
+                    ModelType = (attribute as Gale.REST.Queryable.Primitive.Mapping.ModelAttribute).ModelType;
+                }
             }
 
-            Type queryable_result = typeof(Gale.REST.Queryable.Blueprint.QueryableResult<>).MakeGenericType(ModelType);
+            Type queryable_result = typeof(Gale.REST.Http.HttpQueryableActionResult<>).MakeGenericType(ModelType);
 
-            return (IHttpActionResult)Activator.CreateInstance(queryable_result, new object[] { Request});
+            return (IHttpActionResult)Activator.CreateInstance(queryable_result, new object[] { Request });
         }
 
         /// <summary>
