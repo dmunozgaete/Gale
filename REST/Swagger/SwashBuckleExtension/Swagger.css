@@ -1,0 +1,35 @@
+﻿.swagger-section #header a#logo {
+    background-image: url(https://db.tt/htdCTfTn);
+    background-size: auto 35px;
+    color: transparent;
+    background-position: 0px 15px;
+    padding:19px 20px 20px 40px;
+}
+
+.swagger-section .swagger-ui-wrap .info_title {
+    color: rgb(87, 87, 87);
+}
+
+.swagger-section #header {
+    background-color: #2C2A25;
+    border-bottom: 1px solid #E3E3E3;
+}
+
+    .swagger-section #header form#api_selector .input input#input_apiKey {
+        padding: 5px;
+        border: 1px solid #E3E3E3;
+        width: 350px;
+    }
+
+    .swagger-section #header form#api_selector .input a#explore:hover, 
+    .swagger-section #header form#api_selector .input a#explore {
+        font-weight: normal;
+        padding: 7px;
+        background-color: rgb(58, 58, 58);
+        border-radius: 3px;
+        color: #fff;
+    }
+
+    .swagger-section #header form#api_selector .input input#input_baseUrl{
+        display: none;
+    }

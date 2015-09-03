@@ -27,11 +27,12 @@ namespace Gale.REST.Http.Routing
             string version = apiVersion == null ? _apiVersion : apiVersion;
             _apiVersion = version;
 
-            config.Routes.MapHttpRoute("GaleAPIRoute", version + "/{controller}/{action}/{id}", new
+            config.Routes.MapHttpRoute("Gale_API_Route", version + "/{controller}/{action}/{id}", new
             {
                 action = RouteParameter.Optional,
                 id = RouteParameter.Optional
             });
+
         }
 
         public override HttpActionDescriptor SelectAction(HttpControllerContext controllerContext)
