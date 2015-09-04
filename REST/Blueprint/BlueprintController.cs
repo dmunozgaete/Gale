@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 using System.Web.Http;
 using Gale.REST.Http.Filters;
 
-namespace Gale.REST
+namespace Gale.REST.Blueprint
 {
     /// <summary>
     /// Create a fully Operational Controller for a Model
     /// </summary>
     /// <typeparam name="TModel">Model Class</typeparam>
     [ExceptionFilter]
-    public class QueryableController<TModel> : System.Web.Http.ApiController where TModel : class
+    public class BlueprintController<TModel> : System.Web.Http.ApiController where TModel : class
     {
 
         /// <summary>

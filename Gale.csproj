@@ -112,6 +112,13 @@
     <Compile Include="REST\Blueprint\DeleteResult.cs" />
     <Compile Include="REST\Blueprint\UpdatedResult.cs" />
     <Compile Include="REST\Blueprint\CreateResult.cs" />
+    <Compile Include="REST\Config\GaleConfig.cs" />
+    <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddHeaderParameters.cs" />
+    <Compile Include="REST\Http\Binding\FromHeaderAttribute.cs" />
+    <Compile Include="REST\Http\Binding\FromHeaderBinding.cs" />
+    <Compile Include="REST\Config\SwashBuckleExtension\Decorators\HeaderParameter.cs" />
+    <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddFromHeaderParameters.cs" />
+    <Compile Include="REST\Config\SwashBuckleExtension\Filters\DocumentFilter.cs" />
     <Compile Include="REST\Http\Filters\ExceptionFilter.cs" />
     <Compile Include="REST\Http\Generic\HttpActionFileResult.cs" />
     <Compile Include="REST\Http\HttpQueryableActionResult.cs" />
@@ -122,14 +129,14 @@
     <Compile Include="REST\Http\Generic\HttpActionResult.cs" />
     <Compile Include="REST\Http\HttpBaseActionResult.cs" />
     <Compile Include="REST\Http\Formatter\JsonFormatter.cs" />
-    <Compile Include="REST\Http\Routing\GaleApiControllerActionSelector.cs" />
-    <Compile Include="REST\Http\Routing\Home\StartupController.cs" />
-    <Compile Include="REST\Http\Routing\HttpConfigurationExtensions.cs" />
-    <Compile Include="REST\Http\Routing\RouteAttribute.cs" />
-    <Compile Include="REST\Swagger\SwaggerConfig.cs" />
-    <Compile Include="REST\Swagger\SwashBuckleExtension\AddAuthorizateSecurityDefinitions.cs" />
+    <Compile Include="REST\Config\Startup\StartupController.cs" />
+    <Compile Include="REST\Config\HttpConfigurationExtensions.cs" />
+    <Compile Include="REST\Config\VerbHttpRouteMap.cs" />
+    <Compile Include="REST\Http\Routing\HierarchicalRouteAttribute.cs" />
+    <Compile Include="REST\Config\SwaggerConfig.cs" />
+    <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddAuthorizateSecurityDefinitions.cs" />
     <Compile Include="Security\Oauth\Jwt\AuthorizationAttribute.cs" />
-    <Compile Include="REST\QueryableController.cs" />
+    <Compile Include="REST\Blueprint\BlueprintController.cs" />
     <Compile Include="REST\Blueprint\QueryableResult.cs" />
     <Compile Include="REST\Queryable\OData\QueryBuilder.cs" />
     <Compile Include="REST\Queryable\OData\SQLServer\Operators\Operator.cs" />
@@ -181,11 +188,11 @@
     <None Include="SignKey.pfx" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="REST\Swagger\SwashBuckleExtension\Swagger.css" />
-    <EmbeddedResource Include="REST\Swagger\SwashBuckleExtension\Swagger.js" />
+    <EmbeddedResource Include="REST\Config\SwashBuckleExtension\Swagger.css" />
+    <EmbeddedResource Include="REST\Config\SwashBuckleExtension\Swagger.js" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="REST\Http\Routing\Home\Startup.html" />
+    <EmbeddedResource Include="REST\Config\Startup\Startup.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

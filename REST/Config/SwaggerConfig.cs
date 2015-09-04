@@ -4,17 +4,33 @@ using System.Linq;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Routing;
-using Gale.REST.Swagger.SwashBuckleExtension;
+using Gale.REST.Config.SwashBuckleExtension;
 using Swashbuckle.Application;
 
-namespace Gale.REST.Swagger
+namespace Gale.REST.Config
 {
 
     /// <summary>
-    /// WEB API Global Configuration
+    /// Swagger Global Configuration
     /// </summary>
     public static class SwaggerConfig
     {
+        /// <summary>
+        /// Store the swagger enabled
+        /// </summary>
+        private static bool _isSwaggerEnabled = false;
+
+        /// <summary>
+        /// Retrieves if Swagger was enabled in the API
+        /// </summary>
+        public static bool IsSwaggerEnabled
+        {
+            get
+            {
+                return _isSwaggerEnabled;
+            }
+        }
+
         /// <summary>
         /// Security Schema Definition name, For Swagger UI
         /// </summary>
@@ -24,8 +40,10 @@ namespace Gale.REST.Swagger
         /// Register Config Variables
         /// </summary>
         /// <param name="config"></param>
-        public static void Register(HttpConfiguration config)
+        public static void Register(HttpConfiguration configuration)
         {
+            _isSwaggerEnabled = true;
+
             //--------------------------------------------------------------------------------------------------------------------------------------------
             //SWAGGER PROTOCOL AUTO-GENERATED DOC's
             //https://github.com/domaindrivendev/Swashbuckle
@@ -36,10 +54,13 @@ namespace Gale.REST.Swagger
                                     System.IO.Path.DirectorySeparatorChar	/* Cross Platform */
                                 );
 
-            config.EnableSwagger((c) =>
+            configuration.EnableSwagger((c) =>
             {
-                //Ignote Obsolte Operations
+                //Ignote Obsolete Operations (Obsolete Attribute)
                 c.IgnoreObsoleteActions();
+
+                //Ignote Obsolete Properties (Obsolete Attribute)
+                c.IgnoreObsoleteProperties();
 
                 //Action Conflict Resolver
                 c.ResolveConflictingActions((apiDescriptions) =>
@@ -54,14 +75,21 @@ namespace Gale.REST.Swagger
                     .In("header");
 
                 //Add JWT Api Key Scheme
-                c.OperationFilter<AddAuthorizateSecurityDefinitions>();
+                c.OperationFilter<Gale.REST.Config.SwashBuckleExtension.Filters.AddAuthorizateSecurityDefinitions>();
+
+                //Add implicit header parameter's
+                c.OperationFilter<Gale.REST.Config.SwashBuckleExtension.Filters.AddHeaderParameters>();
+
+                //Add from header parameter's
+                c.OperationFilter<Gale.REST.Config.SwashBuckleExtension.Filters.AddFromHeaderParameters>();
+
+                c.DocumentFilter<Gale.REST.Config.SwashBuckleExtension.Filters.DocumentFilter>();
 
                 //Include XML
                 c.IncludeXmlComments(XMLComment);
 
-
                 //Basic Configuration
-                c.SingleApiVersion(Gale.REST.Http.Routing.GaleApiControllerActionSelector.apiVersion, "API Explorer");
+                c.SingleApiVersion(Gale.REST.Config.GaleConfig.apiVersion, "API Explorer");
 
             })
             .EnableSwaggerUi((c) =>
@@ -69,8 +97,8 @@ namespace Gale.REST.Swagger
                 c.DisableValidator();
 
                 //Inject to correct authentication Bearer JWT Token into every Request
-                c.InjectJavaScript(typeof(Gale.REST.Swagger.SwaggerConfig).Assembly, "Gale.REST.Swagger.SwashBuckleExtension.Swagger.js");
-                c.InjectStylesheet(typeof(Gale.REST.Swagger.SwaggerConfig).Assembly, "Gale.REST.Swagger.SwashBuckleExtension.Swagger.css");
+                c.InjectJavaScript(typeof(Gale.REST.Config.SwaggerConfig).Assembly, "Gale.REST.Config.SwashBuckleExtension.Swagger.js");
+                c.InjectStylesheet(typeof(Gale.REST.Config.SwaggerConfig).Assembly, "Gale.REST.Config.SwashBuckleExtension.Swagger.css");
             });
             //--------------------------------------------------------------------------------------------------------------------------------------------
         }

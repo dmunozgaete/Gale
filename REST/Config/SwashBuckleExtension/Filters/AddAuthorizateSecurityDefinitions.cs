@@ -4,12 +4,12 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 
-namespace Gale.REST.Swagger.SwashBuckleExtension
+namespace Gale.REST.Config.SwashBuckleExtension.Filters
 {
     /// <summary>
     /// Find the authorization Attribute and add the API Key
     /// </summary>
-    public class AddAuthorizateSecurityDefinitions : Swashbuckle.Swagger.IOperationFilter
+    internal class AddAuthorizateSecurityDefinitions : Swashbuckle.Swagger.IOperationFilter
     {
 
         /// <summary>
