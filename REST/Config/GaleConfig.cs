@@ -3,46 +3,60 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Http;
 using System.Web.Http.Routing;
 
-namespace System.Web.Http
+namespace Gale.REST.Config
 {
-    public static class HttpConfigurationExtensions
+    /// <summary>
+    /// Gale Global Configuration
+    /// </summary>
+    public static class GaleConfig
     {
-        /// <summary>
-        /// Enable Swagger "Live" Documentation in URL : {API}/swagger
-        /// </summary>
-        /// <param name="configuration"></param>
-        public static void EnableSwagger(this HttpConfiguration configuration)
-        {
-            Gale.REST.Swagger.SwaggerConfig.Register(configuration);
-        }
+        private static string _apiVersion = "v1";
 
         /// <summary>
-        /// Enable Gale Routing for standard RESTful Protocols
+        /// Retrieves the Api Version
         /// </summary>
-        /// <param name="configuration"></param>
-        public static void MapGaleRoutes(this HttpConfiguration configuration)
+        public static String apiVersion
         {
-            MapGaleRoutes(configuration, null);
+            get
+            {
+                return _apiVersion;
+            }
         }
 
+
+        /// <summary>
+        /// Enable Gale Routing for standard RESTful Protocols (in "v1" version)
+        /// </summary>
+        /// <param name="configuration"></param>
+        public static void Register(HttpConfiguration configuration)
+        {
+            Register(configuration, _apiVersion);
+        }
 
         /// <summary>
         /// Enable Gale Routing for standard RESTful Protocols
         /// </summary>
         /// <param name="configuration"></param>
         /// <param name="apiVersion">Api Version to enable</param>
-        public static void MapGaleRoutes(this HttpConfiguration configuration, string apiVersion)
+        public static void Register(HttpConfiguration configuration, string apiVersion)
         {
+            //Only set if defined!
+            if (!String.IsNullOrEmpty(apiVersion) && !String.IsNullOrWhiteSpace(apiVersion))
+            {
+                _apiVersion = apiVersion;
+            }
+
+         
+
+            //Add Child RESTful Service Action Selector
             configuration.Services.Replace(
                 typeof(System.Web.Http.Controllers.IHttpActionSelector),
-                new Gale.REST.Http.Routing.GaleApiControllerActionSelector(
-                configuration,
-                apiVersion
+                new Gale.REST.Config.VerbHttpRouteMap(
+                configuration
             ));
-
-
 
             var Route = configuration.Routes.MapHttpRoute(
                name: "GALE_Home_Page",
@@ -63,15 +77,5 @@ namespace System.Web.Http
 
         }
 
-        /// <summary>
-        /// change the default formatter from XML to JSON (Google Chrome Fix)
-        /// </summary>
-        /// <param name="configuration"></param>
-        /// <param name="version"></param>
-        public static void SetJsonDefaultFormatter(this HttpConfiguration configuration)
-        {
-            configuration.Formatters.Add(new Gale.REST.Http.Formatter.JsonFormatter());
-        }
     }
-
 }
