@@ -15,8 +15,12 @@ namespace Gale.REST.Http
     /// Define a Queryable Http Result based in the ODATA Protocol (http://www.odata.org)
     /// </summary>
     /// <typeparam name="TModel"></typeparam>
-    public class HttpQueryableActionResult<TModel> : Gale.REST.Queryable.Blueprint.QueryableResult<TModel> where TModel: class
+    public class HttpQueryableActionResult<TModel> : Gale.REST.Http.HttpBaseActionResult where TModel : class
     {
-        public HttpQueryableActionResult(HttpRequestMessage request): base(request){}
+        public override Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
+        {
+            // Gale.REST.Blueprint.Builders.SQLServer.Read<TModel>
+            throw new NotImplementedException();
+        }
     }
 }

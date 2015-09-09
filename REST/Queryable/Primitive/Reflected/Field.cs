@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Newtonsoft.Json;
 
 namespace Gale.REST.Queryable.Primitive.Reflected
 {
@@ -79,6 +80,7 @@ namespace Gale.REST.Queryable.Primitive.Reflected
             _selected = true;
         }
 
+        [JsonIgnore]
         /// <summary>
         /// Return if the field is seelcted
         /// </summary>
@@ -90,6 +92,7 @@ namespace Gale.REST.Queryable.Primitive.Reflected
             }
         }
 
+        [JsonIgnore]
         public String Key
         {
             get
@@ -110,6 +113,7 @@ namespace Gale.REST.Queryable.Primitive.Reflected
             }
         }
 
+        [JsonIgnore]
         public Type Type
         {
             get
@@ -118,6 +122,7 @@ namespace Gale.REST.Queryable.Primitive.Reflected
             }
         }
 
+        [JsonIgnore]
         public Table Table
         {
             get
@@ -126,7 +131,7 @@ namespace Gale.REST.Queryable.Primitive.Reflected
             }
         }
 
-
+        [JsonIgnore]
         public SpecificationEnum Specification
         {
             get

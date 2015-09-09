@@ -29,6 +29,7 @@ namespace Gale.REST.Config
                    defaults: new
                    {
                        id = RouteParameter.Optional,
+                       extension = RouteParameter.Optional,
                        action = method
                    },
                    constraints: new

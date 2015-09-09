@@ -10,6 +10,9 @@ namespace System.Web.Http
 {
     /// <summary>
     /// Override the custom Route for the action (with API version override)
+    /// 
+    /// Follow the Route Conventions: 
+    ///     http://www.asp.net/web-api/overview/web-api-routing-and-actions/attribute-routing-in-web-api-2
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = false)]
     public class HierarchicalRouteAttribute : Attribute, IDirectRouteFactory

@@ -7,6 +7,11 @@ using Gale.Db;
 
 namespace Gale.Db.Factories
 {
+    /// <summary>
+    /// Defines a Database Factory, which can connect to a Specific Database
+    /// </summary>
+    /// <typeparam name="Tconnection"></typeparam>
+    /// <typeparam name="TAdapter"></typeparam>
     public abstract class AbstractFactory<Tconnection, TAdapter> : IDataActions where Tconnection : System.Data.IDbConnection, new()
     {
         private string _connectionString = "";
@@ -16,6 +21,10 @@ namespace Gale.Db.Factories
             _connectionString = ConnectionString;
         }
 
+        /// <summary>
+        /// Connection Database Type
+        /// </summary>
+        /// <returns></returns>
         public Type DbConnection()
         {
             return typeof(Tconnection);
@@ -23,6 +32,13 @@ namespace Gale.Db.Factories
 
         #region Build Method's
 
+        /// <summary>
+        /// Execute a Call to the database according to configuration
+        /// </summary>
+        /// <param name="Service">Database Service Information</param>
+        /// <param name="Delegate">Database Callback</param>
+        /// <param name="ConnectionTimeout">Maximum TimeOut before Throw TimeoutException</param>
+        /// <returns>Return the Database Result</returns>
         private object Execute(DataService Service, Func<System.Data.IDbConnection, System.Data.IDbCommand, object> Delegate, Int32 ConnectionTimeout)
         {
             //Initialize the Component's will be Connect to the Database
@@ -53,7 +69,7 @@ namespace Gale.Db.Factories
                     //Special Threatment by Type
                     if (Parameter.Value != null)
                     {
-                        internalParse(ref dbParameter, Parameter);
+                        ParameterParse(ref dbParameter, Parameter);
                     }
 
                     DbCommand.Parameters.Add(dbParameter);
@@ -85,10 +101,25 @@ namespace Gale.Db.Factories
                 DbConnection.Close();
             }
         }
+
+        /// <summary>
+        /// Execute a Call to the database according to configuration
+        /// </summary>
+        /// <param name="Service">Database Service Information</param>
+        /// <param name="Delegate">Database Callback</param>
+        /// <returns>Return the Database Result</returns>
         private object Execute(DataService Service, Func<System.Data.IDbConnection, System.Data.IDbCommand, object> Delegate)
         {
             return Execute(Service, Delegate, _defaultConnectionTimeout);
         }
+
+        /// <summary>
+        /// Execute a Massive Call's to the database according to services configuration
+        /// </summary>
+        /// <param name="Service">Database Service Information</param>
+        /// <param name="Delegate">Database Callback</param>
+        /// <param name="ConnectionTimeout">Maximum TimeOut before Throw TimeoutException</param>
+        /// <returns></returns>
         private void Execute(DataService[] Services, Action<System.Data.IDbCommand> Delegate, Int32 ConnectionTimeout)
         {
             //Initialize the Component's will be Connect to the Database
@@ -124,7 +155,7 @@ namespace Gale.Db.Factories
                             //Special Threatment by Type
                             if (Parameter.Value != null)
                             {
-                                internalParse(ref dbParameter, Parameter);
+                                ParameterParse(ref dbParameter, Parameter);
                             }
 
                             DbCommand.Parameters.Add(dbParameter);
@@ -157,15 +188,27 @@ namespace Gale.Db.Factories
 
         }
 
+        /// <summary>
+        /// Execute a Massive Call's to the database according to services configuration
+        /// </summary>
+        /// <param name="Service">Database Service Information</param>
+        /// <param name="Delegate">Database Callback</param>
+        /// <returns></returns>
+        private void Execute(DataService[] Services, Action<System.Data.IDbCommand> Delegate)
+        {
+            Execute(Services, Delegate, _defaultConnectionTimeout);
+        }
+
+
+        /// <summary>
+        /// Callback Method when a Exception has ocurred
+        /// </summary>
+        /// <param name="ex"></param>
         public virtual void OnException(System.Exception ex)
         {
 
         }
 
-        private void Execute(DataService[] Services, Action<System.Data.IDbCommand> Delegate)
-        {
-            Execute(Services, Delegate, _defaultConnectionTimeout);
-        }
 
         #endregion
 
@@ -290,27 +333,12 @@ namespace Gale.Db.Factories
 
         #endregion
 
-        protected virtual void internalParse(ref System.Data.IDbDataParameter dbParameter, Gale.Db.DataParameter serviceparameter)
-        {
-            Type valueType = serviceparameter.Value.GetType();
-
-            if (valueType == typeof(byte[]))
-            {
-                //Binary
-                dbParameter.DbType = System.Data.DbType.Binary;
-            }
-            else if (valueType == typeof(DateTime))
-            {
-                //Date Time
-                DateTime value = (DateTime)serviceparameter.Value;
-
-                dbParameter.Value = (value).ToString("yyyy-MM-ddTHH:mm:ss.0");
-                dbParameter.DbType = System.Data.DbType.String;
-
-            }
-        }
-
-
+        /// <summary>
+        /// Parsing Step for each parameter in the service configuration (Useful for parsing c# values to DB Values)
+        /// </summary>
+        /// <param name="dbParameter">Database Referencial Parameter</param>
+        /// <param name="serviceparameter">Service Configured Parameter</param>
+        protected abstract void ParameterParse(ref System.Data.IDbDataParameter dbParameter, Gale.Db.DataParameter serviceparameter);
 
     }
 }

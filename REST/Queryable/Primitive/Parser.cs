@@ -9,9 +9,9 @@ namespace Gale.REST.Queryable.Primitive
 
     public abstract class Parser
     {
-        private Gale.REST.Queryable.Primitive.IQueryBuilder _builder = null;
+        private Gale.REST.Queryable.Primitive.AbstractQueryBuilder _builder = null;
 
-        private Gale.REST.Queryable.Primitive.IQueryBuilder QueryBuilder
+        private Gale.REST.Queryable.Primitive.AbstractQueryBuilder QueryBuilder
         {
             get
             {
@@ -26,7 +26,7 @@ namespace Gale.REST.Queryable.Primitive
 
         [System.ComponentModel.Browsable(false)]
         [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
-        public void _SetBuilder(Gale.REST.Queryable.Primitive.IQueryBuilder builder)
+        public void _SetBuilder(Gale.REST.Queryable.Primitive.AbstractQueryBuilder builder)
         {
             this._builder = builder;
         }
