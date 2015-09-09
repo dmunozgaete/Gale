@@ -83,7 +83,6 @@ namespace Gale.REST.Config
                 //Add from header parameter's
                 c.OperationFilter<Gale.REST.Config.SwashBuckleExtension.Filters.AddFromHeaderParameters>();
 
-                c.DocumentFilter<Gale.REST.Config.SwashBuckleExtension.Filters.DocumentFilter>();
 
                 //Include XML
                 c.IncludeXmlComments(XMLComment);

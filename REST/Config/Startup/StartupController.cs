@@ -30,6 +30,7 @@ namespace Gale.REST.Config.Startup
                     RenderView("Gale.REST.Config.Startup.Startup.cshtml",
                     new
                     {
+                        GALE_DOCS_SITE = Gale.REST.Resources.GALE_DOCS_SITE,
                         isSwaggerEnabled = Gale.REST.Config.SwaggerConfig.IsSwaggerEnabled,
                         APIUrl =api_url +  (api_url.EndsWith("/") ? "" : "/") + version
                     })

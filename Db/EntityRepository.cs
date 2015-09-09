@@ -18,7 +18,9 @@ namespace Gale.Db
             _rawData = rawData;
         }
 
-
+        /// <summary>
+        /// Entity Caching (For Fast re-reading)
+        /// </summary>
         private List<object> Caching
         {
             get
@@ -95,7 +97,13 @@ namespace Gale.Db
             return GetModel<T>(0);
         }
 
-        private void FillEntity<T>(ref Gale.Db.EntityTable<T> Model, System.Data.DataTable table)
+        /// <summary>
+        /// Fill a T model with the Database Result Values
+        /// </summary>
+        /// <typeparam name="T">Type to fill</typeparam>
+        /// <param name="model">Entity Table to Fill</param>
+        /// <param name="table">DB Result Table</param>
+        private void FillEntity<T>(ref Gale.Db.EntityTable<T> model, System.Data.DataTable table)
         {
             Type EntityType = typeof(T);
 
@@ -212,15 +220,33 @@ namespace Gale.Db
                     }
                 }
                 #endregion
-                Model.Add(Item);
+                model.Add(Item);
             }
         }
+
+        /// <summary>
+        /// Internal Memory Caching 
+        /// </summary>
         internal class MemoryFieldCaching
         {
+            /// <summary>
+            /// Field Ordinal
+            /// </summary>
             public int ordinal { get; set; }
+
+            /// <summary>
+            /// Database Column Name
+            /// </summary>
             public string columnName { get; set; }
+
+            /// <summary>
+            /// Property Model 
+            /// </summary>
             public System.Reflection.PropertyInfo property { get; set; }
 
+            /// <summary>
+            /// Constructor
+            /// </summary>
             public MemoryFieldCaching()
             {
                 ordinal = -1;

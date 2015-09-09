@@ -25,7 +25,7 @@ namespace Gale.REST.Http
                 if (_connection == null)
                 {
 
-                    var cnx = System.Configuration.ConfigurationManager.ConnectionStrings["Application:default"];
+                    var cnx = System.Configuration.ConfigurationManager.ConnectionStrings[Gale.REST.Resources.GALE_CONNECTION_DEFAULT_KEY];
                     if (cnx == null)
                     {
 

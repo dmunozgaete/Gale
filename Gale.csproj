@@ -97,6 +97,7 @@
     <Compile Include="Db\EntityRepository.cs" />
     <Compile Include="Db\EntityTable.cs" />
     <Compile Include="Db\Factories\AbstractFactory.cs" />
+    <Compile Include="Db\Factories\FactoryTarget.cs" />
     <Compile Include="Db\Factories\SQLServerFactory.cs" />
     <Compile Include="Db\IDataActions.cs" />
     <Compile Include="Db\IEntityTable.cs" />
@@ -109,16 +110,21 @@
     <Compile Include="Exception\RestException.cs" />
     <Compile Include="Exception\SqlClient\CustomDatabaseException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="REST\Blueprint\DeleteResult.cs" />
-    <Compile Include="REST\Blueprint\UpdatedResult.cs" />
-    <Compile Include="REST\Blueprint\CreateResult.cs" />
+    <Compile Include="REST\Blueprint\Builders\CreateBuilder.cs" />
+    <Compile Include="REST\Blueprint\Builders\DeleteBuilder.cs" />
+    <Compile Include="REST\Blueprint\Builders\ReadBuilder.cs" />
+    <Compile Include="REST\Blueprint\Builders\SQLServer\Create.cs" />
+    <Compile Include="REST\Blueprint\Builders\SQLServer\Delete.cs" />
+    <Compile Include="REST\Blueprint\Builders\SQLServer\Read.cs" />
+    <Compile Include="REST\Blueprint\Builders\SQLServer\Update.cs" />
+    <Compile Include="REST\Blueprint\Builders\UpdateBuilder.cs" />
     <Compile Include="REST\Config\GaleConfig.cs" />
+    <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddBlueprintDocumentation.cs" />
     <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddHeaderParameters.cs" />
     <Compile Include="REST\Http\Binding\FromHeaderAttribute.cs" />
     <Compile Include="REST\Http\Binding\FromHeaderBinding.cs" />
     <Compile Include="REST\Config\SwashBuckleExtension\Decorators\HeaderParameter.cs" />
     <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddFromHeaderParameters.cs" />
-    <Compile Include="REST\Config\SwashBuckleExtension\Filters\DocumentFilter.cs" />
     <Compile Include="REST\Http\Filters\ExceptionFilter.cs" />
     <Compile Include="REST\Http\Generic\HttpActionFileResult.cs" />
     <Compile Include="REST\Http\HttpQueryableActionResult.cs" />
@@ -135,33 +141,41 @@
     <Compile Include="REST\Http\Routing\HierarchicalRouteAttribute.cs" />
     <Compile Include="REST\Config\SwaggerConfig.cs" />
     <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddAuthorizateSecurityDefinitions.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\KQLConfiguration.cs" />
+    <Compile Include="REST\Queryable\OData\Results\Result.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\HttpQueryBuilder.cs" />
+    <Compile Include="REST\Queryable\Primitive\Result.cs" />
+    <Compile Include="REST\Queryable\Primitive\DummyConstraint.cs" />
+    <Compile Include="REST\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Security\Oauth\Jwt\AuthorizationAttribute.cs" />
     <Compile Include="REST\Blueprint\BlueprintController.cs" />
-    <Compile Include="REST\Blueprint\QueryableResult.cs" />
-    <Compile Include="REST\Queryable\OData\QueryBuilder.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Operators\Operator.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Operators\Contains.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Operators\Equals.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Operators\Greater.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Operators\GreaterThanOrEqual.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Operators\In.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Operators\Less.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Operators\LessThanOrEqual.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Operators\NotIn.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Parsers\From.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Parsers\OrderBy.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Parsers\Select.cs" />
-    <Compile Include="REST\Queryable\OData\SQLServer\Parsers\Where.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\HttpQueryBuilder.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Operators\Operator.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Operators\Contains.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Operators\Equals.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Operators\Greater.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Operators\GreaterThanOrEqual.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Operators\In.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Operators\Less.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Operators\LessThanOrEqual.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Operators\NotIn.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Parsers\From.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Parsers\OrderBy.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Parsers\Select.cs" />
+    <Compile Include="REST\Queryable\OData\Builders\SQLServer\Parsers\Where.cs" />
     <Compile Include="REST\Queryable\Primitive\ExecutedParserEventArgs.cs" />
-    <Compile Include="REST\Queryable\Primitive\IQueryBuilder.cs" />
-    <Compile Include="REST\Queryable\Primitive\IResponse.cs" />
+    <Compile Include="REST\Queryable\Primitive\AbstractQueryBuilder.cs" />
     <Compile Include="REST\Queryable\Primitive\Mapping\ModelAttribute.cs" />
-    <Compile Include="REST\Queryable\Primitive\Formatters\JsonResponse.cs" />
-    <Compile Include="REST\Queryable\Primitive\Formatters\TableResponse.cs" />
+    <Compile Include="REST\Queryable\OData\Results\JsonResult.cs" />
+    <Compile Include="REST\Queryable\OData\Results\TableResult.cs" />
     <Compile Include="REST\Queryable\Primitive\OperatorAttribute.cs" />
     <Compile Include="REST\Queryable\Primitive\Operator.cs" />
     <Compile Include="REST\Queryable\Primitive\Parser.cs" />
-    <Compile Include="REST\Queryable\Primitive\QueryBuilder.cs" />
+    <Compile Include="REST\Queryable\Primitive\Generic\AbstractQueryBuilder.cs" />
     <Compile Include="REST\Queryable\Primitive\Reflected\Constraint.cs" />
     <Compile Include="REST\Queryable\Primitive\Reflected\Field.cs" />
     <Compile Include="REST\Queryable\Primitive\Reflected\Model.cs" />
@@ -181,6 +195,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Errors.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="REST\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -194,6 +212,7 @@
   <ItemGroup>
     <EmbeddedResource Include="REST\Config\Startup\Startup.cshtml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
