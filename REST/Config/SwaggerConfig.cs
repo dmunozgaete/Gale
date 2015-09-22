@@ -83,6 +83,9 @@ namespace Gale.REST.Config
                 //Add from header parameter's
                 c.OperationFilter<Gale.REST.Config.SwashBuckleExtension.Filters.AddFromHeaderParameters>();
 
+                //Remove Swagger Default's
+                //c.OperationFilter<Gale.REST.Config.SwashBuckleExtension.Filters.RemoveSwaggerDefaults>();
+
 
                 //Include XML
                 c.IncludeXmlComments(XMLComment);
