@@ -62,7 +62,7 @@ namespace Gale.Exception
         /// <param name="message">Message</param>
         public static void Guard(Func<bool> condition, string code, string message)
         {
-            Guard(condition, System.Net.HttpStatusCode.InternalServerError, code, message);
+            Guard(condition, System.Net.HttpStatusCode.BadRequest, code, message);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Gale.Exception
         public static void Guard(Func<bool> condition, string code, System.Resources.ResourceManager resourceManager)
         {
             string message = resourceManager.GetString(code);
-            Guard(condition, System.Net.HttpStatusCode.InternalServerError, code, message);
+            Guard(condition, System.Net.HttpStatusCode.BadRequest, code, message);
         }
 
         /// <summary>
