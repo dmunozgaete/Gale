@@ -5,7 +5,7 @@
 
     //Find the Security Definitions and add the according header's
     var token_input = $('#input_apiKey');
-    token_input.attr("placeholder", "API Key");
+    token_input.attr("placeholder", "Put your access token here");
 
     setToken_input.one("click", function () {
         
@@ -18,7 +18,7 @@
                     localStorage.clear();
                     //Remove all security definitions
                     for (var name in window.swaggerApi.securityDefinitions) {
-                        window.authorizations.remove(name);
+                        window.swaggerUi.api.clientAuthorizations.remove(name);
                     }
                 }
                 tryToAuthenticate();
@@ -31,7 +31,9 @@
                 if (token && token.trim() != "") {
                     for (var name in window.swaggerApi.securityDefinitions) {
                         var definition = window.swaggerApi.securityDefinitions[name];
-                        window.authorizations.add(name, new ApiKeyAuthorization(definition.name, "Bearer " + token, definition.in));
+                        window.swaggerUi.api.clientAuthorizations.add(name, new SwaggerClient.ApiKeyAuthorization(definition.name, 'Bearer ' + token, definition.in));
+
+                        //window.authorizations.add(name, new ApiKeyAuthorization(definition.name, "Bearer " + token, definition.in));
 
                         //Try to save in local storage ;)
                         if (localStorage) {
@@ -42,6 +44,11 @@
                 //--------------------------------
                 break;
         }
+
+        //remove default "api_key"
+        setTimeout(function () {
+            window.swaggerUi.api.clientAuthorizations.remove("api_key");
+        }, 500);
     })
 
     var tryToAuthenticate = function(){
@@ -54,7 +61,9 @@
             if (localStorage) {
                 var token = localStorage.getItem('auth_' + name);
                 if (token) {
-                    window.authorizations.add(name, new ApiKeyAuthorization(definition.name, "Bearer " + token, definition.in));
+                    window.swaggerUi.api.clientAuthorizations.add(name, new SwaggerClient.ApiKeyAuthorization(definition.name, 'Bearer ' + token, definition.in));
+
+                    //window.authorizations.add(name, new ApiKeyAuthorization(definition.name, "Bearer " + token, definition.in));
                     token_input.val(token);
                     isAuthenticated = true;
                 }

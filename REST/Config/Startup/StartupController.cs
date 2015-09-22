@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using RazorEngine.Templating;
+using RazorTemplates.Core;
 
 namespace Gale.REST.Config.Startup
 {
@@ -52,13 +52,14 @@ namespace Gale.REST.Config.Startup
         private string RenderView(string resourceName, Object model)
         {
             //----------------------------------
-            var assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var assembly = typeof(Gale.REST.Config.Startup.StartupController).Assembly;
 
             using (System.IO.Stream stream = assembly.GetManifestResourceStream(resourceName))
             {
                 using (System.IO.StreamReader reader = new System.IO.StreamReader(stream))
                 {
-                    return RazorEngine.Engine.Razor.RunCompile(reader.ReadToEnd(), resourceName, null, model);
+                    var template = Template.Compile(reader.ReadToEnd());
+                    return template.Render(model);
                 }
             }
             //----------------------------------
