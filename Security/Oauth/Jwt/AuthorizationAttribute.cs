@@ -111,10 +111,14 @@ namespace Gale.Security.Oauth.Jwt
                 }
 
                 //--------------------------------------------------------------------------------
+                // CHECK JWT TOKEN
                 var JwtVerifier = Gale.Security.Oauth.Jwt.Manager.ValidateToken(JwtToken);
                 System.Web.HttpContext.Current.User = JwtVerifier;
-                return true;
                 //--------------------------------------------------------------------------------
+
+
+                return true;
+                
             }
             catch (System.IdentityModel.Tokens.SecurityTokenExpiredException ex)
             {
