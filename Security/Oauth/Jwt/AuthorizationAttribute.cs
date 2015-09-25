@@ -29,7 +29,7 @@ namespace Gale.Security.Oauth.Jwt
 
             //--------------------------------------------------------------------------------
             //401  Unauthorized
-            var statusCode = System.Net.HttpStatusCode.Unauthorized;
+            var statusCode = System.Net.HttpStatusCode.OK;
             var error = "";
             var error_description = Gale.Exception.Errors.ResourceManager.GetString(_errorCode);
 
@@ -42,10 +42,17 @@ namespace Gale.Security.Oauth.Jwt
                     break;
                 case "TOKEN_EXPIRED":
                     //400 BAD REQUEST
+                    statusCode = System.Net.HttpStatusCode.BadRequest;
                     error = "invalid_token";
                     break;
                 case "ACCESS_UNAUTHORIZED":
+                    //401 UNAUTHORIZED
+                    statusCode = System.Net.HttpStatusCode.Unauthorized;
+                    error = "access_denied";
+                    break;
+                case "INVALID_TOKEN":
                     //400 BAD REQUEST
+                    statusCode = System.Net.HttpStatusCode.BadRequest;
                     error = "invalid_token";
                     break;
 
@@ -90,6 +97,7 @@ namespace Gale.Security.Oauth.Jwt
             {
                 string JwtToken = null;
 
+                //--------------------------------------------------------------------------------
                 //CHECK HEADER AUTHENTICATION
                 System.Net.Http.Headers.AuthenticationHeaderValue header = actionContext.Request.Headers.Authorization;
                 if (header == null)
@@ -101,14 +109,17 @@ namespace Gale.Security.Oauth.Jwt
                 {
                     JwtToken = header.Parameter;
                 }
+                //--------------------------------------------------------------------------------
 
+                //--------------------------------------------------------------------------------
+                // CHECK EXISTENCE
                 if (JwtToken == null)
                 {
-                    //--------------------------------------------------------------------------------
+                    
                     _errorCode = "BEARER_TOKEN_NOT_FOUND";
                     return false;
-                    //--------------------------------------------------------------------------------
                 }
+                //--------------------------------------------------------------------------------
 
                 //--------------------------------------------------------------------------------
                 // CHECK JWT TOKEN
@@ -116,18 +127,25 @@ namespace Gale.Security.Oauth.Jwt
                 System.Web.HttpContext.Current.User = JwtVerifier;
                 //--------------------------------------------------------------------------------
 
+                //--------------------------------------------------------------------------------
+                // IF RESTRICTED TO ROLEs, CHECK ALSO USERS (BASE METHOD CHECKER :P)
+                if(!this.IsAuthorized(actionContext)){
+                    _errorCode = "ACCESS_UNAUTHORIZED";
+                    return false;
+                }
+                //--------------------------------------------------------------------------------
 
                 return true;
                 
             }
-            catch (System.IdentityModel.Tokens.SecurityTokenExpiredException ex)
+            catch (System.IdentityModel.Tokens.SecurityTokenExpiredException)
             {
                 _errorCode = "TOKEN_EXPIRED";
                 return false;
             }
-            catch (System.Exception ex)
+            catch (System.Exception)
             {
-                _errorCode = "ACCESS_UNAUTHORIZED";
+                _errorCode = "INVALID_TOKEN";
                 return false;
             }
         }
