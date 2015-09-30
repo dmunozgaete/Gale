@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Gale.REST.Queryable.OData.Builders;
 
 //CONTENT NEGOTATION: http://www.strathweb.com/2012/07/everything-you-want-to-know-about-asp-net-web-api-content-negotation/
 
@@ -18,10 +19,26 @@ namespace Gale.REST.Http
     public class HttpQueryableActionResult<TModel> : Gale.REST.Http.HttpBaseActionResult where TModel : class
     {
         HttpRequestMessage _request;
+        GQLConfiguration _configuration;
 
+        /// <summary>
+        /// Create a Queryable Endpoint Action Result
+        /// </summary>
+        /// <param name="request">Http Request Context</param>
         public HttpQueryableActionResult(HttpRequestMessage request)
         {
             _request = request;
+        }
+
+        /// <summary>
+        /// Create a Queryable Endpoint Action Result
+        /// </summary>
+        /// <param name="request">Http Request Context</param>
+        /// <param name="configuration">Base Configuration</param>
+        public HttpQueryableActionResult(HttpRequestMessage request, GQLConfiguration configuration)
+        {
+            _request = request;
+            _configuration = configuration;
         }
 
         #region Caching Builder Types for Perfomance
@@ -61,7 +78,7 @@ namespace Gale.REST.Http
             Gale.Exception.RestException.Guard(() => _readBuilderType == null, "READBUILDER_NOTIMPLEMENTED_FOR_CURRENT_DATABASE_TYPE", Gale.Exception.Errors.ResourceManager);
 
             var builder = ReadBuilderType.MakeGenericType(new Type[] { typeof(TModel) });
-            return ((IHttpActionResult)Activator.CreateInstance(builder, new object[] { _request })).ExecuteAsync(cancellationToken);
+            return ((IHttpActionResult)Activator.CreateInstance(builder, new object[] { _request, _configuration })).ExecuteAsync(cancellationToken);
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Gale.REST.Queryable.OData.Builders;
 using Gale.REST.Queryable.Primitive.Reflected;
 
 namespace Gale.REST.Queryable.Primitive
@@ -9,6 +10,7 @@ namespace Gale.REST.Queryable.Primitive
     public abstract class AbstractQueryBuilder
     {
         #region Variables
+
         //------[ VARIABLES
         private Model _reflectedModel = null;
         private List<TypedItem> _parsers = new List<TypedItem>();
@@ -19,6 +21,7 @@ namespace Gale.REST.Queryable.Primitive
         public delegate void ExecutedParserEventHandler(Gale.REST.Queryable.Primitive.ExecutedParserEventArgs e);
         public event ExecutedParserEventHandler OnExecutedParser;
         //---------------------------------------------------------
+
         #endregion
 
         /// <summary>
@@ -167,9 +170,9 @@ namespace Gale.REST.Queryable.Primitive
             constraint.Table.SetDescriptor(expresion);
         }
 
-        internal void RegisterParser<T>(string parsingQuery) where T : Gale.REST.Queryable.Primitive.Parser
+        internal void RegisterParser<T>(GQLConfiguration configuration) where T : Gale.REST.Queryable.Primitive.Parser
         {
-            this._parsers.Add(new TypedItem(typeof(T), parsingQuery));
+            this._parsers.Add(new TypedItem(typeof(T), configuration));
         }
 
         public void RegisterOperator<T>() where T : Gale.REST.Queryable.Primitive.Operator
@@ -199,7 +202,7 @@ namespace Gale.REST.Queryable.Primitive
                 _parser._SetBuilder(this);
 
                 //Executing Parsing
-                string parserFragment = _parser.Parse(parser.QueryFragment, _reflectedModel);
+                string parserFragment = _parser.Parse(parser.Configuration, _reflectedModel);
 
                 //------------------------------------------
                 ExecutedParserEventHandler handler = OnExecutedParser;

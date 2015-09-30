@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Gale.REST.Queryable.OData.Builders;
 
 namespace Gale.REST.Blueprint.Builders
 {
@@ -14,6 +15,7 @@ namespace Gale.REST.Blueprint.Builders
     {
         private Type _modelType;
         private HttpRequestMessage _request;
+        private GQLConfiguration _configuration;
 
         /// <summary>
         /// HttpRequest context associated with the request
@@ -39,14 +41,27 @@ namespace Gale.REST.Blueprint.Builders
         }
 
         /// <summary>
+        /// Base Gale Query Language configuration
+        /// </summary>
+        public GQLConfiguration Configuration
+        {
+            get
+            {
+
+                return _configuration;
+            }
+        }
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="id">Identifier Record in the Database</param>
         /// <param name="modelType">Model Type from the BluePrint Controller</param>
-        public ReadBuilder(HttpRequestMessage request, Type modelType)
+        public ReadBuilder(HttpRequestMessage request, GQLConfiguration configuration, Type modelType)
         {
             _modelType = modelType;
             _request = request;
+            _configuration = configuration;
         }
     }
 }

@@ -15,34 +15,29 @@ namespace Gale.REST.Queryable.OData.Builders.SQLServer
         where TModel : class
     {
 
-        public HttpQueryBuilder(Gale.Db.IDataActions databaseFactory, HttpRequestMessage request)
-            : base(databaseFactory, request)
+        public HttpQueryBuilder(Gale.Db.IDataActions databaseFactory, HttpRequestMessage request, GQLConfiguration configuration)
+            : base(databaseFactory, request, configuration)
         {
             System.Collections.Specialized.NameValueCollection query = System.Web.HttpUtility.ParseQueryString(request.RequestUri.Query);
 
             //------------------------------------------------------------------------------------------
             //--[ ORDER BY PARSER (FOR SQL SERVER WE NEED TO ENGAGE FIRST)
-            this.RegisterParser<OData.Builders.SQLServer.Parsers.OrderBy>(query["$orderBy"]);
+            this.RegisterParser<OData.Builders.SQLServer.Parsers.OrderBy>(this.Kql);
             //------------------------------------------------------------------------------------------
 
             //------------------------------------------------------------------------------------------
             //--[ SELECT PARSER
-            String selectedStatement = "*";
-            if (query.AllKeys.Contains("$select"))
-            {
-                selectedStatement = query["$select"];
-            }
-            this.RegisterParser<OData.Builders.SQLServer.Parsers.Select>(selectedStatement);
+            this.RegisterParser<OData.Builders.SQLServer.Parsers.Select>(this.Kql);
             //------------------------------------------------------------------------------------------
 
             //------------------------------------------------------------------------------------------
             //--[ FROM PARSER (Send null query , the model , has converted automatically by constraint's)
-            this.RegisterParser<OData.Builders.SQLServer.Parsers.From>("");
+            this.RegisterParser<OData.Builders.SQLServer.Parsers.From>(this.Kql);
             //------------------------------------------------------------------------------------------
 
             //------------------------------------------------------------------------------------------
             //--[ WHERE PARSER (Filter's)
-            this.RegisterParser<OData.Builders.SQLServer.Parsers.Where>(query["$filter"]);
+            this.RegisterParser<OData.Builders.SQLServer.Parsers.Where>(this.Kql);
             //------------------------------------------------------------------------------------------
 
             //------------------------------------------------------------------------------------------
@@ -105,7 +100,7 @@ namespace Gale.REST.Queryable.OData.Builders.SQLServer
             String temporalTable = String.Concat("##", System.Guid.NewGuid().ToString().Replace("-", String.Empty));
 
             //SELECT INTO CLAUSE 
-            statements.Insert(0, String.Format("SELECT * INTO {0} FROM (", temporalTable));
+            statements.Insert(0, String.Format("SELECT \n\n* \n\nINTO {0} \n\nFROM \n\n(", temporalTable));
 
             //CLOSE SELECT INTO
             statements.Add(") as TX; \n\n");

@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Gale.REST.Queryable.OData.Builders
 {
-    public class KQLConfiguration
+    public class GQLConfiguration
     {
 
-        public KQLConfiguration()
+        public GQLConfiguration()
         {
             this.offset = 0;
             this.limit = 10;
@@ -17,27 +17,32 @@ namespace Gale.REST.Queryable.OData.Builders
             this.filters = new List<Filter>();
         }
 
-        public int offset { get; internal set; }
-        public int limit { get; internal set; }
+        public int offset { get; set; }
+        public int limit { get; set; }
 
         public List<String> fields { get; internal set; }
 
-        public OrderBy orderBy { get; internal set; }
+        public OrderBy orderBy { get; set; }
 
         public List<Filter> filters { get; private set; }
 
 
         public class Filter
         {
-            public string field { get; internal set; }
-            public string operatorAlias { get; internal set; }
-            public string value { get; internal set; }
+            public string field { get; set; }
+            public string operatorAlias { get; set; }
+            public string value { get; set; }
+
+            public override string ToString()
+            {
+                return String.Format("{0} {1} {2}", this.field, this.operatorAlias, this.value);
+            }
         }
 
         public class OrderBy
         {
-            public string name { get; internal set; }
-            public orderEnum order { get; internal set; }
+            public string name { get; set; }
+            public orderEnum order { get; set; }
 
             public enum orderEnum
             {

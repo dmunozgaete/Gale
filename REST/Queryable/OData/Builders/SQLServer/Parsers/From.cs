@@ -5,9 +5,13 @@ using System.Text;
 
 namespace Gale.REST.Queryable.OData.Builders.SQLServer.Parsers
 {
+    /// <summary>
+    /// From Parser 
+    /// </summary>
     internal class From : Gale.REST.Queryable.Primitive.Parser
     {
-        public override string Parse(string query, Gale.REST.Queryable.Primitive.Reflected.Model model)
+
+        public override string Parse(GQLConfiguration configuration, Gale.REST.Queryable.Primitive.Reflected.Model model)
         {
             //FROM PARSER QUERY
             System.Text.StringBuilder builder = new StringBuilder();

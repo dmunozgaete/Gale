@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Gale.REST.Queryable.OData.Builders;
 
 namespace Gale.REST.Queryable.Primitive
 {
     public class TypedItem
     {
         private Type _type;
-        private String _queryFragment;
+        private GQLConfiguration _configuration;
 
-        public TypedItem(Type type, String queryFragment)
+        public TypedItem(Type type, GQLConfiguration configuration)
         {
             this._type = type;
-            this._queryFragment = queryFragment;
+            this._configuration = configuration;
         }
         public Type Type
         {
@@ -23,11 +24,11 @@ namespace Gale.REST.Queryable.Primitive
             }
         }
 
-        public String QueryFragment
+        public GQLConfiguration Configuration
         {
             get
             {
-                return _queryFragment;
+                return _configuration;
             }
         }
     }
