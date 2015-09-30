@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Gale.REST.Queryable.OData.Builders;
 using Gale.REST.Queryable.Primitive.Reflected;
 
 namespace Gale.REST.Queryable.Primitive
@@ -31,7 +32,7 @@ namespace Gale.REST.Queryable.Primitive
             this._builder = builder;
         }
 
-        public abstract String Parse(String query, Model model);
+        public abstract String Parse(GQLConfiguration configuration, Model model);
 
         private String _callOperator(string operatorAlias, Field field, string value)
         {

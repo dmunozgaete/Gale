@@ -10,16 +10,16 @@ namespace Gale.REST.Queryable.OData.Builders
     public abstract class HttpQueryBuilder<TModel> : Gale.REST.Queryable.Primitive.Generic.AbstractQueryBuilder<TModel> where TModel : class
     {
         public HttpRequestMessage Request { get; private set; }
-        public KQLConfiguration Kql { get; private set; }
+        public GQLConfiguration Kql { get; private set; }
 
 
-        public HttpQueryBuilder(Gale.Db.IDataActions databaseFactory, HttpRequestMessage request)
+        public HttpQueryBuilder(Gale.Db.IDataActions databaseFactory, HttpRequestMessage request, GQLConfiguration configuration)
             : base(databaseFactory)
         {
             Request = request;
             System.Collections.Specialized.NameValueCollection query = System.Web.HttpUtility.ParseQueryString(Request.RequestUri.Query);
 
-            Kql = new KQLConfiguration();
+            Kql = new GQLConfiguration();
 
             #region OFFSET
             if (query.AllKeys.Contains("$offset"))
@@ -54,10 +54,10 @@ namespace Gale.REST.Queryable.OData.Builders
 
                 Exception.GaleException.Guard(() => { return order != "asc" && order != "desc"; }, "API016");
 
-                this.Kql.orderBy = new KQLConfiguration.OrderBy()
+                this.Kql.orderBy = new GQLConfiguration.OrderBy()
                 {
                     name = fieldName,
-                    order = (order == "asc") ? KQLConfiguration.OrderBy.orderEnum.asc : KQLConfiguration.OrderBy.orderEnum.desc
+                    order = (order == "asc") ? GQLConfiguration.OrderBy.orderEnum.asc : GQLConfiguration.OrderBy.orderEnum.desc
                 };
             }
             #endregion
@@ -65,7 +65,7 @@ namespace Gale.REST.Queryable.OData.Builders
             #region SELECT
             if (query.AllKeys.Contains("$select"))
             {
-                string fields = query["$select"].Trim(); ;
+                string fields = query["$select"].Trim();
                 if (fields.Length > 0)
                 {
                     List<string> selectedFields = fields.Split(',').ToList();
@@ -107,7 +107,7 @@ namespace Gale.REST.Queryable.OData.Builders
                     string operatorAlias = reduceFragment();
                     string value = text;
 
-                    this.Kql.filters.Add(new KQLConfiguration.Filter()
+                    this.Kql.filters.Add(new GQLConfiguration.Filter()
                     {
                         field = field,
                         operatorAlias = operatorAlias,
@@ -117,6 +117,17 @@ namespace Gale.REST.Queryable.OData.Builders
             }
             #endregion
 
+            #region SETUP Manual GQLConfiguration
+            if (configuration != null)
+            {
+                configuration.filters.ForEach((filter) =>
+                {
+
+                    this.Kql.filters.Add(filter);
+
+                });
+            }
+            #endregion
         }
 
         public virtual HttpResponseMessage GetResponse()

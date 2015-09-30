@@ -5,21 +5,28 @@ using System.Text;
 
 namespace Gale.REST.Queryable.OData.Builders.SQLServer.Parsers
 {
-    
+    /// <summary>
+    /// Select Parser
+    /// </summary>
     internal class Select : Gale.REST.Queryable.Primitive.Parser
     {
-        public override string Parse(string query, Gale.REST.Queryable.Primitive.Reflected.Model model)
+        /// <summary>
+        /// Parse SELECT 
+        /// </summary>
+        /// <param name="configuration">Gale Query Language Configuration</param>
+        /// <param name="model">Model</param>
+        /// <returns></returns>
+        public override string Parse(GQLConfiguration configuration, Gale.REST.Queryable.Primitive.Reflected.Model model)
         {
             //SELECT PARSER QUERY
             List<String> builder = new List<string>();
 
-            if (query.Trim().Length == 0)
+            if (configuration.fields.Count == 0)
             {
-                query = "*";
+                configuration.fields.Add("*");
             }
 
-            String[] selectedFields = query.ToLower().Split(',');
-
+            #region SELECT FIELD
             //---- SELECT FIELD
             Action<Gale.REST.Queryable.Primitive.Reflected.Field> SelectField = new Action<Gale.REST.Queryable.Primitive.Reflected.Field>((field) =>
             {
@@ -40,12 +47,13 @@ namespace Gale.REST.Queryable.OData.Builders.SQLServer.Parsers
 
             });
             //---------------------------------
+            #endregion
 
             //--- FIRST ADD THE PK
             builder.Insert(0, model.Tables.First().PrimaryKey.Key);
 
             //--- 
-            foreach (var fieldName in selectedFields)
+            foreach (String fieldName in configuration.fields)
             {
                 string _fieldName = fieldName.Trim();
 
@@ -86,7 +94,6 @@ namespace Gale.REST.Queryable.OData.Builders.SQLServer.Parsers
                         searchedTable = fk.Table.Type;
                     }
 
-
                     model.Fields.ForEach((f) =>
                     {
                         if (f.Table.Type == searchedTable)
@@ -110,7 +117,7 @@ namespace Gale.REST.Queryable.OData.Builders.SQLServer.Parsers
                     throw new Exception.GaleException("API013", _fieldName);
                 }
 
-                //
+                //Primary Key
                 if (field.Specification == Gale.REST.Queryable.Primitive.Reflected.Field.SpecificationEnum.Pk)
                 {
                     throw new Exception.GaleException("API014", _fieldName);

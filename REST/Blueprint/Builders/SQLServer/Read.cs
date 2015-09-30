@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Gale.REST.Queryable.OData.Builders;
 
 namespace Gale.REST.Blueprint.Builders.SQLServer
 {
@@ -21,7 +22,8 @@ namespace Gale.REST.Blueprint.Builders.SQLServer
         /// Constructor
         /// </summary>
         /// <param name="request">HttpRequest Message</param>
-        public Read(HttpRequestMessage request) : base(request, typeof(TModel)) { }
+        /// <param name="configuration">Gale Query Language Setup</param>
+        public Read(HttpRequestMessage request, GQLConfiguration configuration) : base(request, configuration, typeof(TModel)) { }
 
         /// <summary>
         /// Async Process
@@ -30,7 +32,7 @@ namespace Gale.REST.Blueprint.Builders.SQLServer
         /// <returns></returns>
         public override Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-            var builder = new Gale.REST.Queryable.OData.Builders.SQLServer.HttpQueryBuilder<TModel>(this.Connection, this.Request);
+            var builder = new Gale.REST.Queryable.OData.Builders.SQLServer.HttpQueryBuilder<TModel>(this.Connection, this.Request, this.Configuration);
             return Task.FromResult(builder.GetResponse());
         }
     }
