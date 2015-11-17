@@ -70,7 +70,7 @@ namespace Gale.REST {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to http://gale-docs.azurewebsites.net/.
+        ///   Looks up a localized string similar to http://gale.azurewebsites.net/.
         /// </summary>
         internal static string GALE_DOCS_SITE {
             get {

@@ -122,7 +122,7 @@
     <comment>Key for searching the db factory</comment>
   </data>
   <data name="GALE_DOCS_SITE" xml:space="preserve">
-    <value>http://gale-docs.azurewebsites.net/</value>
+    <value>http://gale.azurewebsites.net/</value>
     <comment>Gale Documentation Site</comment>
   </data>
   <data name="SwasbuckleExtension_Blueprint_DELETE" xml:space="preserve">
