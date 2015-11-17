@@ -35,10 +35,8 @@ Sitio Web:
 - Amazing Other Stuff!!
 - [Online Documentation](http://gale.azurewebsites.net)
 
-- More Info, [Read the readme](http://github.com/dmunozgaete/Gale)
-
 # Installation
-- Follow the instruction from the [Live Documentation](http://github.com/dmunozgaete/Gale)
+- Follow the instruction from the [Live Documentation](http://gale.azurewebsites.net)
 
 
 ## Live Api (100% Swagger 2.0 Specification)
