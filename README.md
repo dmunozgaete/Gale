@@ -41,7 +41,7 @@ Sitio Web:
 - Follow the instruction from the [Live Documentation](http://github.com/dmunozgaete/Gale)
 
 
-## Live Api (!00% Swagger 2.0 Specification)
+## Live Api (100% Swagger 2.0 Specification)
 <img width="1136" alt="captura de pantalla 2015-11-17 a las 16 24 02" src="https://cloud.githubusercontent.com/assets/5934807/11222225/1b285898-8d48-11e5-8d1e-de3fde8b0203.png">
 <img width="1136" alt="captura de pantalla 2015-11-17 a las 16 24 23" src="https://cloud.githubusercontent.com/assets/5934807/11222229/21421624-8d48-11e5-84e6-eb5321b668c5.png">
 
