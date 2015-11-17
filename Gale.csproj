@@ -119,6 +119,7 @@
     <Compile Include="Exception\KarmaException.cs" />
     <Compile Include="Exception\RestException.cs" />
     <Compile Include="Exception\SqlClient\CustomDatabaseException.cs" />
+    <Compile Include="Extensions\GlobalConfigurationExtensions.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="REST\Blueprint\Builders\CreateBuilder.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="REST\Config\SwashBuckleExtension\Decorators\HeaderParameter.cs" />
     <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddFromHeaderParameters.cs" />
     <Compile Include="REST\Http\Filters\ExceptionFilter.cs" />
+    <Compile Include="REST\Http\Formatter\KqlFormatter.cs" />
     <Compile Include="REST\Http\Generic\HttpActionFileResult.cs" />
     <Compile Include="REST\Http\HttpQueryableActionResult.cs" />
     <Compile Include="REST\Http\HttpReadActionResult.cs" />

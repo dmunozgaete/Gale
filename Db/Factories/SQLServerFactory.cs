@@ -56,12 +56,22 @@ namespace Gale.Db.Factories
             }
             else if (valueType == typeof(DateTime))
             {
+                /*
                 //Date Time
                 DateTime value = (DateTime)serviceparameter.Value;
 
                 dbParameter.Value = (value).ToString("yyyy-MM-ddTHH:mm:ss.0");
                 dbParameter.DbType = System.Data.DbType.String;
+                */
+                
+                DateTime value = (DateTime)serviceparameter.Value;
 
+                //http://www.hanselman.com/blog/OnTheNightmareThatIsJSONDatesPlusJSONNETAndASPNETWebAPI.aspx
+                //http://thewebjedi.com/be/post/2014/02/22/dates-and-time-zones-in-javascript-c-and-sql-server.aspx
+
+                //SET TO UTC Universal TIME, to Work with local times, and fix the Web API Nightmare of Date
+                dbParameter.Value = value;
+                dbParameter.DbType = System.Data.DbType.DateTime;
             }
         }
     }
