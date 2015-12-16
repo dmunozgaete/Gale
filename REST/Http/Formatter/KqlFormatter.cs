@@ -45,7 +45,11 @@ namespace Gale.REST.Http.Formatter
         {
             public override bool CanConvert(Type objectType)
             {
-                return (typeof(Gale.Db.IEntityTable)).IsAssignableFrom(objectType);
+                return objectType.IsClass;
+                //ARRAY COLLECTION
+                //(typeof(Gale.Db.IEntityTable)).IsAssignableFrom(objectType) ||
+                //SIMPLE OBJECT
+                //(typeof(System.ComponentModel.INotifyPropertyChanging)).IsAssignableFrom(objectType);
             }
 
             public override bool CanRead
@@ -60,64 +64,96 @@ namespace Gale.REST.Http.Formatter
 
             public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
             {
-                // Details not important. This code is called and works perfectly.
-                IEnumerable table = (IEnumerable)value;
-                List<System.Reflection.PropertyInfo> properties = null;
-
-                List<object> _items = new List<object>();
-                foreach (Object item in table)
-                {
-                    //Mapping
-                    if (properties == null)
-                    {
-                        properties = item.GetType().GetProperties()
-                            .Where(prop => Attribute.IsDefined(prop, typeof(System.Data.Linq.Mapping.ColumnAttribute))).ToList();
-                    }
-
-
-                    var plainObject = new System.Dynamic.ExpandoObject();
-                    var groupedFields = new SortedList<string, KeyValuePair<System.Reflection.PropertyInfo, Object>>();
-
-                    foreach (var property in properties)
-                    {
-                        if (property.Name.IndexOf("_") > 0)
-                        {
-                            groupedFields.Add(property.Name, new KeyValuePair<System.Reflection.PropertyInfo, Object>(property, property.GetValue(item)));
-                        }
-                        else
-                        {
-                            //Add Direct Property
-                            ((IDictionary<String, Object>)plainObject).Add(property.Name, property.GetValue(item));
-                        }
-                    }
-
-                    //Order the Grouped Fields
-                    var grouped = groupedFields.GroupBy((field) =>
-                    {
-                        return field.Key.Substring(0, field.Key.IndexOf("_")); ;
-                    });
-
-                    foreach (var group in grouped)
-                    {
-                        var diggedObject = new System.Dynamic.ExpandoObject();
-
-                        foreach (var field in group)
-                        {
-                            var columnKey = field.Key.Substring(field.Key.IndexOf("_") + 1);
-
-                            ((IDictionary<String, Object>)diggedObject).Add(columnKey, field.Value.Value);
-                        }
-
-                        //Add Digged Object
-                        ((IDictionary<String, Object>)plainObject).Add(group.Key, diggedObject);
-                    }
-
-                    _items.Add(plainObject);
-                }
-
-                writer.WriteRawValue(JsonConvert.SerializeObject(_items));
+                var sobject = SerializedObject(value);
+                writer.WriteRawValue(JsonConvert.SerializeObject(sobject));
             }
 
+
+            private Object SerializedObject(Object value)
+            {
+                //NULL??
+                if (value == null)
+                {
+                    return value;
+                }
+
+                //LIST COLLECTION???
+                if (typeof(IList).IsAssignableFrom(value.GetType()))
+                {
+                    IEnumerable table = (IEnumerable)value;
+
+                    List<object> _items = new List<object>();
+                    foreach (Object item in table)
+                    {
+                        var expando = SerializedObject(item);
+                        _items.Add(expando);
+                    }
+
+                    return _items;
+                }
+                else
+                {
+                    var expando = FlatObject(value);
+
+                    return expando;
+                }
+            }
+
+            private Object FlatObject(Object item)
+            {
+                bool isPrimitive = (
+                                    item.GetType().IsPrimitive ||
+                                    item.GetType() == typeof(DateTime) ||
+                                    item.GetType() == typeof(String) ||
+                                    item.GetType() == typeof(float) ||
+                                    item.GetType() == typeof(Decimal) ||
+                                    item.GetType() == typeof(System.Guid)
+                                   );
+                if (isPrimitive)
+                {
+                    return item;
+                }
+
+                var properties = item.GetType().GetProperties().ToList();
+                var plainObject = new System.Dynamic.ExpandoObject();
+                var groupedFields = new SortedList<string, KeyValuePair<System.Reflection.PropertyInfo, Object>>();
+
+                foreach (var property in properties)
+                {
+
+                    if (property.Name.IndexOf("_") > 0)
+                    {
+                        groupedFields.Add(property.Name, new KeyValuePair<System.Reflection.PropertyInfo, Object>(property, SerializedObject(property.GetValue(item))));
+                    }
+                    else
+                    {
+                        //Add Direct Property
+                        ((IDictionary<String, Object>)plainObject).Add(property.Name, SerializedObject(property.GetValue(item)));
+                    }
+                }
+
+                //Order the Grouped Fields
+                var grouped = groupedFields.GroupBy((field) =>
+                {
+                    return field.Key.Substring(0, field.Key.IndexOf("_")); ;
+                });
+
+                foreach (var group in grouped)
+                {
+                    var diggedObject = new System.Dynamic.ExpandoObject();
+
+                    foreach (var field in group)
+                    {
+                        var columnKey = field.Key.Substring(field.Key.IndexOf("_") + 1);
+
+                        ((IDictionary<String, Object>)diggedObject).Add(columnKey, field.Value.Value);
+                    }
+
+                    //Add Digged Object
+                    ((IDictionary<String, Object>)plainObject).Add(group.Key, diggedObject);
+                }
+                return plainObject;
+            }
 
             public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
             {

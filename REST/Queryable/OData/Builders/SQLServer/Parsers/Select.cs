@@ -108,7 +108,7 @@ namespace Gale.REST.Queryable.OData.Builders.SQLServer.Parsers
                 //Check if field exist's
                 Gale.REST.Queryable.Primitive.Reflected.Field field = model.Fields.FirstOrDefault((f) =>
                 {
-                    return f.Name == _fieldName;
+                    return f.Name.ToLower() == _fieldName;
                 });
 
                 //If field is not exists, throw exception

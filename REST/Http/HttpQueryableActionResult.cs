@@ -65,18 +65,23 @@ namespace Gale.REST.Http
         }
         #endregion
 
+        /// <summary>
+        /// Retrieves Raw Result
+        /// </summary>
+        /// <returns></returns>
+        public Queryable.Primitive.Result GetRawResult()
+        {
+            var builder = ReadBuilderType.MakeGenericType(new Type[] { typeof(TModel) });
+            return ((Gale.REST.Blueprint.Builders.ReadBuilder)Activator.CreateInstance(builder, new object[] { _request, _configuration })).GetRawResult();
+        }
+
+        /// <summary>
+        /// Execute Async Process
+        /// </summary>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public override Task<HttpResponseMessage> ExecuteAsync(CancellationToken cancellationToken)
         {
-
-            if (_readBuilderType == null)
-            {
-                var types = Gale.Db.Factories.FactoryTarget.GetTypesByDatabaseTarget<Gale.REST.Blueprint.Builders.ReadBuilder>();
-                _readBuilderType = types.FirstOrDefault();
-            }
-
-            //Check if Builder Exist!
-            Gale.Exception.RestException.Guard(() => _readBuilderType == null, "READBUILDER_NOTIMPLEMENTED_FOR_CURRENT_DATABASE_TYPE", Gale.Exception.Errors.ResourceManager);
-
             var builder = ReadBuilderType.MakeGenericType(new Type[] { typeof(TModel) });
             return ((IHttpActionResult)Activator.CreateInstance(builder, new object[] { _request, _configuration })).ExecuteAsync(cancellationToken);
         }

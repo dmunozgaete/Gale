@@ -53,6 +53,12 @@ namespace Gale.REST.Blueprint.Builders
         }
 
         /// <summary>
+        /// Retrieves the Raw Result
+        /// </summary>
+        /// <returns></returns>
+        public abstract Queryable.Primitive.Result GetRawResult();
+
+        /// <summary>
         /// Constructor
         /// </summary>
         /// <param name="id">Identifier Record in the Database</param>

@@ -78,7 +78,7 @@ namespace Gale.REST.Queryable.Primitive
             if (!String.IsNullOrEmpty(_property) && !String.IsNullOrEmpty(_operator) && !String.IsNullOrEmpty(_value) )
             {
                
-                Field field = (from t in model.Fields where t.Name == _property select t).FirstOrDefault();
+                Field field = (from t in model.Fields where t.Name.ToLower() == _property select t).FirstOrDefault();
 
                 if (field == null)
                 {
