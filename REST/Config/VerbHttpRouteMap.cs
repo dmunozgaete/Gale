@@ -17,7 +17,8 @@ namespace Gale.REST.Config
         public VerbHttpRouteMap(HttpConfiguration config)
         {
             String[] allowedMethods = new string[] { "Get", "Post", "Put", "Delete", "Options", "Patch", "Head" };
-            string RestFulTemplate = Gale.REST.Config.GaleConfig.apiVersion + "/{controller}/{id}";
+            string version = String.IsNullOrEmpty(Gale.REST.Config.GaleConfig.apiVersion) ? "" : Gale.REST.Config.GaleConfig.apiVersion + "/";
+            string RestFulTemplate = version + "{controller}/{id}";
 
             foreach (string method in allowedMethods)
             {

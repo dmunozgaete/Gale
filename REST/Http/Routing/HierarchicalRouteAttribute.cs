@@ -40,8 +40,8 @@ namespace System.Web.Http
 
             //Format: {apiVersion}/{controller}/{template}
             string template = String.Format(
-                "{0}/{1}{2}{3}",
-                   Gale.REST.Config.GaleConfig.apiVersion,
+                "{0}{1}{2}{3}",
+                (String.IsNullOrEmpty(Gale.REST.Config.GaleConfig.apiVersion) ? "" : Gale.REST.Config.GaleConfig.apiVersion + "/"),
                    controllerName,
                    (_template.StartsWith("/") ? "" : "/"),
                    _template
