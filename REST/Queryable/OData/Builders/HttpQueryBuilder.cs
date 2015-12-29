@@ -12,7 +12,6 @@ namespace Gale.REST.Queryable.OData.Builders
         public HttpRequestMessage Request { get; private set; }
         public GQLConfiguration Kql { get; private set; }
 
-
         public HttpQueryBuilder(Gale.Db.IDataActions databaseFactory, HttpRequestMessage request, GQLConfiguration configuration)
             : base(databaseFactory)
         {
@@ -130,9 +129,22 @@ namespace Gale.REST.Queryable.OData.Builders
             #endregion
         }
 
+        /// <summary>
+        /// Retrieves the primitive result
+        /// </summary>
+        /// <returns></returns>
+        public Gale.REST.Queryable.Primitive.Result GetResult()
+        {
+            return base.Execute();
+        }
+
+        /// <summary>
+        /// Retrieves the response Http Message
+        /// </summary>
+        /// <returns></returns>
         public virtual HttpResponseMessage GetResponse()
         {
-            return Request.CreateResponse<Gale.REST.Queryable.Primitive.Result>(base.Execute());
+            return Request.CreateResponse<Gale.REST.Queryable.Primitive.Result>(GetResult());
         }
     }
 }

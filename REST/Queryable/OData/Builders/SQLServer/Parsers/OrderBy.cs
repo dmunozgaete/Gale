@@ -27,7 +27,7 @@ namespace Gale.REST.Queryable.OData.Builders.SQLServer.Parsers
 
                 Gale.REST.Queryable.Primitive.Reflected.Field _field = model.Fields.FirstOrDefault((field) =>
                 {
-                    return field.Name == configuration.orderBy.name;
+                    return field.Name.ToLower() == configuration.orderBy.name.ToLower();
                 });
 
                 if (_field == null)

@@ -25,6 +25,8 @@ namespace Gale.REST.Blueprint.Builders.SQLServer
         /// <param name="configuration">Gale Query Language Setup</param>
         public Read(HttpRequestMessage request, GQLConfiguration configuration) : base(request, configuration, typeof(TModel)) { }
 
+
+
         /// <summary>
         /// Async Process
         /// </summary>
@@ -34,6 +36,17 @@ namespace Gale.REST.Blueprint.Builders.SQLServer
         {
             var builder = new Gale.REST.Queryable.OData.Builders.SQLServer.HttpQueryBuilder<TModel>(this.Connection, this.Request, this.Configuration);
             return Task.FromResult(builder.GetResponse());
+        }
+
+
+        /// <summary>
+        /// Retrieves The Raw Result
+        /// </summary>
+        /// <returns></returns>
+        public override Queryable.Primitive.Result GetRawResult()
+        {
+            var builder = new Gale.REST.Queryable.OData.Builders.SQLServer.HttpQueryBuilder<TModel>(this.Connection, this.Request, this.Configuration);
+            return builder.GetResult();
         }
     }
 }

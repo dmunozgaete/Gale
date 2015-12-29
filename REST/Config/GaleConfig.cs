@@ -44,7 +44,7 @@ namespace Gale.REST.Config
         public static void Register(HttpConfiguration configuration, string apiVersion)
         {
             //Only set if defined!
-            if (!String.IsNullOrEmpty(apiVersion) && !String.IsNullOrWhiteSpace(apiVersion))
+            if (apiVersion != null)
             {
                 _apiVersion = apiVersion;
             }

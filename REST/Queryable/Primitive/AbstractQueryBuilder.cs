@@ -300,6 +300,11 @@ namespace Gale.REST.Queryable.Primitive
 
                         Object db_value = db_data.Rows[row_index][ordinal];
 
+                        if (db_value is DateTime)
+                        {
+                            db_value = DateTime.SpecifyKind((DateTime)db_value, DateTimeKind.Local);
+                        }
+
                         //If is FK , try to get the Descriptor, if not have descriptor, send Encripted Value :S
                         if (field.Specification == Field.SpecificationEnum.Fk)
                         {

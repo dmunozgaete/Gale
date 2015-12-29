@@ -70,8 +70,8 @@ namespace Gale.Db
             if (_caching != null && _caching.SingleOrDefault((obj) => { return obj.GetType() == typeof(T); }) != null)
             {
                 return (Gale.Db.EntityTable<T>)(from t in Caching
-                                                               where t.GetType().GetGenericTypeDefinition() == EntityType
-                                                               select t).FirstOrDefault();
+                                                where t.GetType().GetGenericTypeDefinition() == EntityType
+                                                select t).FirstOrDefault();
             }
 
             //Create the instance wich set the data
@@ -205,6 +205,17 @@ namespace Gale.Db
                     if (Caching.ordinal != -2)
                     {
                         object data = row[Caching.ordinal];
+
+                        if (data is DateTime)
+                        {
+                            data = DateTime.SpecifyKind((DateTime)data, DateTimeKind.Local);
+                        }
+
+                        if (data is System.Guid && Caching.property.PropertyType == typeof(String))
+                        {
+                            data = data.ToString();
+                        }
+
                         if (!(data is System.DBNull))
                         {
 

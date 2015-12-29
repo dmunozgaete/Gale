@@ -91,7 +91,7 @@ namespace Gale.REST.Config
                 c.IncludeXmlComments(XMLComment);
 
                 //Basic Configuration
-                c.SingleApiVersion(Gale.REST.Config.GaleConfig.apiVersion, "API Explorer");
+                c.SingleApiVersion("latest", "API Explorer");
 
             })
             .EnableSwaggerUi((c) =>
