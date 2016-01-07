@@ -13,7 +13,7 @@ namespace Gale.REST.Config
     /// </summary>
     public static class GaleConfig
     {
-        private static string _apiVersion = "v1";
+        private static string _apiVersion = null;
 
         /// <summary>
         /// Retrieves the Api Version
@@ -43,13 +43,8 @@ namespace Gale.REST.Config
         /// <param name="apiVersion">Api Version to enable</param>
         public static void Register(HttpConfiguration configuration, string apiVersion)
         {
-            //Only set if defined!
-            if (apiVersion != null)
-            {
-                _apiVersion = apiVersion;
-            }
-
-         
+            //Set api Version if exists :P
+            _apiVersion = apiVersion;
 
             //Add Child RESTful Service Action Selector
             configuration.Services.Replace(
