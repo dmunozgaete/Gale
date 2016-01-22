@@ -15,6 +15,8 @@ namespace Gale.REST.Config.SwashBuckleExtension.Filters
         {
             #region Add Documentation Nodes
             string TModel = null;
+            bool isBlueprintEndpoint = false;
+
 
             Type BlueprintController = apiDescription.ActionDescriptor.ControllerDescriptor.ControllerType.BaseType;
             if (BlueprintController.IsGenericType)
@@ -24,6 +26,45 @@ namespace Gale.REST.Config.SwashBuckleExtension.Filters
 
                 //Remove all Auto DB generated Properties
                 CleanModel(schemaRegistry, modelType);
+
+                isBlueprintEndpoint = true;
+
+            }
+
+            //Has Queryable Endpoint Mark??
+            if (apiDescription.ActionDescriptor.GetCustomAttributes<Swashbuckle.Swagger.Annotations.QueryableEndpoint>().Any())
+            {
+                var attr = apiDescription.ActionDescriptor.GetCustomAttributes<Swashbuckle.Swagger.Annotations.QueryableEndpoint>().First();
+
+                if (attr.QueryableType != null)
+                {
+                    var EnumerableType = attr.QueryableType;
+
+                    //Remove all Auto DB generated Properties
+                    if (!typeof(System.Collections.IEnumerable).IsAssignableFrom(EnumerableType))
+                    {
+                        //Convert to List (Queryable ALWAYS Return a List)
+                        EnumerableType = typeof(List<>).MakeGenericType(attr.QueryableType);
+                    }
+
+                    CleanModel(schemaRegistry, EnumerableType);
+                    operation.responses.Clear();
+
+                    var statusCode = "200";
+                    operation.responses[statusCode] = new Swashbuckle.Swagger.Response
+                    {
+                        schema = (EnumerableType != null) ? schemaRegistry.GetOrRegister(EnumerableType) : null
+                    };
+                }
+
+                isBlueprintEndpoint = true;
+            }
+
+
+
+            if (!isBlueprintEndpoint)
+            {
+                return;
             }
 
             if (apiDescription.HttpMethod == System.Net.Http.HttpMethod.Get)
@@ -37,7 +78,7 @@ namespace Gale.REST.Config.SwashBuckleExtension.Filters
                 {
                     name = "$select",
                     description = "Fields selector (comma separated)",
-                    @in= "query",
+                    @in = "query",
                     required = false,
                     type = "string"
                 });

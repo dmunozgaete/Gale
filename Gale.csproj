@@ -30,7 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>SignKey.pfx</AssemblyOriginatorKeyFile>
@@ -131,6 +131,7 @@
     <Compile Include="REST\Blueprint\Builders\SQLServer\Update.cs" />
     <Compile Include="REST\Blueprint\Builders\UpdateBuilder.cs" />
     <Compile Include="REST\Config\GaleConfig.cs" />
+    <Compile Include="REST\Config\SwashBuckleExtension\Decorators\QueryableEndpoint.cs" />
     <Compile Include="REST\Config\SwashBuckleExtension\Filters\RemoveSwaggerDefaults.cs" />
     <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddBlueprintDocumentation.cs" />
     <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddHeaderParameters.cs" />

@@ -29,7 +29,7 @@ namespace Gale.Security.Oauth.Jwt
 
             //--------------------------------------------------------------------------------
             //401  Unauthorized
-            var statusCode = System.Net.HttpStatusCode.OK;
+            int statusCode = (int)System.Net.HttpStatusCode.OK;
             var error = "";
             var error_description = Gale.Exception.Errors.ResourceManager.GetString(_errorCode);
 
@@ -37,22 +37,22 @@ namespace Gale.Security.Oauth.Jwt
             {
                 case "BEARER_TOKEN_NOT_FOUND":
                     //400 BAD REQUEST
-                    statusCode = System.Net.HttpStatusCode.BadRequest;
+                    statusCode = (int)System.Net.HttpStatusCode.BadRequest;
                     error = "invalid_request";
                     break;
                 case "TOKEN_EXPIRED":
-                    //400 BAD REQUEST
-                    statusCode = System.Net.HttpStatusCode.BadRequest;
-                    error = "invalid_token";
+                    //419 SESSION TIMEOUT
+                    statusCode = 419;
+                    error = "token_expired";
                     break;
                 case "ACCESS_UNAUTHORIZED":
                     //401 UNAUTHORIZED
-                    statusCode = System.Net.HttpStatusCode.Unauthorized;
+                    statusCode = (int)System.Net.HttpStatusCode.Unauthorized;
                     error = "access_denied";
                     break;
                 case "INVALID_TOKEN":
                     //400 BAD REQUEST
-                    statusCode = System.Net.HttpStatusCode.BadRequest;
+                    statusCode = (int)System.Net.HttpStatusCode.BadRequest;
                     error = "invalid_token";
                     break;
 
@@ -62,7 +62,7 @@ namespace Gale.Security.Oauth.Jwt
             throw new HttpResponseException(new System.Net.Http.HttpResponseMessage()
             {
                 ReasonPhrase = error,
-                StatusCode = statusCode,
+                StatusCode = (System.Net.HttpStatusCode)statusCode,
                 Content = new System.Net.Http.ObjectContent<AuthorizeError>(new AuthorizeError()
                 {
                     error = error,
