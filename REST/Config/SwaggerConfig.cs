@@ -74,10 +74,14 @@ namespace Gale.REST.Config
                     .Name("Authorization")
                     .In("header");
 
+
+                //Add ODATA Parameters to Queryable Endpoints =)
+                c.OperationFilter<Gale.REST.Config.SwashBuckleExtension.Filters.AddBlueprintDocumentation>();
+
                 //Add JWT Api Key Scheme
                 c.OperationFilter<Gale.REST.Config.SwashBuckleExtension.Filters.AddAuthorizateSecurityDefinitions>();
 
-                //Add implicit header parameter's
+                //Add implicit header parameter's       
                 c.OperationFilter<Gale.REST.Config.SwashBuckleExtension.Filters.AddHeaderParameters>();
 
                 //Add from header parameter's
