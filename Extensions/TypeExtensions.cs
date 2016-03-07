@@ -21,5 +21,31 @@ namespace System
 
             return guid != System.Guid.Empty;
         }
+
+        /// <summary>
+        /// Check is a Type is a typical "primitive" Type 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static bool IsSimpleType(this Type type)
+        {
+            return
+                type.IsPrimitive || 
+                new Type[] {
+                    typeof(Enum),
+                    typeof(String),
+                    typeof(Decimal),
+                    typeof(DateTime),
+                    typeof(DateTimeOffset),
+                    typeof(TimeSpan),
+                    typeof(Guid)
+                }.Contains(type) ||
+                Convert.GetTypeCode(type) != TypeCode.Object ||
+                (
+                    type.IsGenericType && 
+                    type.GetGenericTypeDefinition() == typeof(Nullable<>) && 
+                    IsSimpleType(type.GetGenericArguments()[0])
+                );
+        }
     }
 }
