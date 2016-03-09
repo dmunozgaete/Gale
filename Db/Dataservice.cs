@@ -53,7 +53,7 @@ namespace Gale.Db
         }
 
         /// <summary>
-        /// Add Parameter via the Model
+        /// Add each parameter binded to a source in the Model
         /// </summary>
         /// <param name="Model"></param>
         public void FromModel<T>(T Model)
@@ -100,12 +100,102 @@ namespace Gale.Db
                                 db_name = column_attr.Name;
                             }
                         }
+                        else
+                        {
+                            continue;
+                        }
 
                         //Add Parameter
                         this.Parameters.Add(db_name, value);
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// Add Table Type (SQL Structure) to a Store Procedure 
+        /// https://msdn.microsoft.com/en-us/library/bb675163.aspx
+        /// </summary>
+        /// <typeparam name="T">Model Type</typeparam>
+        /// <param name="parameterName">Parameter Name</param>
+        /// <param name="model">Model List</param>
+        public void AddTableType<T>(String parameterName, List<T> model)
+        {
+            Type EntityType = typeof(T);
+
+            String _dbTableTypeName = EntityType.Name;
+
+
+            var attr = EntityType.TryGetAttribute<System.Data.Linq.Mapping.ColumnAttribute>();
+            if (attr != null)
+            {
+                _dbTableTypeName = attr.Name;
+            }
+
+            this.AddTableType<T>(parameterName, model, _dbTableTypeName);
+        }
+
+        /// <summary>
+        /// Add Table Type (SQL Structure) to a Store Procedure 
+        /// https://msdn.microsoft.com/en-us/library/bb675163.aspx
+        /// </summary>
+        /// <typeparam name="T">Model Type</typeparam>
+        /// <param name="parameterName">Parameter Name</param>
+        /// <param name="model">Model List</param>
+        /// <param name="tableType">Table Type in the Database</param>
+        public void AddTableType<T>(String parameterName, List<T> model, String tableType)
+        {
+            Type EntityType = typeof(T);
+
+            //Reflect the Model Properies (Perform Pattern For Huge Data)
+            List<ReflectedFieldCaching> MemoryOptimizer = (
+                from t in
+                    EntityType.GetProperties()
+                where
+                    t.CanRead && t.GetIndexParameters().Count() == 0 &&
+                    (t.PropertyType.IsGenericType == false || (t.PropertyType.IsGenericType == true &&
+                    t.PropertyType.GetGenericTypeDefinition() != typeof(System.Data.Linq.EntitySet<>))) &&
+                    t.TryGetAttribute<System.Data.Linq.Mapping.ColumnAttribute>() != null
+                select new ReflectedFieldCaching
+                {
+                    columnName = t.Name,
+                    property = t,
+                    columnAttribute = t.GetCustomAttribute<System.Data.Linq.Mapping.ColumnAttribute>()
+                }
+            ).ToList();
+
+            //DataTable
+            System.Data.DataTable table = new System.Data.DataTable();
+
+            //----------------------------------------------------------------------
+            //Create the Datatable Structure Columns
+            foreach (var field in MemoryOptimizer)
+            {
+                string column_name = field.columnName;
+                if (field.columnAttribute.Name != null)
+                {
+                    field.columnName = field.columnAttribute.Name;
+                }
+
+                table.Columns.Add(field.columnName);
+            }
+            //----------------------------------------------------------------------
+
+            //----------------------------------------------------------------------
+            //Create the Datatable Structure Columns
+            foreach (var item in model)
+            {
+                System.Data.DataRow row = table.NewRow();
+                foreach (var field in MemoryOptimizer)
+                {
+                    row[field.columnName] = field.property.GetValue(item);
+                }
+
+                table.Rows.Add(row);
+            }
+            //----------------------------------------------------------------------
+
+            this.Parameters.Add(parameterName, table);
         }
 
         /// <summary>
@@ -130,6 +220,30 @@ namespace Gale.Db
             _parameters = null;
         }
 
+        #endregion
+
+
+        #region Helper Class
+        /// <summary>
+        /// Internal Memory Caching 
+        /// </summary>
+        internal class ReflectedFieldCaching
+        {
+            /// <summary>
+            /// Database Column Name
+            /// </summary>
+            public string columnName { get; set; }
+
+            /// <summary>
+            /// Property Model 
+            /// </summary>
+            public System.Reflection.PropertyInfo property { get; set; }
+
+            /// <summary>
+            /// ColumnAttribute Model 
+            /// </summary>
+            public System.Data.Linq.Mapping.ColumnAttribute columnAttribute { get; set; }
+        }
         #endregion
     }
 }
