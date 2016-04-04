@@ -72,11 +72,13 @@ namespace Gale.Db
             foreach (var property in properties)
             {
                 Object value = property.GetValue(Model);
-                Type propertyType = value.GetType();
                 if (value != null)
                 {
+                    Type propertyType = value.GetType();
+
                     if (typeof(System.Collections.IEnumerable).IsAssignableFrom(propertyType))
                     {
+
                         continue;
                     }
 
@@ -112,28 +114,6 @@ namespace Gale.Db
             }
         }
 
-        /// <summary>
-        /// Add Table Type (SQL Structure) to a Store Procedure 
-        /// https://msdn.microsoft.com/en-us/library/bb675163.aspx
-        /// </summary>
-        /// <typeparam name="T">Model Type</typeparam>
-        /// <param name="parameterName">Parameter Name</param>
-        /// <param name="model">Model List</param>
-        public void AddTableType<T>(String parameterName, List<T> model)
-        {
-            Type EntityType = typeof(T);
-
-            String _dbTableTypeName = EntityType.Name;
-
-
-            var attr = EntityType.TryGetAttribute<System.Data.Linq.Mapping.ColumnAttribute>();
-            if (attr != null)
-            {
-                _dbTableTypeName = attr.Name;
-            }
-
-            this.AddTableType<T>(parameterName, model, _dbTableTypeName);
-        }
 
         /// <summary>
         /// Add Table Type (SQL Structure) to a Store Procedure 
@@ -143,7 +123,7 @@ namespace Gale.Db
         /// <param name="parameterName">Parameter Name</param>
         /// <param name="model">Model List</param>
         /// <param name="tableType">Table Type in the Database</param>
-        public void AddTableType<T>(String parameterName, List<T> model, String tableType)
+        public void AddTableType<T>(String parameterName, List<T> model)
         {
             Type EntityType = typeof(T);
 
