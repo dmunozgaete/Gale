@@ -11,7 +11,7 @@ namespace Gale.REST.Queryable.OData.Builders.SQLServer.Operators
         public override string Parse(Gale.REST.Queryable.Primitive.Reflected.Field field, string value)
         {
             String format = "{0} < {1}";
-            if (field.Type== typeof(String))
+            if (field.Type == typeof(String))
             {
                 format = "LEN({0}) < {1}";
             }

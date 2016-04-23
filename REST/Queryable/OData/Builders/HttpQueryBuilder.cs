@@ -125,6 +125,29 @@ namespace Gale.REST.Queryable.OData.Builders
                     this.Kql.filters.Add(filter);
 
                 });
+
+                configuration.fields.ForEach((fields) =>
+                {
+
+                    this.Kql.fields.Add(fields.ToLower());
+
+                });
+
+                if (configuration.limit > 0)
+                {
+                    this.Kql.limit = configuration.limit;
+                }
+
+                if (configuration.offset > 0)
+                {
+                    this.Kql.offset = configuration.offset;
+                }
+
+                if (configuration.orderBy != null && !String.IsNullOrEmpty(configuration.orderBy.name))
+                {
+                    this.Kql.orderBy = configuration.orderBy;
+                }
+
             }
             #endregion
         }

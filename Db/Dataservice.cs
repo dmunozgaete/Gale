@@ -157,7 +157,7 @@ namespace Gale.Db
                     field.columnName = field.columnAttribute.Name;
                 }
 
-                table.Columns.Add(field.columnName);
+                table.Columns.Add(field.columnName, field.property.PropertyType);
             }
             //----------------------------------------------------------------------
 
@@ -169,6 +169,7 @@ namespace Gale.Db
                 foreach (var field in MemoryOptimizer)
                 {
                     row[field.columnName] = field.property.GetValue(item);
+                    
                 }
 
                 table.Rows.Add(row);
