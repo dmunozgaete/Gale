@@ -32,6 +32,29 @@ namespace Gale.REST.Config
         }
 
         /// <summary>
+        /// Store the documentation file
+        /// </summary>
+        private static String _documentationFile = null;
+
+        /// <summary>
+        /// Retrieves the documentation file for getting the explorer
+        /// </summary>
+        public static String DocumentationFile
+        {
+            get
+            {
+                if (_documentationFile == null)
+                {
+                    /* Cross Platform */
+                    _documentationFile = String.Format("API{0}xml",System.IO.Path.DirectorySeparatorChar);	
+                }
+                return _documentationFile;
+            }
+        }
+
+
+
+        /// <summary>
         /// Security Schema Definition name, For Swagger UI
         /// </summary>
         internal const string _securityDefinitionNameSchema = "jwt";
@@ -40,18 +63,24 @@ namespace Gale.REST.Config
         /// Register Config Variables
         /// </summary>
         /// <param name="config"></param>
-        public static void Register(HttpConfiguration configuration)
+        public static void Register(HttpConfiguration configuration, String documentationFilePath)
         {
             _isSwaggerEnabled = true;
+
+            //Override the API Documentation File??
+            if (documentationFilePath != null)
+            {
+                _documentationFile = documentationFilePath;
+            }
 
             //--------------------------------------------------------------------------------------------------------------------------------------------
             //SWAGGER PROTOCOL AUTO-GENERATED DOC's
             //https://github.com/domaindrivendev/Swashbuckle
 
             string XMLComment = System.String.Format(
-                                    @"{0}{1}bin{1}API.XML",
+                                    @"{0}{1}",
                                     System.AppDomain.CurrentDomain.BaseDirectory,
-                                    System.IO.Path.DirectorySeparatorChar	/* Cross Platform */
+                                    Gale.REST.Config.SwaggerConfig.DocumentationFile
                                 );
 
             configuration.EnableSwagger((c) =>

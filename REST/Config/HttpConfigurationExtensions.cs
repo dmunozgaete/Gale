@@ -15,7 +15,18 @@ namespace System.Web.Http
         /// <param name="configuration"></param>
         public static void EnableSwagger(this HttpConfiguration configuration)
         {
-            Gale.REST.Config.SwaggerConfig.Register(configuration);
+            EnableSwagger(configuration, null);
+        }
+
+        /// <summary>
+        /// Enable Swagger "Live" Documentation in URL : {API}/swagger
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="documentationFilePath">override the default path for the XML Documentation File</param>
+        public static void EnableSwagger(this HttpConfiguration configuration, String documentationFilePath)
+        {
+            
+            Gale.REST.Config.SwaggerConfig.Register(configuration, documentationFilePath);
         }
 
         /// <summary>
@@ -48,6 +59,7 @@ namespace System.Web.Http
         {
             configuration.Formatters.Add(new Gale.REST.Http.Formatter.JsonFormatter());
         }
+
     }
 
 }

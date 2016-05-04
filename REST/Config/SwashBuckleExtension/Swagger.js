@@ -8,8 +8,8 @@
     token_input.attr("placeholder", "Put your access token here");
 
     setToken_input.one("click", function () {
-        
-        switch(setToken_input.html()){
+
+        switch (setToken_input.html()) {
             case LABEL_LOGOUT:
                 //--------------------------------
                 // LOG OUT 
@@ -51,7 +51,7 @@
         }, 500);
     })
 
-    var tryToAuthenticate = function(){
+    var tryToAuthenticate = function () {
         //Try to get a security authorization
         var isAuthenticated = false;
         for (var name in window.swaggerApi.securityDefinitions) {
@@ -78,23 +78,23 @@
     tryToAuthenticate();
 
 
-    
-    
+
+
 
     //Switch the label of the parameter to the "Comment", Wich in API is setted the Real Parameter Name
-    var fixHeaderParams = function(){
+    var fixHeaderParams = function () {
 
         $(".operation-params").find("tr").each(function (idx, tr) {
             var tds = $(tr).children();
-            
+
             var isHeaderParam = $(tds[3]).text() == "header";
-            if(isHeaderParam){
-                
+            if (isHeaderParam) {
+
                 //Re-position Label's HeaderName -> Comment
                 var parameterName = $.trim($(tds[2]).text());
 
                 //In server Mark the Parameter Name in Comment with *
-                if(parameterName.indexOf("*") == 0){
+                if (parameterName.indexOf("*") == 0) {
 
                     var headerName = $.trim($(tds[0]).text());
 
@@ -107,4 +107,15 @@
     }
 
     fixHeaderParams();
+
+    //Open the Gale Documentation Site when clicked in the logo!
+    (function () {
+        //IF LOCAL STORAGE??
+        if (window['localStorage']) {
+            var logo = $("#logo");
+            var GALE_URL_SITE = localStorage.getItem("GALE_URL_SITE");
+            logo.attr("href", GALE_URL_SITE);
+            logo.attr("target", "_blank");
+        }
+    })();
 });
