@@ -3,7 +3,6 @@
 <head>
     <meta charset="utf-8" />
     <title>API Doc's</title>
-    
 
     <style>
         /* droid-sans-regular - latin */
@@ -49,7 +48,17 @@
 
         h2.navigate {
             font-weight: 400;
+            color: #B5B5B5;
         }
+
+            h2.navigate > a {
+                font-weight: bold;
+                color: #FFF;
+            }
+
+                h2.navigate > a:hover {
+                    opacity: 0.8;
+                }
 
         div.developedBy:hover {
             opacity: 0.7;
@@ -95,9 +104,9 @@
 
 
         //SET THE GALE SITE URL TO STORE
-        (function(){
+        (function () {
             var GALE_URL_SITE = "@Model.GALE_DOCS_SITE";
-           
+
             if (window['localStorage']) {
                 localStorage.setItem("GALE_URL_SITE", GALE_URL_SITE);
             }
@@ -113,9 +122,7 @@
         <span class="path">
             @Model.APIUrl
         </span>
-
     </div>
-
 
     <center>
         <h1 class="title">
@@ -128,7 +135,7 @@
         {
             <h2 class="navigate">
                 To explore the live documentation, please visit:&nbsp;
-                <a href="#" onclick="navigateTo('swagger/ui/index');">Swagger UI</a>
+                <a href="#" onclick="navigateTo('swagger/ui/index');">API Explorer</a>
             </h2>
         }
     </center>
