@@ -12,7 +12,7 @@ namespace Swashbuckle.Swagger.Annotations
 {
 
     /// <summary>
-    /// Add in Swagger a Impliciti "header" parameter , (useful for testing in swagger-ui)
+    /// Add in Swagger a Implicit "header" parameter , (useful for testing in swagger-ui)
     /// </summary>
     [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
     public class HeaderParameter : System.Attribute

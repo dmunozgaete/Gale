@@ -29,10 +29,11 @@ namespace Gale.Db.Factories
         {
             if (ex is System.Data.SqlClient.SqlException)
             {
-                //CUSTOM DB HANDLER ERROR && (ERROR NUMBER MUST BE > 50000)
+                //CUSTOM DB HANDLER ERROR && (ERROR NUMBER MUST BE >= 50000) AND
+                // SEVERITY >= 16
                 //https://msdn.microsoft.com/en-us/library/ms178592.aspx
                 var DB_EX = (ex as System.Data.SqlClient.SqlException);
-                if (DB_EX.Number > 50000)
+                if (DB_EX.Number >= 50000 && Convert.ToInt32(DB_EX.Class) >= 16)
                 {
                     throw new Gale.Exception.SqlClient.CustomDatabaseException(DB_EX.Number.ToString(), DB_EX.Message);
                 }

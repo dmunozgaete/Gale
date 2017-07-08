@@ -14,7 +14,7 @@ namespace Swashbuckle.Swagger.Annotations
     /// <summary>
     /// Add in Swagger a Explicit "Queryable Endpoint" , (useful for testing in swagger-ui)
     /// </summary>
-    [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = true)]
+    [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class QueryableEndpoint: System.Attribute
     {
         private Type _queryableType = null;

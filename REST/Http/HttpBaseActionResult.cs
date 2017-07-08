@@ -24,24 +24,8 @@ namespace Gale.REST.Http
 
                 if (_connection == null)
                 {
-
-                    var cnx = System.Configuration.ConfigurationManager.ConnectionStrings[Gale.REST.Resources.GALE_CONNECTION_DEFAULT_KEY];
-                    if (cnx == null)
-                    {
-
-                        throw new Gale.Exception.GaleException("DB002");
-                    }
-
-                    try
-                    {
-                        Type factory_type = Type.GetType(cnx.ProviderName);
-                        var factory = Activator.CreateInstance(factory_type, new object[] { cnx.ConnectionString });
-                        _connection = (Gale.Db.IDataActions)factory;
-                    }
-                    catch (System.Exception ex)
-                    {
-                        throw new Gale.Exception.GaleException("DB001", ex.Message);
-                    }
+                    //Resolve Connection
+                    _connection = Gale.Db.Factories.FactoryResolver.Resolve();
 
                 }
                 return _connection;

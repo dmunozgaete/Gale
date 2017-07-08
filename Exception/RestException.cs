@@ -10,8 +10,45 @@ namespace Gale.Exception
     /// <summary>
     /// Rest Exception for a REST protocol
     /// </summary>
-    public class RestException: System.Exception
+    public class RestException : System.Exception
     {
+
+        System.Net.HttpStatusCode _statusCode;
+        String _code;
+        String _message;
+
+        /// <summary>
+        /// Get the Http Status Code for the Exception 
+        /// </summary>
+        public System.Net.HttpStatusCode StatusCode
+        {
+            get
+            {
+                return _statusCode;
+            }
+        }
+
+        /// <summary>
+        /// Get the Code for the Exception
+        /// </summary>
+        public String Code
+        {
+            get
+            {
+                return _code;
+            }
+        }
+
+        /// <summary>
+        /// Get the Message for the Exception
+        /// </summary>
+        public override String Message
+        {
+            get
+            {
+                return _message;
+            }
+        }
 
         /// <summary>
         /// Create a exception
@@ -21,8 +58,9 @@ namespace Gale.Exception
         public RestException(string code, string message)
             : base()
         {
-
-            Build( System.Net.HttpStatusCode.InternalServerError, code, message);
+            _statusCode = System.Net.HttpStatusCode.InternalServerError;
+            _code = code;
+            _message = message;
         }
 
         /// <summary>
@@ -34,8 +72,9 @@ namespace Gale.Exception
         public RestException(System.Net.HttpStatusCode statusCode, string code, string message)
             : base()
         {
-
-            Build(statusCode, code, message);
+            _statusCode = statusCode;
+            _code = code;
+            _message = message;
         }
 
 
@@ -50,7 +89,12 @@ namespace Gale.Exception
         {
             if (condition())
             {
-                Build(statusCode, code, message);
+                if (String.IsNullOrEmpty(message))
+                {
+                    message = code;
+                }
+
+                throw new RestException(statusCode, code, message);
             }
         }
 
@@ -77,28 +121,6 @@ namespace Gale.Exception
             Guard(condition, System.Net.HttpStatusCode.BadRequest, code, message);
         }
 
-        /// <summary>
-        /// Build the exception
-        /// </summary>
-        /// <param name="statusCode">Http Status Code</param>
-        /// <param name="code">Identifier for the Error</param>
-        /// <param name="message">Message</param>
-        private static void Build(System.Net.HttpStatusCode statusCode, String code, string message)
-        {
-
-            throw new HttpResponseException(new System.Net.Http.HttpResponseMessage()
-            {
-                ReasonPhrase = code,
-                StatusCode = statusCode,
-                Content = new System.Net.Http.ObjectContent<ErrorContent>(new ErrorContent()
-                {
-                    error = code,
-                    error_description = message,
-                },
-                new System.Net.Http.Formatting.JsonMediaTypeFormatter())
-            });
-
-        }
 
         /// <summary>
         /// Response Error Content

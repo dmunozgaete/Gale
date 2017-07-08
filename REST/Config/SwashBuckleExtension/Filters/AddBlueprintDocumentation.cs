@@ -73,14 +73,17 @@ namespace Gale.REST.Config.SwashBuckleExtension.Filters
                 operation.description = String.Format(Gale.REST.Resources.SwasbuckleExtension_Blueprint_GET_ImplementationNotes, Gale.REST.Resources.GALE_DOCS_SITE);
 
                 #region OData Parameter's
-                operation.parameters = new List<Swashbuckle.Swagger.Parameter>();
+                if (operation.parameters == null)
+                {
+                    operation.parameters = new List<Swashbuckle.Swagger.Parameter>();
+                }
                 operation.parameters.Add(new Swashbuckle.Swagger.Parameter()
                 {
                     name = "$select",
                     description = "Fields selector (comma separated)",
                     @in = "query",
-                    required = false,
-                    type = "string"
+                    type = "string",
+                    minimum = 0
                 });
 
                 operation.parameters.Add(new Swashbuckle.Swagger.Parameter()
@@ -88,8 +91,8 @@ namespace Gale.REST.Config.SwashBuckleExtension.Filters
                     name = "$filter",
                     description = "collection of filter's (comma separated): {field} {operator} {value}",
                     @in = "query",
-                    required = false,
-                    type = "string"
+                    type = "string",
+                    minimum = 0
                 });
 
                 operation.parameters.Add(new Swashbuckle.Swagger.Parameter()
@@ -97,8 +100,8 @@ namespace Gale.REST.Config.SwashBuckleExtension.Filters
                     name = "$orderBy",
                     description = "Order by clause: {field} (asc|desc)",
                     @in = "query",
-                    required = false,
-                    type = "string"
+                    type = "string",
+                    minimum = 0
                 });
 
                 operation.parameters.Add(new Swashbuckle.Swagger.Parameter()
@@ -106,8 +109,8 @@ namespace Gale.REST.Config.SwashBuckleExtension.Filters
                     name = "$limit",
                     description = "Limit the number of records returned",
                     @in = "query",
-                    required = false,
-                    type = "number"
+                    type = "number",
+                    minimum = 0
                 });
 
                 operation.parameters.Add(new Swashbuckle.Swagger.Parameter()
@@ -115,8 +118,8 @@ namespace Gale.REST.Config.SwashBuckleExtension.Filters
                     name = "$offset",
                     description = "Skip records before returning anything",
                     @in = "query",
-                    required = false,
-                    type = "number"
+                    type = "number",
+                    minimum = 0
                 });
                 #endregion
             }

@@ -10,6 +10,6 @@ namespace Gale.REST
     [ExceptionFilter]
     public class RestController : System.Web.Http.ApiController
     {
-      
+
     }
 }

@@ -76,9 +76,9 @@ namespace Gale.Db
                 {
                     Type propertyType = value.GetType();
 
-                    if (typeof(System.Collections.IEnumerable).IsAssignableFrom(propertyType))
+                    //if (typeof(System.Collections.IEnumerable).IsAssignableFrom(propertyType))
+                    if(propertyType.IsArray)
                     {
-
                         continue;
                     }
 
@@ -157,7 +157,12 @@ namespace Gale.Db
                     field.columnName = field.columnAttribute.Name;
                 }
 
-                table.Columns.Add(field.columnName, field.property.PropertyType);
+                var propertyType = field.property.PropertyType;
+                if (field.property.PropertyType.IsGenericType && field.property.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>))
+                {
+                    propertyType = typeof(String);
+                }
+                table.Columns.Add(field.columnName, propertyType);
             }
             //----------------------------------------------------------------------
 
@@ -168,8 +173,11 @@ namespace Gale.Db
                 System.Data.DataRow row = table.NewRow();
                 foreach (var field in MemoryOptimizer)
                 {
-                    row[field.columnName] = field.property.GetValue(item);
+                    object value = field.property.GetValue(item);
+
                     
+                    row[field.columnName] = value;
+
                 }
 
                 table.Rows.Add(row);

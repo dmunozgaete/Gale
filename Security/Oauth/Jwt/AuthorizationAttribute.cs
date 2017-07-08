@@ -10,6 +10,12 @@ namespace Gale.Security.Oauth.Jwt
 {
     public class AuthorizeAttribute : System.Web.Http.AuthorizeAttribute
     {
+        /// <summary>
+        /// Scopes Allowed for executing the action  
+        /// </summary>
+        public string Scopes { get; set; }
+
+
         private string _errorCode = "";
         public override void OnAuthorization(System.Web.Http.Controllers.HttpActionContext actionContext)
         {
@@ -143,7 +149,7 @@ namespace Gale.Security.Oauth.Jwt
                 _errorCode = "TOKEN_EXPIRED";
                 return false;
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 _errorCode = "INVALID_TOKEN";
                 return false;

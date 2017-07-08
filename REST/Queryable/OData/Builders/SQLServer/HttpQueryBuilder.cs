@@ -97,7 +97,7 @@ namespace Gale.REST.Queryable.OData.Builders.SQLServer
         /// <returns></returns>
         internal override string PrepareCall(List<string> statements)
         {
-            String temporalTable = String.Concat("##", System.Guid.NewGuid().ToString().Replace("-", String.Empty));
+            String temporalTable = String.Concat("#", System.Guid.NewGuid().ToString().Replace("-", String.Empty));
 
             //SELECT INTO CLAUSE 
             statements.Insert(0, String.Format("SELECT \n\n* \n\nINTO {0} \n\nFROM \n\n(", temporalTable));

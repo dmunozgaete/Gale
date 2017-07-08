@@ -225,7 +225,7 @@
     <value>Ha ocurrido un error en la conexión de la fuente de datos</value>
     <comment>DB Connection</comment>
   </data>
-  <data name="DB002" xml:space="preserve">
+  <data name=" " xml:space="preserve">
     <value>La cadena de conexion "Application:default" en el web.config no ha sido inicializada</value>
     <comment>DB Connection</comment>
   </data>

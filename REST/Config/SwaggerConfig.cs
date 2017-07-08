@@ -46,7 +46,7 @@ namespace Gale.REST.Config
                 if (_documentationFile == null)
                 {
                     /* Cross Platform */
-                    _documentationFile = String.Format("API{0}xml",System.IO.Path.DirectorySeparatorChar);	
+                    _documentationFile = String.Format("API{0}xml", System.IO.Path.DirectorySeparatorChar);
                 }
                 return _documentationFile;
             }
@@ -59,11 +59,26 @@ namespace Gale.REST.Config
         /// </summary>
         internal const string _securityDefinitionNameSchema = "jwt";
 
+        private static string ResolveBasePath(HttpRequestMessage message)
+        {
+            var virtualPathRoot = message.GetRequestContext().VirtualPathRoot;
+
+            var schemeAndHost = message.RequestUri.Scheme + "://" + message.RequestUri.Host + ":" + message.RequestUri.Port;
+            return new Uri(new Uri(schemeAndHost, UriKind.Absolute), virtualPathRoot).AbsoluteUri;
+        }
+
         /// <summary>
         /// Register Config Variables
         /// </summary>
-        /// <param name="config"></param>
-        public static void Register(HttpConfiguration configuration, String documentationFilePath)
+        /// <param name="configuration">Configuration WebConfig</param>
+        /// <param name="documentationFilePath">File to Documentation Path (documentation xml)</param>
+        /// <param name="explorerTitle">Overrides the default Explorer Title</param>
+        /// <param name="rootUrl">Root Url to override to find Swagger JSON File</param>
+        public static void Register(
+            HttpConfiguration configuration,
+            String documentationFilePath,
+            String explorerTitle,
+            String rootUrl)
         {
             _isSwaggerEnabled = true;
 
@@ -83,8 +98,31 @@ namespace Gale.REST.Config
                                     Gale.REST.Config.SwaggerConfig.DocumentationFile
                                 );
 
+
             configuration.EnableSwagger((c) =>
             {
+
+                //Add Strategy for Duplicadte IDS
+                c.SchemaId((type) =>
+                {
+                    return type.FullName;
+                });
+
+                //Useful when the Swagger JSON is in another place
+                if (String.IsNullOrEmpty(rootUrl))
+                {
+                    c.RootUrl(ResolveBasePath); //DEFAULT Resolver
+                }
+                else
+                {
+                    //Override the URL to another Place
+                    c.RootUrl((msg) =>
+                    {
+                        return rootUrl;
+                    });
+                }
+
+
                 //Ignote Obsolete Operations (Obsolete Attribute)
                 c.IgnoreObsoleteActions();
 
@@ -116,15 +154,25 @@ namespace Gale.REST.Config
                 //Add from header parameter's
                 c.OperationFilter<Gale.REST.Config.SwashBuckleExtension.Filters.AddFromHeaderParameters>();
 
+                //Add from header parameter's
+                c.OperationFilter<Gale.REST.Config.SwashBuckleExtension.Filters.AddFormDataParameters>();
+
                 //Remove Swagger Default's
                 //c.OperationFilter<Gale.REST.Config.SwashBuckleExtension.Filters.RemoveSwaggerDefaults>();
+
+
 
 
                 //Include XML
                 c.IncludeXmlComments(XMLComment);
 
+                if (String.IsNullOrEmpty(explorerTitle))
+                {
+                    explorerTitle = "API Explorer";
+                }
+
                 //Basic Configuration
-                c.SingleApiVersion("latest", "API Explorer");
+                c.SingleApiVersion("latest", explorerTitle);
 
             })
             .EnableSwaggerUi((c) =>
