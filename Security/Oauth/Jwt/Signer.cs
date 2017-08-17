@@ -13,11 +13,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Hosting;
+using System.Web.Script.Serialization;
 
 namespace Gale.Security.Oauth.Jwt
 {
     public class Signer
     {
+        public static string DateTimeToUnixTimestamp(DateTime dateTime)
+        {
+            return ((Int32)(TimeZoneInfo.ConvertTimeToUtc(dateTime) -
+                   new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc)).TotalSeconds).ToString();
+        }
+
         public static Wrapper Sign(List<Claim> claims, DateTime expiresIn, SigningCredentials credentials, string issuer, string audience)
         {
             var notBefore = DateTime.Now;       //Not Before Date Expires
@@ -56,12 +63,52 @@ namespace Gale.Security.Oauth.Jwt
                     var epoch = new DateTime(1970, 1, 1);
                     claims.Add(new Claim("aud", audience));
                     claims.Add(new Claim("iss", issuer));
-                    claims.Add(new Claim("exp", ((Int32)(expiresIn.Subtract(epoch).TotalSeconds)).ToString()));
-                    claims.Add(new Claim("nbf", ((Int32)(notBefore.Subtract(epoch).TotalSeconds)).ToString()));
-                    claims.Add(new Claim("iat", ((Int32)(notBefore.Subtract(epoch).TotalSeconds)).ToString()));
+                    claims.Add(new Claim("exp", DateTimeToUnixTimestamp(expiresIn), ClaimValueTypes.Integer32));
+                    claims.Add(new Claim("nbf", DateTimeToUnixTimestamp(notBefore), ClaimValueTypes.Integer32));
 
-                    Dictionary<string, object> payload = claims.ToDictionary(k => k.Type, v => (object)v.Value);
-                    jwt = Jose.JWT.Encode(payload, rsa, Jose.JwsAlgorithm.RS256);
+                    Dictionary<string, object> payload = new Dictionary<string, object>();
+                    /*try
+                    {*/
+                        List<String> scopes = new List<String>();
+                        List<String> roles = new List<String>();
+                        foreach (Claim claim in claims)
+                        {
+                            if (claim.Type == "scope")
+                            {
+                                scopes.Add(claim.Value);
+                                continue;
+                            }
+
+                            if (claim.Type == "role")
+                            {
+                                roles.Add(claim.Value);
+                                continue;
+                            }
+
+                            Object value = claim.Value;
+                            switch (claim.ValueType)
+                            {
+                                case ClaimValueTypes.Integer32:
+                                    value = Int32.Parse(value.ToString());
+                                    break;
+                            }
+
+                            payload.Add(claim.Type, value);
+                        }
+                        payload.Add("scope", scopes.ToArray());
+                        payload.Add("role", roles.ToArray());
+
+                        //= claims.ToDictionary(k => k.Type, v => (object)v.Value);
+                        jwt = Jose.JWT.Encode(payload, rsa, Jose.JwsAlgorithm.RS256);
+
+                    /*}
+                    catch (System.Exception ex)
+                    {
+                        var json = new JavaScriptSerializer().Serialize(payload);
+                        throw new Gale.Exception.RestException("1000", json);
+                    }*/
+
+
                 }
 
 
