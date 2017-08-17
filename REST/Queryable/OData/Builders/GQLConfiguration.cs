@@ -12,7 +12,7 @@ namespace Gale.REST.Queryable.OData.Builders
         public GQLConfiguration()
         {
             this.offset = 0;
-            this.limit = 10;
+            this.limit = 0;
             this.fields = new List<string>();
             this.filters = new List<Filter>();
         }

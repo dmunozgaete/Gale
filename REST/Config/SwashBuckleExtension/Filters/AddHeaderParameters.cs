@@ -29,11 +29,17 @@ namespace Gale.REST.Config.SwashBuckleExtension.Filters
             {
                 var attr = (Swashbuckle.Swagger.Annotations.HeaderParameter)apiDescription.ActionDescriptor.GetCustomAttributes<Swashbuckle.Swagger.Annotations.HeaderParameter>().First();
 
+                if (operation.parameters == null)
+                {
+                    operation.parameters = new List<Parameter>();
+                }
+
                 operation.parameters.Add(new Parameter()
                 {
                     name = attr.Name,
                     @in = "header",
                     type = "string",
+                    minimum = attr.Required ? 1 : 0,
                     required = attr.Required
                 });
 

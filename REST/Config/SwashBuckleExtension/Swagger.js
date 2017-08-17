@@ -1,4 +1,5 @@
 ﻿$(function () {
+
     var setToken_input = $("#explore");
     var LABEL_LOGIN = "Authenticate";
     var LABEL_LOGOUT = "Log Out";

@@ -36,6 +36,12 @@
     <AssemblyOriginatorKeyFile>SignKey.pfx</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.1.0, Culture=neutral, PublicKeyToken=0e99375e54769942">
+      <HintPath>..\..\..\Sodimac\Single Sign On\API\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="jose-jwt, Version=2.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\Sodimac\Single Sign On\API\packages\jose-jwt.2.4.0\lib\net40\jose-jwt.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <Private>True</Private>
       <HintPath>packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
@@ -107,6 +113,7 @@
     <Compile Include="Db\EntityRepository.cs" />
     <Compile Include="Db\EntityTable.cs" />
     <Compile Include="Db\Factories\AbstractFactory.cs" />
+    <Compile Include="Db\Factories\FactoryResolver.cs" />
     <Compile Include="Db\Factories\FactoryTarget.cs" />
     <Compile Include="Db\Factories\SQLServerFactory.cs" />
     <Compile Include="Db\IDataActions.cs" />
@@ -116,7 +123,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
     </Compile>
-    <Compile Include="Exception\KarmaException.cs" />
+    <Compile Include="Exception\GaleException.cs" />
     <Compile Include="Exception\RestException.cs" />
     <Compile Include="Exception\SqlClient\CustomDatabaseException.cs" />
     <Compile Include="Extensions\GlobalConfigurationExtensions.cs" />
@@ -130,8 +137,11 @@
     <Compile Include="REST\Blueprint\Builders\SQLServer\Read.cs" />
     <Compile Include="REST\Blueprint\Builders\SQLServer\Update.cs" />
     <Compile Include="REST\Blueprint\Builders\UpdateBuilder.cs" />
+    <Compile Include="REST\Config\ExceptionMessageHandler.cs" />
     <Compile Include="REST\Config\GaleConfig.cs" />
+    <Compile Include="REST\Config\SwashBuckleExtension\Decorators\FormDataParameter.cs" />
     <Compile Include="REST\Config\SwashBuckleExtension\Decorators\QueryableEndpoint.cs" />
+    <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddFormDataParameters.cs" />
     <Compile Include="REST\Config\SwashBuckleExtension\Filters\RemoveSwaggerDefaults.cs" />
     <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddBlueprintDocumentation.cs" />
     <Compile Include="REST\Config\SwashBuckleExtension\Filters\AddHeaderParameters.cs" />

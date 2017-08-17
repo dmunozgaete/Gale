@@ -10,6 +10,43 @@ namespace Gale.Exception
     /// </summary>
     internal sealed class GaleException : System.Exception
     {
+        System.Net.HttpStatusCode _statusCode;
+        String _code;
+        String _message;
+
+        /// <summary>
+        /// Get the Http Status Code for the Exception 
+        /// </summary>
+        public System.Net.HttpStatusCode StatusCode
+        {
+            get
+            {
+                return _statusCode;
+            }
+        }
+
+        /// <summary>
+        /// Get the Code for the Exception
+        /// </summary>
+        public String Code
+        {
+            get
+            {
+                return _code;
+            }
+        }
+
+        /// <summary>
+        /// Get the Message for the Exception
+        /// </summary>
+        public override String Message
+        {
+            get
+            {
+                return _message;
+            }
+        }
+
         /// <summary>
         /// Constructor de la clase
         /// </summary>
@@ -27,26 +64,14 @@ namespace Gale.Exception
             Build(System.Net.HttpStatusCode.InternalServerError, resourceString, parameters);
         }
 
-
-
-        private static void Build(System.Net.HttpStatusCode statusCode, String code, params String[] parameters)
+        private void Build(System.Net.HttpStatusCode statusCode, String code, params String[] parameters)
         {
             String resource = Gale.Exception.Errors.ResourceManager.GetString(code);
-
             string message = resource != null ? String.Format(resource, parameters) : code;
-            //string message_code = resource != null ? code : "RAW";
 
-            throw new System.Web.Http.HttpResponseException(new System.Net.Http.HttpResponseMessage()
-            {
-                ReasonPhrase = code,
-                StatusCode = statusCode,
-                Content = new System.Net.Http.ObjectContent<Gale.Exception.RestException.ErrorContent>(new Gale.Exception.RestException.ErrorContent()
-                {
-                    error = code,
-                    error_description = message,
-                },
-                new System.Net.Http.Formatting.JsonMediaTypeFormatter())
-            });
+            _statusCode = statusCode;
+            _code = code;
+            _message = message;
         }
 
         /// <summary>
@@ -59,7 +84,7 @@ namespace Gale.Exception
         {
             if (ErrorCondition())
             {
-                Build(System.Net.HttpStatusCode.InternalServerError, resourceString, parameters);
+                Guard(ErrorCondition, System.Net.HttpStatusCode.InternalServerError, resourceString, parameters);
             }
         }
 
@@ -73,7 +98,7 @@ namespace Gale.Exception
         {
             if (ErrorCondition())
             {
-                Build(statusCode, resourceString, parameters);
+                throw new GaleException(statusCode, resourceString, parameters);
             }
         }
 

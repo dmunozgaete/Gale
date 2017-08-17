@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Gale")]
 [assembly: AssemblyDescription("Rest API - Gale Framework")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Grupo Valentys")]
+[assembly: AssemblyCompany("Peanut Hub")]
 [assembly: AssemblyProduct("Gale")]
 [assembly: AssemblyCopyright("David Antonio Gaete Copyright ©  2015")]
 [assembly: AssemblyTrademark("http://github.com/DmunozGaete")]

@@ -23,17 +23,16 @@ namespace Gale.REST.Config.Startup
             string api_url = System.Web.HttpContext.Current.Request.Url.AbsoluteUri;
             string version = Gale.REST.Config.GaleConfig.apiVersion;
 
-            //----------------------------------
-            var response = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK)
-            {
+			var keyPairs = new System.Collections.Specialized.NameValueCollection();
+			keyPairs.Add("GALE_DOCS_SITE", Gale.REST.Resources.GALE_DOCS_SITE);
+			keyPairs.Add("isSwaggerEnabled", Gale.REST.Config.SwaggerConfig.IsSwaggerEnabled ? "1": "0");
+			keyPairs.Add("APIUrl", api_url + (api_url.EndsWith("/") ? "" : "/") + version);
+
+			//----------------------------------
+			var response = new System.Net.Http.HttpResponseMessage(System.Net.HttpStatusCode.OK)
+			{
                 Content = new System.Net.Http.StringContent(
-                    RenderView("Gale.REST.Config.Startup.Startup.cshtml",
-                    new
-                    {
-                        GALE_DOCS_SITE = Gale.REST.Resources.GALE_DOCS_SITE,
-                        isSwaggerEnabled = Gale.REST.Config.SwaggerConfig.IsSwaggerEnabled,
-                        APIUrl =api_url +  (api_url.EndsWith("/") ? "" : "/") + version
-                    })
+                    RenderView("Gale.REST.Config.Startup.Startup.cshtml",keyPairs)
                 )
             };
 

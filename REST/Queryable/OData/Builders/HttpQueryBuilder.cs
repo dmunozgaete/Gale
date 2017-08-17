@@ -39,6 +39,11 @@ namespace Gale.REST.Queryable.OData.Builders
                     Kql.limit = _limit;
                 }
             }
+            else
+            {
+                //default
+                Kql.limit = 10;
+            }
             #endregion
 
             #region ORDER BY

@@ -15,7 +15,7 @@ namespace System.Web.Http
         /// <param name="configuration"></param>
         public static void EnableSwagger(this HttpConfiguration configuration)
         {
-            EnableSwagger(configuration, null);
+            EnableSwagger(configuration, null, null);
         }
 
         /// <summary>
@@ -26,7 +26,31 @@ namespace System.Web.Http
         public static void EnableSwagger(this HttpConfiguration configuration, String documentationFilePath)
         {
             
-            Gale.REST.Config.SwaggerConfig.Register(configuration, documentationFilePath);
+            Gale.REST.Config.SwaggerConfig.Register(configuration, documentationFilePath, null, null);
+        }
+
+        /// <summary>
+        /// Enable Swagger "Live" Documentation in URL : {API}/swagger
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="documentationFilePath">override the default path for the XML Documentation File</param>
+        /// <param name="explorerTitle">API Explorer Title</param>
+        public static void EnableSwagger(this HttpConfiguration configuration, String documentationFilePath, String explorerTitle)
+        {
+
+            Gale.REST.Config.SwaggerConfig.Register(configuration, documentationFilePath, explorerTitle, null);
+        }
+
+        /// <summary>
+        /// Enable Swagger "Live" Documentation in URL : {API}/swagger
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="documentationFilePath">override the default path for the XML Documentation File</param>
+        /// <param name="explorerTitle">API Explorer Title</param>
+        /// <param name="rootUrl">Override the Root URL</param>
+        public static void EnableSwagger(this HttpConfiguration configuration, String documentationFilePath, String explorerTitle, String rootUrl)
+        {
+            Gale.REST.Config.SwaggerConfig.Register(configuration, documentationFilePath, explorerTitle, rootUrl);
         }
 
         /// <summary>

@@ -21,24 +21,7 @@ namespace Gale.REST.Http.Filters
         /// <param name="context"></param>
         public override void OnException(HttpActionExecutedContext context)
         {
-            if (context.Exception is Gale.Exception.GaleException)
-            {
-                //DO NOTHING
-            }
-            else if (context.Exception is Gale.Exception.RestException)
-            {
-                //DO NOTHING
-            }
-            else if (context.Exception is System.Web.Http.HttpResponseException)
-            {
-                //DO NOTHING
-            }
-            else
-            {
-                //FORMAT THE UNHANDLEDEXCEPTION TO REST EXCEPTION FORMAT
-                string type = context.Exception.GetType().Name;
-                context.Exception = new Gale.Exception.RestException(type, context.Exception.Message);
-            }
+           
         }
     }
 }

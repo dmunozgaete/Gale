@@ -53,7 +53,14 @@ namespace Gale.REST.Config
                 configuration
             ));
 
-            var Route = configuration.Routes.MapHttpRoute(
+            //Add RESTful Standard Error Handler ^^
+            configuration.Services.Replace(
+                typeof(System.Web.Http.ExceptionHandling.IExceptionHandler), 
+                new Gale.REST.Config.ExceptionMessageHandler()
+            );
+
+           //SET GALE LANDING PAGE
+            configuration.Routes.MapHttpRoute(
                name: "GALE_Home_Page",
                routeTemplate: "{controller}",
                defaults: new
